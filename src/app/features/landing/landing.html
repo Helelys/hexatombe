@@ -1,0 +1,21 @@
+<main class="portal">
+  <app-atmosphere />
+  <div class="portal__vignette" aria-hidden="true"></div>
+
+  <button
+    #destinyButton
+    type="button"
+    class="destiny"
+    aria-haspopup="dialog"
+    [attr.aria-expanded]="portalOpen()"
+    [attr.inert]="portalOpen() ? '' : null"
+    (click)="openPortal()"
+  >
+    <span class="destiny__glow" aria-hidden="true"></span>
+    <span class="destiny__label">Escolha seu destino</span>
+  </button>
+
+  @if (portalOpen()) {
+    <app-auth-modal (dismissed)="closePortal()" (authenticated)="enterDestiny($event)" />
+  }
+</main>

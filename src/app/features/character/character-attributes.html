@@ -1,0 +1,55 @@
+<section class="attributes" aria-labelledby="attributes-title">
+  <header class="attributes__head">
+    <h2 id="attributes-title" class="attributes__title">Atributos</h2>
+    <span class="attributes__rule" aria-hidden="true"></span>
+  </header>
+
+  <div class="attributes__stage">
+    <span class="attributes__stain attributes__stain--near" aria-hidden="true"></span>
+    <span class="attributes__stain attributes__stain--far" aria-hidden="true"></span>
+
+    <svg
+      class="attributes__links"
+      viewBox="0 0 100 100"
+      preserveAspectRatio="none"
+      aria-hidden="true"
+      focusable="false"
+    >
+      <g class="attributes__links-main">
+        <path pathLength="100" d="M50 47 L48 31 L50 18" />
+        <path pathLength="100" d="M45 48 L34 42 L24 36" />
+        <path pathLength="100" d="M55 48 L66 42 L76 36" />
+        <path pathLength="100" d="M46 58 L36 66 L30 71" />
+        <path pathLength="100" d="M54 58 L64 66 L70 71" />
+      </g>
+      <g class="attributes__links-echo">
+        <path pathLength="100" d="M51 47 L49.5 32 L51 19" />
+        <path pathLength="100" d="M45 49.5 L33.5 43.5 L23.5 37.5" />
+        <path pathLength="100" d="M55 49.5 L66.5 43.5 L76.5 37.5" />
+        <path pathLength="100" d="M46.5 58.5 L36.5 66.5 L30.5 71.5" />
+        <path pathLength="100" d="M53.5 58.5 L63.5 66.5 L69.5 71.5" />
+      </g>
+      <g class="attributes__beads">
+        <circle cx="50" cy="18" r="0.85" />
+        <circle cx="24" cy="36" r="0.85" />
+        <circle cx="76" cy="36" r="0.85" />
+        <circle cx="30" cy="71" r="0.85" />
+        <circle cx="70" cy="71" r="0.85" />
+      </g>
+    </svg>
+
+    <app-character-emblem class="attributes__emblem" [variant]="emblem()" />
+
+    <dl class="attributes__list">
+      @for (attribute of rows(); track attribute.key; let index = $index) {
+        <div class="attribute" [attr.data-key]="attribute.key" [style.--order]="index">
+          <dt class="attribute__term">{{ attribute.key }}</dt>
+          <dd class="attribute__value">
+            <span class="attribute__number">{{ attribute.value }}</span>
+            <span class="attribute__label">{{ attribute.label }}</span>
+          </dd>
+        </div>
+      }
+    </dl>
+  </div>
+</section>

@@ -1,0 +1,27 @@
+<section class="abilities" aria-labelledby="abilities-title">
+  <header class="abilities__head">
+    <h2 id="abilities-title" class="abilities__title">Habilidades</h2>
+    <span class="abilities__rule" aria-hidden="true"></span>
+  </header>
+
+  <ol class="abilities__list">
+    @for (ability of numbered(); track ability.name; let index = $index) {
+      <li class="ability" [style.--order]="index">
+        <div class="ability__head">
+          <span class="ability__index" aria-hidden="true">{{ ability.order }}</span>
+          <h3 class="ability__name">{{ ability.name }}</h3>
+          <p class="ability__meta">
+            <span class="ability__action">{{ ability.action }}</span>
+            @if (ability.cost) {
+              <span class="ability__cost">Custo: {{ ability.cost }}</span>
+            }
+            @if (ability.limit) {
+              <span class="ability__limit">Limite: {{ ability.limit }}</span>
+            }
+          </p>
+        </div>
+        <p class="ability__description">{{ ability.description }}</p>
+      </li>
+    }
+  </ol>
+</section>

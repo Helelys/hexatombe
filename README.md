@@ -1,59 +1,66 @@
 # Hexatombe
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 22.2.6.
+Portal minimalista e sombrio construído com Angular 22. A página inicial exibe apenas um botão; ao clicar nele, um modal pede uma senha. Cada senha correta leva a uma página dedicada. Anne Kent já possui uma ficha completa — frase, emblema, atributos e habilidades —, enquanto os demais destinos exibem somente o nome; o restante é atmosfera.
 
-## Development server
-
-To start a local development server, run:
+## Rodando o projeto
 
 ```bash
-ng serve
+npm install
+npm start
 ```
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+Abra `http://localhost:4200/`.
 
-## Code scaffolding
+> No PowerShell deste ambiente, `npm.ps1` é bloqueado pela política de execução. Use `npm.cmd start`, `npm.cmd run build` ou `cmd /c "npm.cmd test"`.
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+## Senhas
 
-```bash
-ng generate component component-name
+| Senha         | Personagem    | Rota                     |
+| ------------- | ------------- | ------------------------ |
+| `descontrole` | Anne Kent     | `/destino/anne-kent`     |
+| `loucura`     | David Moura   | `/destino/david-moura`   |
+| `lamina`      | Lia Kwon      | `/destino/lia-kwon`      |
+| `vazio`       | Cecília Nunes | `/destino/cecilia-nunes` |
+| `passado`     | Neófito       | `/destino/neofito`       |
+| `abandonado`  | Artur Pires   | `/destino/artur-pires`   |
+
+A comparação ignora caixa, acentos e espaços nas pontas (`LÂMINA`, `lamina` e `Lamina` são equivalentes). Senhas erradas produzem apenas uma mensagem discreta; nenhuma dica é revelada.
+
+## Estrutura
+
+```
+src/app/
+  core/character/          modelo, fichas e registro dos personagens (busca por senha/slug)
+  features/landing/        botão único que abre o modal
+  features/character/      página de destino e ficha (emblema, atributos, habilidades)
+  shared/auth-modal/       modal com focus trap, Escape, backdrop e shake no erro
+  shared/atmosphere/       névoa, manchas, grão e cinzas puramente em CSS
 ```
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+A ficha de Anne Kent é montada por componentes declarativos em `features/character/`:
 
-```bash
-ng generate --help
-```
+- `character-dossier` — documento com nome, frase e as duas colunas da ficha.
+- `character-emblem` — símbolo central em SVG (variante `bulwark`), animado por traço.
+- `character-attributes` — cinco atributos ao redor do emblema, ligados por traços.
+- `character-abilities` — blocos empilhados com ação, custo, limite e descrição.
 
-## Building
+Tudo vem de `characters.data.ts`: para criar a próxima ficha, basta preencher `dossier` (frase, atributos, habilidades, emblema e, se houver arte, `portrait`). Sem `dossier`, a página continua mostrando apenas o nome.
 
-To build the project run:
+Rotas: `/` (portal) e `/destino/:slug`. Um resolver redireciona slugs desconhecidos para `/`.
 
-```bash
-ng build
-```
+## Scripts
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
+| Comando         | Descrição                                                         |
+| --------------- | ----------------------------------------------------------------- |
+| `npm start`     | servidor de desenvolvimento                                       |
+| `npm run build` | build de produção em `dist/hexatombe`                             |
+| `npm test`      | testes unitários com Vitest (`--watch=false` para execução única) |
 
-## Running unit tests
+## Notas de implementação
 
-To execute unit tests with the [Vitest](https://vitest.dev/) test runner, use the following command:
-
-```bash
-ng test
-```
-
-## Running end-to-end tests
-
-For end-to-end (e2e) testing, run:
-
-```bash
-ng e2e
-```
-
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
-
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+- Componentes standalone, signals e detecção de mudanças zoneless.
+- A ilustração é opcional: a coluna direita só reserva espaço quando `portrait` existe; Anne Kent ainda não possui arte.
+- Nenhum asset externo: texturas são gradientes CSS e SVG inline em `data:` URI; tipografia usa fontes do sistema.
+- Orçamento de estilo por componente elevado para 8 kB (aviso), mantendo 10 kB como erro, por causa das texturas e animações da ficha.
+- Títulos de página e transições de rota (`withViewTransitions`) configurados no roteador.
+- Acessibilidade: `role="dialog"`, `aria-modal`, foco preso e restaurado, fechamento por Escape/backdrop, `prefers-reduced-motion` respeitado.

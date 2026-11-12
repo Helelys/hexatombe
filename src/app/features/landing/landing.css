@@ -1,0 +1,155 @@
+:host {
+  display: block;
+}
+
+.portal {
+  position: relative;
+  display: grid;
+  place-items: center;
+  min-height: 100dvh;
+  padding: 2rem 1.5rem;
+  overflow: hidden;
+  isolation: isolate;
+  background:
+    radial-gradient(ellipse 58% 44% at 50% 48%, rgba(64, 0, 0, 0.26), transparent 72%), var(--ink);
+}
+
+.portal__vignette {
+  position: fixed;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background:
+    radial-gradient(
+      ellipse at center,
+      transparent 26%,
+      rgba(8, 8, 8, 0.45) 70%,
+      rgba(8, 8, 8, 0.94) 100%
+    ),
+    linear-gradient(
+      180deg,
+      rgba(8, 8, 8, 0.55),
+      transparent 24%,
+      transparent 76%,
+      rgba(8, 8, 8, 0.65)
+    );
+}
+
+.destiny {
+  position: relative;
+  z-index: 2;
+  isolation: isolate;
+  padding: clamp(1.05rem, 2.4vw, 1.3rem) clamp(1.9rem, 6vw, 3.4rem);
+  border: 1px solid rgba(139, 0, 0, 0.5);
+  background: rgba(8, 8, 8, 0.35);
+  color: #c6b9b8;
+  font-family: var(--font-display);
+  font-size: clamp(0.95rem, 2.2vw, 1.1rem);
+  font-weight: 400;
+  letter-spacing: clamp(0.14em, 0.6vw, 0.3em);
+  text-transform: uppercase;
+  line-height: 1;
+  animation: destiny-arrive 2s 240ms var(--ease-veil) both;
+  transition:
+    color 700ms var(--ease-veil),
+    border-color 700ms var(--ease-veil),
+    box-shadow 800ms var(--ease-veil);
+  -webkit-tap-highlight-color: transparent;
+}
+
+.destiny__label {
+  display: block;
+}
+
+.destiny__glow {
+  position: absolute;
+  inset: -1px;
+  z-index: -1;
+  pointer-events: none;
+  box-shadow:
+    0 0 34px rgba(139, 0, 0, 0.22),
+    inset 0 0 26px rgba(139, 0, 0, 0.12);
+  opacity: 0.55;
+  animation: destiny-breathe 9s ease-in-out infinite;
+}
+
+.destiny::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: linear-gradient(115deg, #400000 0%, #8b0000 52%, #3a0000 100%);
+  opacity: 0;
+  transition: opacity 700ms var(--ease-veil);
+}
+
+.destiny::after {
+  content: '';
+  position: absolute;
+  inset: 4px;
+  border: 1px solid rgba(255, 196, 190, 0.1);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 800ms var(--ease-veil);
+}
+
+.destiny:hover,
+.destiny:focus-visible {
+  color: #fff3f0;
+  border-color: rgba(179, 18, 27, 0.9);
+  box-shadow:
+    0 0 28px rgba(139, 0, 0, 0.4),
+    0 0 90px rgba(139, 0, 0, 0.18);
+  text-shadow: 0 0 18px rgba(255, 214, 208, 0.35);
+}
+
+.destiny:hover::before,
+.destiny:focus-visible::before,
+.destiny:hover::after,
+.destiny:focus-visible::after {
+  opacity: 1;
+}
+
+.destiny:hover .destiny__glow,
+.destiny:focus-visible .destiny__glow {
+  animation-play-state: paused;
+  opacity: 0;
+}
+
+.destiny:active {
+  transform: translateY(1px);
+}
+
+@keyframes destiny-arrive {
+  from {
+    opacity: 0;
+    translate: 0 14px;
+  }
+
+  to {
+    opacity: 1;
+    translate: 0 0;
+  }
+}
+
+@keyframes destiny-breathe {
+  0%,
+  100% {
+    opacity: 0.35;
+  }
+
+  50% {
+    opacity: 0.8;
+  }
+}
+
+@media (max-width: 420px) {
+  .portal {
+    padding-inline: 1.25rem;
+  }
+
+  .destiny {
+    padding: 1rem 1.6rem;
+    letter-spacing: 0.16em;
+  }
+}

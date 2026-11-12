@@ -1,0 +1,29 @@
+<main
+  class="destiny-page"
+  [class.destiny-page--dossier]="dossier() !== null"
+  [attr.data-mood]="character().theme.mood"
+>
+  <app-atmosphere variant="character" [tone]="character().theme.accent" />
+
+  <a class="return" routerLink="/" aria-label="Retornar ao portal">
+    <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+      <path d="M15 4 7 12l8 8" />
+    </svg>
+  </a>
+
+  @if (dossier(); as dossier) {
+    <app-character-dossier
+      [name]="character().name"
+      [mood]="character().theme.mood"
+      [dossier]="dossier"
+    />
+  } @else {
+    <section class="identity" aria-labelledby="character-name">
+      <span class="identity__thread" aria-hidden="true"></span>
+      <h1 id="character-name" class="identity__name" [attr.data-initial]="initial()">
+        {{ character().name }}
+      </h1>
+      <span class="identity__seal" aria-hidden="true"></span>
+    </section>
+  }
+</main>

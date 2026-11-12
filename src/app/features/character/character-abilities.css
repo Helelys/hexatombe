@@ -1,0 +1,210 @@
+:host {
+  display: block;
+}
+
+.abilities__head {
+  display: flex;
+  align-items: center;
+  gap: 0.9rem;
+  margin-bottom: clamp(0.35rem, 1.2vw, 0.65rem);
+}
+
+.abilities__title {
+  margin: 0;
+  font-family: var(--font-ui);
+  font-size: 0.66rem;
+  font-weight: 500;
+  letter-spacing: 0.32em;
+  text-transform: uppercase;
+  color: var(--ash-dim);
+}
+
+.abilities__rule {
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    color-mix(in srgb, var(--character-accent) 55%, transparent),
+    transparent 82%
+  );
+}
+
+.abilities__list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.ability {
+  position: relative;
+  isolation: isolate;
+  padding: clamp(0.95rem, 2.2vw, 1.15rem) clamp(0.4rem, 1.4vw, 0.8rem)
+    clamp(0.95rem, 2.2vw, 1.15rem) clamp(0.9rem, 2vw, 1.15rem);
+  animation: ability-in 900ms calc(700ms + var(--order) * 130ms) var(--ease-veil) both;
+  transition: translate 450ms var(--ease-veil);
+}
+
+.ability + .ability {
+  border-top: 1px solid transparent;
+  border-image: linear-gradient(
+      90deg,
+      transparent,
+      color-mix(in srgb, var(--character-accent) 46%, transparent) 16%,
+      rgba(255, 255, 255, 0.07) 62%,
+      transparent
+    )
+    1;
+}
+
+.ability::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0.9rem;
+  bottom: 0.9rem;
+  width: 1px;
+  background: linear-gradient(
+    180deg,
+    transparent,
+    var(--character-accent) 22%,
+    var(--character-accent) 74%,
+    transparent
+  );
+  box-shadow: 0 0 10px color-mix(in srgb, var(--character-accent) 45%, transparent);
+  opacity: 0.16;
+  transition: opacity 450ms var(--ease-veil);
+}
+
+.ability::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: radial-gradient(
+    120% 110% at 0% 50%,
+    color-mix(in srgb, var(--character-accent) 13%, transparent),
+    transparent 68%
+  );
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 500ms var(--ease-veil);
+}
+
+.ability:hover {
+  translate: 2px 0;
+}
+
+.ability:hover::before {
+  opacity: 0.9;
+}
+
+.ability:hover::after {
+  opacity: 1;
+}
+
+.ability__head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.2rem 0.85rem;
+}
+
+.ability__index {
+  font-family: var(--font-display);
+  font-size: 0.72rem;
+  letter-spacing: 0.14em;
+  color: color-mix(in srgb, var(--character-accent) 62%, var(--ash-dim));
+  transition: color 450ms var(--ease-veil);
+}
+
+.ability__name {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: clamp(1.4rem, 2.6vw, 1.85rem);
+  font-weight: 500;
+  line-height: 1.12;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: #e8dddb;
+  transition:
+    color 450ms var(--ease-veil),
+    text-shadow 500ms var(--ease-veil);
+}
+
+.ability:hover .ability__name {
+  color: #f8eeec;
+  text-shadow: 0 0 20px color-mix(in srgb, var(--character-accent) 38%, transparent);
+}
+
+.ability:hover .ability__index {
+  color: var(--character-accent);
+}
+
+.ability__meta {
+  margin: 0 0 0 auto;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 0.1rem 0.4rem;
+  font-family: var(--font-ui);
+  font-size: 0.6rem;
+  font-weight: 500;
+  line-height: 1.4;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--ash-dim);
+  text-align: right;
+}
+
+.ability__meta span + span::before {
+  content: '·';
+  margin-right: 0.4em;
+  color: color-mix(in srgb, var(--character-accent) 70%, transparent);
+}
+
+.ability__cost {
+  color: color-mix(in srgb, var(--character-accent) 78%, #efe0dd);
+}
+
+.ability__limit {
+  color: color-mix(in srgb, var(--character-accent) 40%, var(--ash));
+}
+
+.ability__description {
+  max-width: 58ch;
+  margin: clamp(0.4rem, 1.4vw, 0.6rem) 0 0;
+  font-family: var(--font-ui);
+  font-size: clamp(0.85rem, 1.6vw, 0.94rem);
+  line-height: 1.65;
+  color: #b0a6a5;
+  transition: color 450ms var(--ease-veil);
+}
+
+.ability:hover .ability__description {
+  color: #c6bab8;
+}
+
+@keyframes ability-in {
+  from {
+    opacity: 0;
+    translate: 0 12px;
+  }
+
+  to {
+    opacity: 1;
+    translate: 0 0;
+  }
+}
+
+@media (max-width: 640px) {
+  .ability__head {
+    align-items: flex-start;
+  }
+
+  .ability__meta {
+    flex-basis: 100%;
+    margin-left: 0;
+    justify-content: flex-start;
+    text-align: left;
+  }
+}

@@ -1,0 +1,21 @@
+<div class="atmosphere__field">
+  <span class="atmosphere__haze"></span>
+  <span class="atmosphere__stain atmosphere__stain--near"></span>
+  <span class="atmosphere__stain atmosphere__stain--far"></span>
+  <span class="atmosphere__scars"></span>
+  <span class="atmosphere__grain"></span>
+  <span class="atmosphere__motes">
+    @for (mote of motes; track mote.id) {
+      <span
+        class="atmosphere__mote"
+        [style.left.%]="mote.left"
+        [style.width.px]="mote.size"
+        [style.height.px]="mote.size"
+        [style.animation-duration.s]="mote.duration"
+        [style.animation-delay.s]="mote.delay"
+        [style.--drift]="mote.drift + 'px'"
+        [style.--peak]="mote.peak"
+      ></span>
+    }
+  </span>
+</div>

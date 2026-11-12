@@ -1,0 +1,58 @@
+<div class="auth" [class.auth--leaving]="isLeaving()" (click)="onBackdropClick($event)">
+  <div
+    #dialog
+    class="auth__dialog"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="auth-title"
+    aria-describedby="auth-description"
+    (keydown)="onDialogKeydown($event)"
+  >
+    <button type="button" class="auth__close" aria-label="Fechar" (click)="dismiss()">
+      <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+        <path d="M5 5l14 14M19 5L5 19" />
+      </svg>
+    </button>
+
+    <span class="auth__sigil" aria-hidden="true"></span>
+
+    <h2 id="auth-title" class="auth__title">Qual é o seu destino?</h2>
+    <p id="auth-description" class="auth__description">
+      O caminho foi escolhido. Resta saber se você está preparado.
+    </p>
+
+    <form class="auth__form" (submit)="submit($event)" novalidate>
+      <label class="sr-only" for="auth-password">Senha</label>
+
+      <div
+        class="auth__field"
+        [class.auth__field--error]="hasError()"
+        [class.auth__field--shaking]="isShaking()"
+        (animationend)="isShaking.set(false)"
+      >
+        <input
+          #passwordInput
+          id="auth-password"
+          class="auth__input"
+          type="password"
+          placeholder="Digite sua senha..."
+          autocomplete="off"
+          autocapitalize="none"
+          spellcheck="false"
+          [formControl]="password"
+          [attr.aria-invalid]="hasError()"
+          aria-describedby="auth-feedback"
+          (input)="clearError()"
+        />
+      </div>
+
+      <button type="submit" class="auth__submit" [disabled]="isLeaving()">Confirmar</button>
+
+      <p id="auth-feedback" class="auth__feedback" role="status" aria-live="polite">
+        @if (hasError()) {
+          <span class="auth__feedback-text">Você ainda não encontrou o seu destino.</span>
+        }
+      </p>
+    </form>
+  </div>
+</div>
