@@ -1,0 +1,352 @@
+:host {
+  display: block;
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.motif {
+  display: block;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+
+.motif__line {
+  fill: none;
+  stroke: color-mix(in srgb, var(--character-accent, var(--blood-bright)) 52%, transparent);
+  stroke-width: 0.7px;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  vector-effect: non-scaling-stroke;
+}
+
+.motif__fleck,
+.motif__drop,
+.motif__bolt,
+.motif__sight-target {
+  fill: color-mix(in srgb, var(--character-accent, var(--blood-bright)) 62%, transparent);
+}
+
+.motif__plate {
+  fill: color-mix(
+    in srgb,
+    var(--character-accent, var(--blood-bright)) 7%,
+    rgba(255, 255, 255, 0.015)
+  );
+  stroke: color-mix(in srgb, var(--character-accent, var(--blood-bright)) 34%, transparent);
+  stroke-width: 0.8px;
+}
+
+/* David: ondas de choque e marcas de pancada. */
+.motif--ram .motif__ram-wave {
+  stroke-width: 0.8px;
+  opacity: 0.34;
+  stroke-dasharray: 100;
+  stroke-dashoffset: 100;
+  animation:
+    motif-draw 1.8s var(--ease-veil) 150ms forwards,
+    motif-wave 8s 2.2s ease-in-out infinite;
+}
+
+.motif--ram .motif__ram-wave--mid {
+  opacity: 0.24;
+  animation-delay: 350ms, 2.6s;
+}
+
+.motif--ram .motif__ram-wave--near {
+  opacity: 0.16;
+  animation-delay: 550ms, 3s;
+}
+
+.motif--ram .motif__ram-gouge {
+  stroke-width: 1.5px;
+  opacity: 0.4;
+  stroke-dasharray: 100;
+  stroke-dashoffset: 100;
+  animation: motif-draw 0.7s var(--ease-veil) 900ms forwards;
+}
+
+.motif--ram .motif__ram-shard {
+  stroke-width: 1px;
+  opacity: 0.5;
+  stroke-dasharray: 100;
+  stroke-dashoffset: 100;
+  animation: motif-draw 0.6s var(--ease-veil) 1.2s forwards;
+}
+
+.motif--ram .motif__fleck {
+  animation: motif-pulse 6s 2.4s ease-in-out infinite;
+}
+
+/* Lia: cortes diagonais e poeira de lâmina. */
+.motif--edge .motif__edge-shadow {
+  fill: color-mix(in srgb, var(--character-accent, var(--blood-bright)) 12%, transparent);
+  animation: motif-fade 2.4s 600ms both;
+}
+
+.motif--edge .motif__edge-slash {
+  stroke-width: 1.1px;
+  opacity: 0.4;
+  stroke-dasharray: 100;
+  stroke-dashoffset: 100;
+  animation: motif-draw 0.7s var(--ease-veil) 300ms forwards;
+}
+
+.motif--edge .motif__edge-slash:nth-of-type(3) {
+  animation-delay: 550ms;
+  /* Cecília: órbitas de mira e linhas de trajetória. */
+  .motif--sight .motif__sight-orbit {
+    transform-box: fill-box;
+    transform-origin: center;
+    animation: motif-turn 80s linear infinite;
+  }
+
+  .motif--sight .motif__sight-arc {
+    stroke-width: 0.8px;
+    opacity: 0.32;
+    stroke-dasharray: 100;
+    stroke-dashoffset: 100;
+    animation: motif-draw 2.4s var(--ease-veil) 200ms forwards;
+  }
+
+  .motif--sight .motif__sight-arc--dash {
+    opacity: 0.22;
+    stroke-dasharray: 1.4 3;
+    stroke-dashoffset: 0;
+    animation: motif-fade 2s var(--ease-veil) 1s both;
+  }
+
+  .motif--sight .motif__sight-ticks {
+    stroke-width: 0.6px;
+    opacity: 0.35;
+    stroke-dasharray: 100;
+    stroke-dashoffset: 100;
+    animation: motif-draw 1.8s var(--ease-veil) 900ms forwards;
+  }
+
+  .motif--sight .motif__sight-path {
+    stroke-width: 0.8px;
+    opacity: 0.55;
+    stroke-dasharray: 1.5 3;
+    animation: motif-flow 6s 1.4s linear infinite;
+  }
+
+  .motif--sight .motif__sight-line {
+    stroke-width: 0.7px;
+    opacity: 0.35;
+    stroke-dasharray: 100;
+    stroke-dashoffset: 100;
+    animation: motif-draw 0.8s var(--ease-veil) 1.5s forwards;
+  }
+
+  .motif--sight .motif__sight-target {
+    animation: motif-pulse 3.2s 1.6s ease-in-out infinite;
+  }
+
+  .motif--sight .motif__sight-bracket {
+    stroke-width: 0.6px;
+    opacity: 0.3;
+    stroke-dasharray: 100;
+    stroke-dashoffset: 100;
+    animation: motif-draw 1.4s var(--ease-veil) 1.1s forwards;
+  }
+
+  /* Neófito: círculo partido, runas e sangue. */
+  .motif--ritual .motif__ritual-ring {
+    transform-box: fill-box;
+    transform-origin: center;
+    animation: motif-turn 140s linear infinite reverse;
+  }
+
+  .motif--ritual .motif__ritual-orbit {
+    stroke-width: 0.8px;
+    opacity: 0.34;
+    stroke-dasharray: 100;
+    stroke-dashoffset: 100;
+    animation: motif-draw 2.4s var(--ease-veil) 150ms forwards;
+  }
+
+  .motif--ritual .motif__ritual-runes {
+    stroke-width: 0.7px;
+    opacity: 0.4;
+    animation: motif-flicker 10s 2s ease-in-out infinite;
+  }
+
+  .motif--ritual .motif__ritual-mark {
+    stroke-width: 0.7px;
+    opacity: 0.35;
+    stroke-dasharray: 100;
+    stroke-dashoffset: 100;
+    animation: motif-draw 1s var(--ease-veil) 1.4s forwards;
+  }
+
+  .motif--ritual .motif__drop {
+    animation: motif-seep 7s 2.2s ease-in-out infinite;
+  }
+
+  .motif--ritual .motif__drop:nth-of-type(2) {
+    animation-delay: 2.8s;
+  }
+
+  .motif--ritual .motif__drop:nth-of-type(3) {
+    animation-delay: 3.4s;
+  }
+
+  /* Artur: placas, arame e parafusos. */
+  .motif--scrap .motif__plate {
+    transform-box: fill-box;
+    transform-origin: center;
+    animation:
+      motif-fade 1.6s var(--ease-veil) 500ms both,
+      motif-sway 14s 2s ease-in-out infinite;
+  }
+
+  .motif--scrap .motif__plate--warm {
+    animation-delay: 800ms, 3.4s;
+  }
+
+  .motif--scrap .motif__scrap-wire {
+    stroke-width: 0.8px;
+    opacity: 0.45;
+    stroke-dasharray: 100;
+    stroke-dashoffset: 100;
+    animation: motif-draw 1.5s var(--ease-veil) 1s forwards;
+  }
+
+  .motif--scrap .motif__scrap-seam {
+    stroke-width: 1.1px;
+    opacity: 0.3;
+    stroke-dasharray: 100;
+    stroke-dashoffset: 100;
+    animation: motif-draw 1s var(--ease-veil) 1.3s forwards;
+  }
+
+  .motif--scrap .motif__scrap-spark {
+    stroke-width: 0.8px;
+    opacity: 0.5;
+    animation: motif-glint 8s 2.4s ease-in-out infinite;
+  }
+
+  .motif--scrap .motif__bolt {
+    animation: motif-pulse 7s 2.6s ease-in-out infinite;
+  }
+
+  @keyframes motif-draw {
+    to {
+      stroke-dashoffset: 0;
+    }
+  }
+
+  @keyframes motif-fade {
+    from {
+      opacity: 0;
+    }
+  }
+
+  @keyframes motif-wave {
+    0%,
+    100% {
+      opacity: 0.3;
+    }
+
+    50% {
+      opacity: 0.16;
+    }
+  }
+
+  @keyframes motif-flow {
+    to {
+      stroke-dashoffset: -45;
+    }
+  }
+
+  @keyframes motif-turn {
+    to {
+      rotate: 360deg;
+    }
+  }
+
+  @keyframes motif-pulse {
+    0%,
+    100% {
+      opacity: 0.4;
+    }
+
+    50% {
+      opacity: 0.9;
+    }
+  }
+
+  @keyframes motif-flicker {
+    0%,
+    100% {
+      opacity: 0.38;
+    }
+
+    14% {
+      opacity: 0.18;
+    }
+
+    17% {
+      opacity: 0.52;
+    }
+
+    55% {
+      opacity: 0.3;
+    }
+  }
+
+  @keyframes motif-sway {
+    0%,
+    100% {
+      rotate: 0deg;
+    }
+
+    50% {
+      rotate: 0.7deg;
+    }
+  }
+
+  @keyframes motif-seep {
+    0%,
+    100% {
+      opacity: 0.3;
+      translate: 0 0;
+    }
+
+    50% {
+      opacity: 0.75;
+      translate: 0 1.6px;
+    }
+  }
+
+  @keyframes motif-glint {
+    0%,
+    90%,
+    100% {
+      opacity: 0.35;
+    }
+
+    94% {
+      opacity: 1;
+    }
+  }
+}
+
+.motif--edge .motif__edge-slash:nth-of-type(4) {
+  animation-delay: 800ms;
+}
+
+.motif--edge .motif__edge-slash:nth-of-type(5) {
+  animation-delay: 1s;
+}
+
+.motif--edge .motif__edge-dust {
+  stroke-width: 0.6px;
+  opacity: 0.3;
+  stroke-dasharray: 100;
+  stroke-dashoffset: 100;
+  animation: motif-draw 1.2s var(--ease-veil) 1.1s forwards;
+}

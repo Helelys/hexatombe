@@ -23,4 +23,182 @@
       <circle class="emblem__rivet" cx="88" cy="36" r="1.4" />
     </svg>
   }
+
+  @case ('ram') {
+    <svg class="emblem emblem--ram" viewBox="0 0 120 120" focusable="false">
+      <g class="emblem__ward">
+        <path
+          class="emblem__line emblem__ram-wave"
+          pathLength="100"
+          d="M14 96 A62 62 0 0 1 96 14"
+        />
+        <path
+          class="emblem__line emblem__ram-wave emblem__ram-wave--inner"
+          pathLength="100"
+          d="M24 88 A48 48 0 0 1 88 24"
+        />
+      </g>
+
+      <path
+        class="emblem__line emblem__ram-wedge"
+        pathLength="100"
+        d="M30 26 L98 72 L70 78 L82 100 L54 86 L38 62 Z"
+      />
+      <path class="emblem__line emblem__ram-facet" pathLength="100" d="M42 38 L82 70" />
+      <path class="emblem__line emblem__ram-trail" pathLength="100" d="M14 34 L30 44" />
+      <path class="emblem__line emblem__ram-trail" pathLength="100" d="M10 52 L26 58" />
+      <path class="emblem__line emblem__ram-trail" pathLength="100" d="M16 72 L28 74" />
+      <path class="emblem__line emblem__ram-burst" pathLength="100" d="M98 72 L112 64" />
+      <path class="emblem__line emblem__ram-burst" pathLength="100" d="M100 82 L114 86" />
+      <path class="emblem__line emblem__ram-burst" pathLength="100" d="M88 98 L94 110" />
+
+      <circle class="emblem__core" cx="86" cy="74" r="4.6" />
+      <circle class="emblem__rivet" cx="30" cy="26" r="1.8" />
+      <circle class="emblem__rivet" cx="70" cy="78" r="1.5" />
+      <circle class="emblem__rivet" cx="54" cy="86" r="1.3" />
+    </svg>
+  }
+
+  @case ('edge') {
+    <svg class="emblem emblem--edge" viewBox="0 0 120 120" focusable="false">
+      <path
+        class="emblem__line emblem__edge-orbit"
+        pathLength="100"
+        d="M20 60 A40 40 0 1 1 100 58"
+      />
+      <path
+        class="emblem__line emblem__edge-orbit emblem__edge-orbit--inner"
+        pathLength="100"
+        d="M33 55 A27 27 0 0 1 87 47"
+      />
+      <path class="emblem__shadow" d="M43 24 C60 38 60 72 41 96 C56 68 56 50 43 24 Z" />
+
+      <path
+        class="emblem__line emblem__edge-blade"
+        pathLength="100"
+        d="M22 98 C46 76 74 42 100 18 C86 52 58 82 28 102"
+      />
+      <path
+        class="emblem__line emblem__edge-blade emblem__edge-blade--short"
+        pathLength="100"
+        d="M18 60 C44 56 78 38 102 18 C84 46 52 66 22 70"
+      />
+      <path class="emblem__line emblem__edge-cut" pathLength="100" d="M6 84 L16 76" />
+      <path class="emblem__line emblem__edge-cut" pathLength="100" d="M50 110 L58 102" />
+      <path class="emblem__line emblem__edge-cut" pathLength="100" d="M102 48 L112 40" />
+
+      <circle class="emblem__core" cx="60" cy="61" r="3.6" />
+      <circle class="emblem__rivet" cx="100" cy="18" r="1.6" />
+    </svg>
+  }
+
+  @case ('sight') {
+    <svg class="emblem emblem--sight" viewBox="0 0 120 120" focusable="false">
+      <g class="emblem__ward">
+        <circle class="emblem__line emblem__sight-orbit" cx="60" cy="60" r="48" pathLength="100" />
+        <path
+          class="emblem__line emblem__sight-ticks"
+          pathLength="100"
+          d="M60 8 V14 M60 106 V112 M8 60 H14 M106 60 H112 M26 26 L30 30 M90 90 L94 94 M26 94 L30 90 M90 30 L94 26"
+        />
+      </g>
+
+      <circle class="emblem__line emblem__sight-ring" cx="60" cy="60" r="33" pathLength="100" />
+      <path
+        class="emblem__line emblem__sight-cross"
+        pathLength="100"
+        d="M60 16 V44 M60 76 V104 M16 60 H44 M76 60 H104"
+      />
+      <path
+        class="emblem__line emblem__sight-bracket"
+        pathLength="100"
+        d="M20 34 V22 H32 M88 22 H100 V34 M100 86 V98 H88 M32 98 H20 V86"
+      />
+      <path
+        class="emblem__line emblem__sight-trajectory"
+        pathLength="100"
+        d="M106 16 C94 30 88 34 82 44"
+      />
+
+      <circle class="emblem__core" cx="60" cy="60" r="4.2" />
+      <circle class="emblem__rivet" cx="82" cy="44" r="1.8" />
+    </svg>
+  }
+
+  @case ('ritual') {
+    <svg class="emblem emblem--ritual" viewBox="0 0 120 120" focusable="false">
+      <g class="emblem__ward">
+        <path
+          class="emblem__line emblem__ritual-orbit"
+          pathLength="100"
+          d="M60 8 A52 52 0 1 1 59.9 8"
+        />
+        <path
+          class="emblem__line emblem__ritual-orbit emblem__ritual-orbit--inner"
+          pathLength="100"
+          d="M60 18 A42 42 0 1 1 59.9 18"
+        />
+        <path
+          class="emblem__line emblem__ritual-runes"
+          pathLength="100"
+          d="M60 2 V12 M60 108 V118 M108 60 H118 M2 60 H12 M94 26 L101 19 M19 94 L26 87 M94 94 L101 101 M19 26 L26 33"
+        />
+      </g>
+
+      <path class="emblem__line emblem__ritual-star" pathLength="100" d="M63 35 L76 80" />
+      <path class="emblem__line emblem__ritual-star" pathLength="100" d="M74 82 L33 53" />
+      <path class="emblem__line emblem__ritual-star" pathLength="100" d="M35 49 L86 49" />
+      <path class="emblem__line emblem__ritual-star" pathLength="100" d="M85 53 L45 82" />
+      <path class="emblem__line emblem__ritual-star" pathLength="100" d="M44 80 L58 36" />
+      <path class="emblem__line emblem__ritual-sigil" pathLength="100" d="M60 47 L72 68 L48 68 Z" />
+
+      <circle class="emblem__core" cx="60" cy="61" r="4" />
+      <circle class="emblem__drop" cx="50" cy="96" r="2.2" />
+      <circle class="emblem__drop" cx="60" cy="103" r="2.8" />
+      <circle class="emblem__drop" cx="70" cy="95" r="1.8" />
+    </svg>
+  }
+
+  @case ('scrap') {
+    <svg class="emblem emblem--scrap" viewBox="0 0 120 120" focusable="false">
+      <path
+        class="emblem__line emblem__scrap-shell"
+        pathLength="100"
+        d="M60 10 L94 24 L104 60 L76 104 L44 106 L16 66 L26 26 Z"
+      />
+      <path class="emblem__line emblem__scrap-seam" pathLength="100" d="M60 10 L58 58 L76 104" />
+      <path class="emblem__line emblem__scrap-seam" pathLength="100" d="M26 26 L58 58 L104 60" />
+      <path class="emblem__line emblem__scrap-seam" pathLength="100" d="M16 66 L58 58 L44 106" />
+      <path class="emblem__plate" d="M32 34 L56 28 L62 50 L38 60 Z" />
+      <path class="emblem__plate emblem__plate--patch" d="M66 62 L92 66 L88 88 L66 82 Z" />
+      <path
+        class="emblem__line emblem__scrap-stitch"
+        pathLength="100"
+        d="M68 68 L82 80 M82 68 L69 79"
+      />
+      <path
+        class="emblem__line emblem__scrap-wrench"
+        pathLength="100"
+        d="M62 42 L88 68 M83 63 C91 59 99 66 96 74 C94 80 86 82 82 77 L88 71"
+      />
+      <path
+        class="emblem__line emblem__scrap-wire"
+        pathLength="100"
+        d="M28 78 C38 70 44 86 56 78 C66 72 68 88 80 82"
+      />
+      <path
+        class="emblem__line emblem__scrap-spark"
+        pathLength="100"
+        d="M96 22 L104 14 M100 28 L110 26 M92 16 L92 8"
+      />
+
+      <circle class="emblem__core" cx="58" cy="58" r="3.8" />
+      <circle class="emblem__rivet" cx="38" cy="40" r="1.5" />
+      <circle class="emblem__rivet" cx="54" cy="34" r="1.4" />
+      <circle class="emblem__rivet" cx="56" cy="48" r="1.3" />
+      <circle class="emblem__rivet" cx="94" cy="28" r="1.5" />
+      <circle class="emblem__rivet" cx="86" cy="84" r="1.4" />
+      <circle class="emblem__rivet" cx="38" cy="94" r="1.4" />
+    </svg>
+  }
 }

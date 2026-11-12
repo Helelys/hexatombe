@@ -105,10 +105,28 @@ describe('CharacterPage', () => {
   });
 
   it('mantém a página essencial para personagens sem ficha', () => {
-    render(CHARACTERS[1]);
+    render({ ...CHARACTERS[1], dossier: undefined });
 
     expect(element.querySelector('.dossier')).toBeNull();
     expect(element.querySelector('.identity__name')?.textContent?.trim()).toBe('David Moura');
+  });
+
+  it('apresenta cada personagem com sua própria ficha completa', () => {
+    for (const character of CHARACTERS) {
+      render(character);
+
+      expect(element.querySelector('h1')?.textContent?.trim()).toBe(character.name);
+      expect(element.querySelector('.oath__text')?.textContent).toContain(character.dossier?.quote);
+      expect(element.querySelectorAll('.attribute')).toHaveLength(5);
+      expect(element.querySelectorAll('.ability')).toHaveLength(3);
+
+      const emblem = element.querySelector('app-character-emblem');
+
+      expect(emblem?.getAttribute('data-variant')).toBe(character.dossier?.emblem);
+      expect(element.querySelector('app-character-motif')?.getAttribute('data-variant')).toBe(
+        character.dossier?.emblem,
+      );
+    }
   });
 
   it('assume a identidade visual do personagem', () => {
@@ -129,4 +147,3 @@ describe('CharacterPage', () => {
     expect(link.getAttribute('aria-label')).toBe('Retornar ao portal');
   });
 });
-

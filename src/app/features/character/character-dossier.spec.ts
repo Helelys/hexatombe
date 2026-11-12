@@ -25,13 +25,15 @@ describe('CharacterDossierView', () => {
 
   it('reúne nome, frase, atributos e habilidades na mesma ficha', () => {
     expect(element.querySelector('h1')?.textContent?.trim()).toBe('Anne Kent');
+    expect(element.querySelector('h1')?.getAttribute('data-initial')).toBe('A');
     expect(element.querySelector('.oath__text')?.textContent).toContain(DOSSIER.quote);
     expect(element.querySelector('app-character-attributes')).toBeTruthy();
     expect(element.querySelector('app-character-abilities')).toBeTruthy();
   });
 
-  it('expõe o humor do personagem para as animações', () => {
+  it('expõe o humor e o emblema do personagem para as animações', () => {
     expect(element.getAttribute('data-mood')).toBe('tremor');
+    expect(element.getAttribute('data-emblem')).toBe('bulwark');
   });
 
   it('não reserva espaço para arte enquanto ela não existe', () => {

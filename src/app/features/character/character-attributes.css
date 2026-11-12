@@ -67,6 +67,10 @@
   rotate: 8deg;
 }
 
+.attributes__motif {
+  z-index: 0;
+}
+
 .attributes__links {
   position: absolute;
   inset: 0;
@@ -123,7 +127,7 @@
 }
 
 .attributes__beads {
-  fill: var(--blood-bright);
+  fill: var(--character-accent);
   animation: link-fade 1.2s 1.4s var(--ease-veil) both;
 }
 
@@ -208,10 +212,10 @@
   width: 3px;
   height: 3px;
   border-radius: 50%;
-  background: var(--blood-bright);
+  background: var(--character-accent);
   box-shadow:
-    0.45rem 0.1rem 0 -0.08rem rgba(179, 18, 27, 0.55),
-    -0.5rem -0.08rem 0 -0.09rem rgba(179, 18, 27, 0.35);
+    0.45rem 0.1rem 0 -0.08rem color-mix(in srgb, var(--character-accent) 55%, transparent),
+    -0.5rem -0.08rem 0 -0.09rem color-mix(in srgb, var(--character-accent) 35%, transparent);
   translate: -50% 0;
   opacity: 0.75;
 }
@@ -251,6 +255,40 @@
   letter-spacing: 0.1em;
   text-transform: uppercase;
   color: var(--ash-dim);
+}
+
+/* O traço que liga atributo e emblema muda de peso conforme o símbolo. */
+:host([data-emblem='ram']) .attributes__links-main path {
+  stroke-width: 1.45px;
+}
+
+:host([data-emblem='edge']) .attributes__links-main path {
+  stroke-width: 0.8px;
+}
+
+:host([data-emblem='edge']) .attributes__links-echo {
+  opacity: 0.24;
+}
+
+:host([data-emblem='sight']) .attributes__links-echo path {
+  stroke-dasharray: 0.4 2.4;
+}
+
+:host([data-emblem='ritual']) .attributes__links-main path {
+  stroke-width: 0.9px;
+}
+
+:host([data-emblem='ritual']) .attributes__stain--near {
+  rotate: 22deg;
+  opacity: 0.3;
+}
+
+:host([data-emblem='scrap']) .attributes__links-main path {
+  stroke-width: 1.2px;
+}
+
+:host([data-emblem='scrap']) .attributes__links-echo path {
+  stroke-dasharray: 1.1 1.9;
 }
 
 @keyframes link-draw {

@@ -1,4 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { CharacterEmblemVariant } from '../../core/character/character.model';
 import { CharacterEmblem } from './character-emblem';
 
 describe('CharacterEmblem', () => {
@@ -23,5 +24,31 @@ describe('CharacterEmblem', () => {
 
   it('é puramente decorativo para leitores de tela', () => {
     expect(element.getAttribute('aria-hidden')).toBe('true');
+  });
+
+  it('cria um símbolo exclusivo para cada personagem', () => {
+    const variants: readonly CharacterEmblemVariant[] = [
+      'bulwark',
+      'ram',
+      'edge',
+      'sight',
+      'ritual',
+      'scrap',
+    ];
+    const symbols = new Set<string>();
+
+    for (const variant of variants) {
+      fixture.componentRef.setInput('variant', variant);
+      fixture.detectChanges();
+
+      const svg = element.querySelector('svg');
+
+      expect(element.getAttribute('data-variant')).toBe(variant);
+      expect(svg).toBeTruthy();
+      expect(svg?.querySelectorAll('path').length).toBeGreaterThan(0);
+      symbols.add(`${svg?.getAttribute('class')}|${svg?.innerHTML.length}`);
+    }
+
+    expect(symbols.size).toBe(variants.length);
   });
 });

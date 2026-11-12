@@ -37,8 +37,12 @@ export interface CharacterAbility {
   readonly description: string;
 }
 
-/** Símbolo central da ficha. Novos personagens adicionam variantes aqui. */
-export type CharacterEmblemVariant = 'bulwark';
+/**
+ * Símbolo central da ficha. Cada variante tem desenho e movimento próprios:
+ * bulwark (resistência), ram (impacto), edge (lâminas), sight (mira),
+ * ritual (ocultismo) e scrap (improviso).
+ */
+export type CharacterEmblemVariant = 'bulwark' | 'ram' | 'edge' | 'sight' | 'ritual' | 'scrap';
 
 export interface CharacterPortrait {
   readonly src: string;

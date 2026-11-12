@@ -58,4 +58,20 @@ describe('CharacterAttributes', () => {
     );
     expect(element.querySelectorAll('.attributes__beads circle')).toHaveLength(ATTRIBUTES.length);
   });
+
+  it('envolve o emblema com o motivo gráfico do personagem', () => {
+    fixture.componentRef.setInput('emblem', 'ram');
+    fixture.detectChanges();
+
+    const motif = element.querySelector('app-character-motif');
+
+    expect(element.getAttribute('data-emblem')).toBe('ram');
+    expect(motif?.getAttribute('data-variant')).toBe('ram');
+    expect(motif?.querySelector('svg')).toBeTruthy();
+  });
+
+  it('não acrescenta marcas à composição original de Anne Kent', () => {
+    expect(element.getAttribute('data-emblem')).toBe('bulwark');
+    expect(element.querySelector('app-character-motif svg')).toBeNull();
+  });
 });

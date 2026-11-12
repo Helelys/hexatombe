@@ -21,4 +21,3 @@ export class CharacterPage {
   protected readonly initial = computed(() => this.character().name.charAt(0));
   protected readonly dossier = computed(() => this.character().dossier ?? null);
 }
-

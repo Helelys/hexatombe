@@ -15,6 +15,7 @@ import { CharacterAttributes } from './character-attributes';
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: {
     '[attr.data-mood]': 'mood()',
+    '[attr.data-emblem]': 'dossier().emblem',
   },
 })
 export class CharacterDossierView {

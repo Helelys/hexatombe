@@ -50,7 +50,6 @@ app-character-dossier {
   width: min(100%, 78rem);
 }
 
-
 .return {
   position: fixed;
   top: clamp(1rem, 3vw, 1.75rem);

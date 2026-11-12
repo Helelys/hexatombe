@@ -1,0 +1,160 @@
+@if (variant() !== 'bulwark') {
+  @switch (variant()) {
+    @case ('ram') {
+      <svg class="motif motif--ram" viewBox="0 0 100 100" focusable="false">
+        <g class="motif__ram-waves">
+          <path
+            class="motif__line motif__ram-wave"
+            pathLength="100"
+            d="M10 90 A52 52 0 0 1 90 10"
+          />
+          <path
+            class="motif__line motif__ram-wave motif__ram-wave--mid"
+            pathLength="100"
+            d="M18 84 A42 42 0 0 1 84 18"
+          />
+          <path
+            class="motif__line motif__ram-wave motif__ram-wave--near"
+            pathLength="100"
+            d="M27 77 A31 31 0 0 1 77 27"
+          />
+        </g>
+
+        <path class="motif__line motif__ram-gouge" pathLength="100" d="M4 20 L18 25 M6 32 L17 30" />
+        <path
+          class="motif__line motif__ram-gouge"
+          pathLength="100"
+          d="M82 86 L95 79 M85 94 L97 92"
+        />
+        <path class="motif__line motif__ram-gouge" pathLength="100" d="M8 62 L19 58" />
+        <path class="motif__line motif__ram-shard" pathLength="100" d="M62 8 L66 16 L60 18" />
+        <path class="motif__line motif__ram-shard" pathLength="100" d="M92 50 L98 56 L92 60" />
+
+        <circle class="motif__fleck" cx="21" cy="46" r="1.4" />
+        <circle class="motif__fleck" cx="14" cy="72" r="1" />
+        <circle class="motif__fleck" cx="88" cy="70" r="1.2" />
+        <circle class="motif__fleck" cx="70" cy="93" r="1" />
+      </svg>
+    }
+
+    @case ('edge') {
+      <svg class="motif motif--edge" viewBox="0 0 100 100" focusable="false">
+        <path class="motif__edge-shadow" d="M0 0 C12 2 18 12 16 26 C8 16 2 10 0 0 Z" />
+
+        <path class="motif__line motif__edge-slash" pathLength="100" d="M2 30 L34 6" />
+        <path class="motif__line motif__edge-slash" pathLength="100" d="M4 76 L34 92" />
+        <path class="motif__line motif__edge-slash" pathLength="100" d="M70 96 L98 80" />
+        <path class="motif__line motif__edge-slash" pathLength="100" d="M68 6 L96 26" />
+        <path
+          class="motif__line motif__edge-dust"
+          pathLength="100"
+          d="M8 52 L14 49 M86 48 L92 45 M40 94 L45 90 M56 8 L61 12"
+        />
+      </svg>
+    }
+
+    @case ('sight') {
+      <svg class="motif motif--sight" viewBox="0 0 100 100" focusable="false">
+        <g class="motif__sight-orbit">
+          <path
+            class="motif__line motif__sight-arc"
+            pathLength="100"
+            d="M50 2 A48 48 0 0 1 98 50"
+          />
+          <path
+            class="motif__line motif__sight-arc motif__sight-arc--dash"
+            pathLength="100"
+            d="M98 54 A48 48 0 0 1 54 98"
+          />
+          <path
+            class="motif__line motif__sight-ticks"
+            pathLength="100"
+            d="M50 0 V6 M50 94 V100 M0 50 H6 M94 50 H100 M16 16 L20 20 M80 80 L84 84 M16 84 L20 80 M80 16 L84 20"
+          />
+        </g>
+
+        <path
+          class="motif__line motif__sight-path"
+          pathLength="100"
+          d="M100 0 C86 18 78 30 74 44"
+        />
+        <path class="motif__line motif__sight-line" pathLength="100" d="M74 44 L60 58" />
+        <circle class="motif__sight-target" cx="74" cy="44" r="2.4" />
+        <path
+          class="motif__line motif__sight-bracket"
+          pathLength="100"
+          d="M6 18 V6 H18 M82 6 H94 V18 M94 82 V94 H82 M18 94 H6 V82"
+        />
+      </svg>
+    }
+
+    @case ('ritual') {
+      <svg class="motif motif--ritual" viewBox="0 0 100 100" focusable="false">
+        <g class="motif__ritual-ring">
+          <path
+            class="motif__line motif__ritual-orbit"
+            pathLength="100"
+            d="M50 3 A47 47 0 0 1 97 50"
+          />
+          <path
+            class="motif__line motif__ritual-orbit"
+            pathLength="100"
+            d="M97 54 A47 47 0 0 1 54 97"
+          />
+          <path
+            class="motif__line motif__ritual-runes"
+            pathLength="100"
+            d="M50 0 V6 M50 94 V100 M0 50 H6 M94 50 H100 M17 17 L22 22 M78 78 L83 83 M17 83 L22 78 M78 22 L83 17"
+          />
+        </g>
+
+        <path
+          class="motif__line motif__ritual-mark"
+          pathLength="100"
+          d="M12 12 H20 V18 M12 12 V18"
+        />
+        <path class="motif__line motif__ritual-mark" pathLength="100" d="M82 84 H90 V90 H84" />
+        <path class="motif__line motif__ritual-mark" pathLength="100" d="M8 78 L14 82 L10 88" />
+        <path
+          class="motif__line motif__ritual-mark"
+          pathLength="100"
+          d="M88 14 L94 18 M90 24 L96 22"
+        />
+
+        <circle class="motif__drop" cx="44" cy="94" r="1.4" />
+        <circle class="motif__drop" cx="50" cy="97" r="1.8" />
+        <circle class="motif__drop" cx="56" cy="94" r="1.1" />
+      </svg>
+    }
+
+    @case ('scrap') {
+      <svg class="motif motif--scrap" viewBox="0 0 100 100" focusable="false">
+        <path class="motif__plate" d="M2 8 L24 4 L28 22 L8 28 Z" />
+        <path class="motif__plate motif__plate--warm" d="M72 74 L96 70 L98 92 L76 96 Z" />
+        <path class="motif__plate" d="M76 6 L96 12 L92 26 L74 20 Z" />
+
+        <path
+          class="motif__line motif__scrap-wire"
+          pathLength="100"
+          d="M28 22 C40 32 30 44 22 54 C14 64 26 74 40 72"
+        />
+        <path
+          class="motif__line motif__scrap-seam"
+          pathLength="100"
+          d="M4 10 L26 6 M74 78 L96 74"
+        />
+        <path
+          class="motif__line motif__scrap-spark"
+          pathLength="100"
+          d="M96 32 L100 28 M98 38 L100 36"
+        />
+
+        <circle class="motif__bolt" cx="8" cy="10" r="1.2" />
+        <circle class="motif__bolt" cx="22" cy="8" r="1" />
+        <circle class="motif__bolt" cx="80" cy="80" r="1.2" />
+        <circle class="motif__bolt" cx="92" cy="88" r="1" />
+        <circle class="motif__bolt" cx="88" cy="14" r="1.1" />
+      </svg>
+    }
+  }
+}

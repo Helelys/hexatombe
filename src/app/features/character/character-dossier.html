@@ -6,7 +6,9 @@
       <span>Registro de personagem</span>
       <span class="dossier__brand" aria-hidden="true">Hexatombe</span>
     </p>
-    <h1 id="character-name" class="dossier__name">{{ name() }}</h1>
+    <h1 id="character-name" class="dossier__name" [attr.data-initial]="initial()">
+      {{ name() }}
+    </h1>
   </header>
 
   <blockquote class="oath">

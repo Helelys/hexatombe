@@ -58,8 +58,8 @@ describe('CharacterAbilities', () => {
   });
 
   it('mantém a descrição de cada habilidade', () => {
-    const descriptions = Array.from(element.querySelectorAll('.ability__description')).map(
-      (node) => node.textContent?.trim(),
+    const descriptions = Array.from(element.querySelectorAll('.ability__description')).map((node) =>
+      node.textContent?.trim(),
     );
 
     expect(descriptions).toEqual(['Reduz o dano recebido.', 'Empurra o alvo.']);
