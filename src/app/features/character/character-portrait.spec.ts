@@ -41,9 +41,21 @@ describe('CharacterPortraitView', () => {
   });
 
   it('aplica o tratamento escuro ao avatar provisório', () => {
-    render(CHARACTER_PORTRAITS['neofito']);
+    render({ src: PORTRAIT_PLACEHOLDER_SRC, alt: 'Avatar provisório' });
 
     expect((fixture.nativeElement as HTMLElement).classList).toContain('portrait--placeholder');
+  });
+
+  it('entrega só a arte quando usado como pano de fundo', () => {
+    fixture.componentRef.setInput('variant', 'bare');
+    render(CHARACTER_PORTRAITS['anne-kent']);
+
+    const host = fixture.nativeElement as HTMLElement;
+
+    expect(host.classList).toContain('portrait--bare');
+    expect(host.classList).not.toContain('portrait--placeholder');
+    expect(image()?.getAttribute('src')).toBe('https://i.imgur.com/4AugKVL.png');
+    expect(image()?.getAttribute('alt')).toBe('Retrato de Anne Kent');
   });
 
   it('troca para o placeholder quando a imagem não carrega', () => {

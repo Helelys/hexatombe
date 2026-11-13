@@ -10,8 +10,7 @@
   isolation: isolate;
   background:
     radial-gradient(ellipse 62% 44% at 50% -6%, rgba(139, 0, 0, 0.24), transparent 70%),
-    radial-gradient(ellipse 78% 52% at 50% 108%, rgba(64, 0, 0, 0.32), transparent 72%),
-    var(--ink);
+    radial-gradient(ellipse 78% 52% at 50% 108%, rgba(64, 0, 0, 0.32), transparent 72%), var(--ink);
 }
 
 .gallery__return {
@@ -100,8 +99,7 @@
   background-clip: text;
   -webkit-background-clip: text;
   color: transparent;
-  filter: drop-shadow(0 0 28px rgba(179, 18, 27, 0.32))
-    drop-shadow(0 12px 26px rgba(0, 0, 0, 0.6));
+  filter: drop-shadow(0 0 28px rgba(179, 18, 27, 0.32)) drop-shadow(0 12px 26px rgba(0, 0, 0, 0.6));
 }
 
 .gallery__intro {
@@ -209,12 +207,11 @@
   inset: 0;
   z-index: 0;
   pointer-events: none;
-  background:
-    radial-gradient(
-      75% 65% at 50% 18%,
-      color-mix(in srgb, var(--character-accent) 24%, transparent),
-      transparent 70%
-    );
+  background: radial-gradient(
+    75% 65% at 50% 18%,
+    color-mix(in srgb, var(--character-accent) 24%, transparent),
+    transparent 70%
+  );
   opacity: 0;
   transition: opacity 650ms var(--ease-veil);
 }
@@ -253,9 +250,7 @@
   position: relative;
   z-index: 2;
   width: clamp(5rem, 9.5vw, 7.2rem);
-  filter: drop-shadow(
-    0 0 20px color-mix(in srgb, var(--character-accent) 22%, transparent)
-  );
+  filter: drop-shadow(0 0 20px color-mix(in srgb, var(--character-accent) 22%, transparent));
   transition:
     transform 650ms var(--ease-veil),
     filter 650ms var(--ease-veil);
@@ -353,9 +348,7 @@
 .card:hover .card__emblem,
 .card:focus-visible .card__emblem {
   transform: scale(1.07);
-  filter: drop-shadow(
-      0 0 22px color-mix(in srgb, var(--character-accent) 48%, transparent)
-    )
+  filter: drop-shadow(0 0 22px color-mix(in srgb, var(--character-accent) 48%, transparent))
     drop-shadow(0 0 60px color-mix(in srgb, var(--character-accent) 20%, transparent));
 }
 
@@ -436,6 +429,10 @@
     font-size: 7rem;
   }
 
+  .card__portrait {
+    --portrait-opacity: 0.64;
+  }
+
   .card__name {
     font-size: 1.4rem;
   }
@@ -445,5 +442,3 @@
     height: 2.5rem;
   }
 }
-
-

@@ -48,6 +48,20 @@ describe('Gallery', () => {
     expect(hrefs).toEqual(CHARACTERS.map((character) => `/destino/${character.slug}`));
   });
 
+  it('abre cada card com a arte oficial do personagem', () => {
+    const cards = Array.from(element.querySelectorAll<HTMLElement>('a.card'));
+
+    cards.forEach((card, index) => {
+      const portrait = card.querySelector<HTMLElement>('app-character-portrait');
+      const image = portrait?.querySelector<HTMLImageElement>('.portrait__image');
+      const expected = CHARACTERS[index].dossier?.portrait;
+
+      expect(portrait?.classList).toContain('portrait--bare');
+      expect(image?.getAttribute('src')).toBe(expected?.src);
+      expect(image?.getAttribute('alt')).toBe(expected?.alt);
+    });
+  });
+
   it('reaproveita o emblema e o motivo de cada ficha', () => {
     const cards = Array.from(element.querySelectorAll<HTMLElement>('a.card'));
 
@@ -55,12 +69,8 @@ describe('Gallery', () => {
       const emblem = CHARACTERS[index].dossier?.emblem;
 
       expect(card.dataset['emblem']).toBe(emblem);
-      expect(card.querySelector('app-character-emblem')?.getAttribute('data-variant')).toBe(
-        emblem,
-      );
-      expect(card.querySelector('app-character-motif')?.getAttribute('data-variant')).toBe(
-        emblem,
-      );
+      expect(card.querySelector('app-character-emblem')?.getAttribute('data-variant')).toBe(emblem);
+      expect(card.querySelector('app-character-motif')?.getAttribute('data-variant')).toBe(emblem);
     });
   });
 

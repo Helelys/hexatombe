@@ -219,7 +219,8 @@
 
 .dossier__portrait {
   order: 2;
-  flex: 0 0 clamp(11.5rem, 18vw, 14rem);
+  flex: 0 0 clamp(12rem, 19vw, 15rem);
+  --portrait-ratio: 2 / 3;
 }
 
 /* O emblema também deixa uma marca discreta na moldura interna do documento. */
@@ -431,7 +432,7 @@
   .dossier__portrait {
     order: 0;
     flex-basis: auto;
-    width: min(100%, 18rem);
+    width: min(100%, 19rem);
     align-self: flex-end;
   }
 }
@@ -490,7 +491,7 @@
   }
 
   .dossier__portrait {
-    width: min(100%, 16rem);
+    width: min(100%, 17rem);
   }
 
   .dossier__ghost {

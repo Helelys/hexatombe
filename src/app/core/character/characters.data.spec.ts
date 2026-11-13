@@ -1,6 +1,16 @@
 import { CHARACTER_PORTRAITS, PORTRAIT_PLACEHOLDER_SRC } from './character-portraits';
 import { CHARACTERS } from './characters.data';
 
+/** Artes oficiais publicadas para cada destino. */
+const OFFICIAL_PORTRAITS = {
+  'anne-kent': 'https://i.imgur.com/4AugKVL.png',
+  'david-moura': 'https://i.imgur.com/W2wu8U7.png',
+  'lia-kwon': 'https://i.imgur.com/Wih09mz.png',
+  'cecilia-nunes': 'https://i.imgur.com/w1ID7JY.png',
+  neofito: 'https://i.imgur.com/nviA3Je.png',
+  'artur-pires': 'https://i.imgur.com/vuFqW67.png',
+} as const;
+
 describe('CHARACTERS', () => {
   const anne = CHARACTERS.find((character) => character.slug === 'anne-kent');
 
@@ -63,11 +73,19 @@ describe('CHARACTERS', () => {
     expect(anne?.dossier?.emblem).toBe('bulwark');
   });
 
-  it('usa o retrato provisório centralizado', () => {
+  it('usa a arte oficial de Anne Kent', () => {
     expect(anne?.dossier).toBeDefined();
     expect(anne?.dossier?.portrait).toEqual(CHARACTER_PORTRAITS['anne-kent']);
-    expect(anne?.dossier?.portrait?.src).toBe(PORTRAIT_PLACEHOLDER_SRC);
+    expect(anne?.dossier?.portrait?.src).toBe(OFFICIAL_PORTRAITS['anne-kent']);
     expect(anne?.dossier?.portrait?.alt).toBe('Retrato de Anne Kent');
+  });
+
+  it('publica exatamente as artes oficiais dos seis destinos', () => {
+    const portraits = Object.fromEntries(
+      CHARACTERS.map((character) => [character.slug, character.dossier?.portrait?.src]),
+    );
+
+    expect(portraits).toEqual(OFFICIAL_PORTRAITS);
   });
 });
 
@@ -278,9 +296,9 @@ describe('fichas dos personagens restantes', () => {
         });
       });
 
-      it('possui retrato independente com placeholder de segurança', () => {
+      it('possui arte própria com placeholder de segurança', () => {
         expect(character?.dossier?.portrait).toEqual(CHARACTER_PORTRAITS[expected.slug]);
-        expect(character?.dossier?.portrait?.src).toBe(PORTRAIT_PLACEHOLDER_SRC);
+        expect(character?.dossier?.portrait?.src).toBe(OFFICIAL_PORTRAITS[expected.slug]);
         expect(character?.dossier?.portrait?.alt).toBe(`Retrato de ${expected.name}`);
         expect(character?.dossier?.portrait?.fallbackSrc).toBe(PORTRAIT_PLACEHOLDER_SRC);
       });

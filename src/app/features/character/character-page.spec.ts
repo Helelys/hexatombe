@@ -1,5 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { provideRouter } from '@angular/router';
+import { CHARACTER_PORTRAITS } from '../../core/character/character-portraits';
 import { CHARACTERS } from '../../core/character/characters.data';
 import { Character } from '../../core/character/character.model';
 import { CharacterPage } from './character-page';
@@ -97,12 +98,12 @@ describe('CharacterPage', () => {
     ]);
   });
 
-  it('apresenta o retrato provisório do personagem', () => {
+  it('apresenta a arte oficial do personagem', () => {
     render(CHARACTERS[0]);
 
     const image = element.querySelector<HTMLImageElement>('.dossier__portrait img');
 
-    expect(image?.getAttribute('src')).toBe('/portraits/placeholder.jpg');
+    expect(image?.getAttribute('src')).toBe(CHARACTER_PORTRAITS['anne-kent'].src);
     expect(image?.getAttribute('alt')).toBe('Retrato de Anne Kent');
   });
 

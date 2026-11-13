@@ -3,8 +3,15 @@ import { CharacterPortrait } from '../../core/character/character.model';
 import { PORTRAIT_PLACEHOLDER_SRC } from '../../core/character/character-portraits';
 
 /**
- * Retrato do destino: recorte de busto, moldura discreta e fallback automático.
- * A largura é definida pela ficha; aqui só vivem enquadramento e acabamento.
+ * `frame` desenha a moldura do documento; `bare` entrega só a arte, para a
+ * galeria usar a ilustração como pano de fundo do card.
+ */
+export type PortraitVariant = 'frame' | 'bare';
+
+/**
+ * Retrato do destino: arte inteira, moldura discreta e fallback automático.
+ * A largura é definida por quem usa o componente; aqui só vivem enquadramento,
+ * acabamento e a variante sem moldura.
  */
 @Component({
   selector: 'app-character-portrait',
@@ -13,10 +20,12 @@ import { PORTRAIT_PLACEHOLDER_SRC } from '../../core/character/character-portrai
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: {
     '[class.portrait--placeholder]': 'isPlaceholder()',
+    '[class.portrait--bare]': "variant() === 'bare'",
   },
 })
 export class CharacterPortraitView {
   readonly portrait = input.required<CharacterPortrait>();
+  readonly variant = input<PortraitVariant>('frame');
 
   private readonly failedSrc = signal<string | null>(null);
   private readonly unavailableSrc = signal<string | null>(null);

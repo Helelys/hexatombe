@@ -32,6 +32,10 @@
           <span class="card__veil" aria-hidden="true"></span>
           <span class="card__mark" aria-hidden="true">{{ card.initial }}</span>
 
+          @if (card.portrait; as portrait) {
+            <app-character-portrait class="card__portrait" variant="bare" [portrait]="portrait" />
+          }
+
           <span class="card__symbol">
             <app-character-motif class="card__motif" [variant]="card.emblem" />
             <app-character-emblem class="card__emblem" [variant]="card.emblem" />

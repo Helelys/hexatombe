@@ -1,4 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { CHARACTER_PORTRAITS } from '../../core/character/character-portraits';
 import { CHARACTERS } from '../../core/character/characters.data';
 import { Character } from '../../core/character/character.model';
 import { MASKED_FORM_NOTE } from '../../core/character/masked-forms';
@@ -248,9 +249,11 @@ describe('CharacterSheetView', () => {
 
   it('preserva o retrato individual do personagem', () => {
     const portrait = element.querySelector<HTMLElement>('.identity__portrait');
+    const image = portrait?.querySelector<HTMLImageElement>('.portrait__image');
 
     expect(portrait?.tagName.toLowerCase()).toBe('app-character-portrait');
-    expect(portrait?.querySelector('.portrait__image')).not.toBeNull();
+    expect(image?.getAttribute('src')).toBe(CHARACTER_PORTRAITS['anne-kent'].src);
+    expect(image?.getAttribute('alt')).toBe('Retrato de Anne Kent');
   });
 
   it('não renderiza conteúdo sem ficha cadastrada', async () => {
@@ -347,6 +350,15 @@ describe('CharacterSheetView — forma mascarada', () => {
       ['Idade', 'X'],
       ['Máscara', 'O Lastro'],
     ]);
+  });
+
+  it('mantém a arte do personagem na forma mascarada', async () => {
+    await render(ANNE);
+
+    const image = element.querySelector<HTMLImageElement>('.identity__portrait img');
+
+    expect(image?.getAttribute('src')).toBe(CHARACTER_PORTRAITS['anne-kent'].src);
+    expect(image?.getAttribute('alt')).toBe('Retrato de Anne Kent');
   });
 
   it('mostra os valores máximos da transformação', async () => {

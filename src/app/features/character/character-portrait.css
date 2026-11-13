@@ -2,7 +2,8 @@
   display: block;
   position: relative;
   width: 100%;
-  aspect-ratio: 4 / 5;
+  /* As artes oficiais são 2:3; a ficha pode pedir outra proporção pela custom property. */
+  aspect-ratio: var(--portrait-ratio, 4 / 5);
   overflow: hidden;
   isolation: isolate;
   border: 1px solid color-mix(in srgb, var(--character-accent) 34%, transparent);
@@ -43,10 +44,10 @@
   display: block;
   width: 100%;
   height: 100%;
-  object-fit: cover;
-  object-position: center top;
-  scale: 1.01;
-  filter: grayscale(0.18) contrast(1.06) brightness(0.84) sepia(0.1);
+  /* A arte é exibida inteira: nenhum corte e nenhuma distorção de proporção. */
+  object-fit: contain;
+  object-position: center bottom;
+  filter: grayscale(0.18) contrast(1.06) brightness(0.86) sepia(0.1);
   animation: portrait-in 1.2s var(--ease-veil) both;
 }
 
@@ -93,11 +94,58 @@
 @keyframes portrait-in {
   from {
     opacity: 0;
-    scale: 1.04;
+    scale: 1.03;
   }
 
   to {
     opacity: 1;
-    scale: 1.01;
+    scale: 1;
   }
+}
+
+/*
+ * Variante sem moldura: a galeria usa a arte como pano de fundo do card. A
+ * posição e o enquadramento vêm por custom properties, então o card só ajusta
+ * o que precisa sem tocar nos estilos internos.
+ */
+:host(.portrait--bare) {
+  position: absolute;
+  inset: var(--portrait-inset, 0.4rem);
+  z-index: 0;
+  width: auto;
+  aspect-ratio: auto;
+  border: 0;
+  background: none;
+  box-shadow: none;
+  pointer-events: none;
+}
+
+:host(.portrait--bare) .portrait__image {
+  object-position: var(--portrait-focus, 100% 100%);
+  opacity: var(--portrait-opacity, 0.86);
+  filter: grayscale(0.22) contrast(1.04) brightness(0.8) sepia(0.12);
+}
+
+/* Fade à esquerda e no topo: a arte nunca encosta no nome, no emblema ou na CTA. */
+:host(.portrait--bare) .portrait__wash {
+  background:
+    linear-gradient(
+      90deg,
+      #0b0909 0%,
+      rgba(11, 9, 9, 0.82) 18%,
+      rgba(11, 9, 9, 0.28) 42%,
+      rgba(11, 9, 9, 0) 62%
+    ),
+    linear-gradient(
+      180deg,
+      rgba(11, 9, 9, 0.72) 0%,
+      rgba(11, 9, 9, 0) 24%,
+      rgba(11, 9, 9, 0) 66%,
+      rgba(11, 9, 9, 0.72) 100%
+    );
+  box-shadow: none;
+}
+
+:host(.portrait--bare)::after {
+  content: none;
 }

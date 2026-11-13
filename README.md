@@ -48,12 +48,12 @@ src/app/
   shared/atmosphere/       névoa, manchas, grão e cinzas puramente em CSS
 ```
 
-A galeria (`features/gallery/`) reutiliza `characters.data.ts` e os mesmos símbolos da ficha: cada card traz o emblema e o motivo do personagem, sua cor de identidade e um link direto para `/destino/:slug`. A grade tem três colunas no desktop, duas em tablets e uma no celular.
+A galeria (`features/gallery/`) reutiliza `characters.data.ts` e os mesmos símbolos da ficha: cada card traz a arte oficial do personagem, o emblema, o motivo, sua cor de identidade e um link direto para `/destino/:slug`. A grade tem três colunas no desktop, duas em tablets e uma no celular.
 
 A ficha é montada por componentes declarativos em `features/character/`:
 
 - `character-dossier` — documento com nome, frase, atributos, habilidades e retrato.
-- `character-portrait` — retrato em recorte de busto, com moldura escura e fallback automático.
+- `character-portrait` — arte inteira em moldura escura, com variante sem moldura (`variant="bare"`) usada pelos cards e fallback automático.
 - `character-emblem` — símbolo central em SVG, com uma variante por personagem.
 - `character-motif` — traços de fundo que acompanham o emblema.
 - `character-attributes` — cinco atributos ao redor do emblema, ligados por traços.
@@ -61,7 +61,7 @@ A ficha é montada por componentes declarativos em `features/character/`:
 
 Tudo vem de `characters.data.ts`: para criar a próxima ficha, basta preencher `dossier` (frase, atributos, habilidades, emblema e `portrait`). Sem `dossier`, a página continua mostrando apenas o nome — mas o card da galeria usa o emblema padrão.
 
-Os retratos têm uma entrada própria em `core/character/character-portraits.ts` (`CHARACTER_PORTRAITS`). Hoje todos apontam para `public/portraits/placeholder.jpg`; para trocar a arte de um destino, basta alterar o `src` da entrada correspondente. Se a imagem falhar, `fallbackSrc` devolve o placeholder automaticamente. Enquanto a arte definitiva não chega, o avatar cinza recebe um blend escuro (`mix-blend-mode: multiply`) para se integrar ao fundo preto; retratos reais mantêm o tratamento normal.
+Os retratos têm uma entrada própria em `core/character/character-portraits.ts` (`CHARACTER_PORTRAITS`) e apontam para as artes oficiais de cada destino. Para trocar a arte, basta alterar o `src` da entrada correspondente. Se a imagem não carregar, `fallbackSrc` devolve `public/portraits/placeholder.jpg` automaticamente; o avatar cinza recebe um blend escuro (`mix-blend-mode: multiply`) para se integrar ao fundo preto, enquanto as artes oficiais mantêm o tratamento normal.
 
 Rotas: `/` (portal), `/galeria` (escolha do personagem), `/destino/:slug` (página do destino), `/destino/:slug/ficha` (ficha completa, VD 80) e `/destino/:slug/mascara` (forma mascarada, VD 140). Um resolver redireciona slugs desconhecidos para `/galeria`; rotas desconhecidas voltam ao portal.
 
@@ -76,8 +76,8 @@ Rotas: `/` (portal), `/galeria` (escolha do personagem), `/destino/:slug` (pági
 ## Notas de implementação
 
 - Componentes standalone, signals e detecção de mudanças zoneless.
-- O retrato é opcional: a coluna direita só reserva espaço quando `portrait` existe. O enquadramento é sempre de busto (`object-fit: cover` com `object-position: center top`), em proporção 4:5 e com dimensões iguais nas seis fichas.
-- A imagem fica em `public/portraits/`; texturas continuam em gradientes CSS e SVG inline em `data:` URI, e a tipografia usa fontes do sistema.
+- O retrato é opcional: a coluna direita só reserva espaço quando `portrait` existe. As artes oficiais são PNGs de corpo inteiro em fundo transparente, exibidas inteiras (`object-fit: contain`, `object-position: center bottom`) na moldura 4:5 — nenhum corte nem distorção de proporção. Galeria, ficha VD 80 e forma mascarada VD 140 usam o mesmo componente.
+- As artes oficiais vêm por URL e o placeholder de segurança fica em `public/portraits/`; texturas continuam em gradientes CSS e SVG inline em `data:` URI, e a tipografia usa fontes do sistema.
 - Orçamento de estilo por componente elevado para 8 kB (aviso), mantendo 10 kB como erro, por causa das texturas e animações da ficha e da galeria.
 - Títulos de página e transições de rota (`withViewTransitions`) configurados no roteador.
 - Acessibilidade: `role="dialog"`, `aria-modal`, foco preso e restaurado, fechamento por Escape/backdrop, `prefers-reduced-motion` respeitado. Na galeria, cada card é um link com foco visível e a página individual mantém um retorno discreto à galeria. Cada retrato tem texto alternativo próprio (`Retrato de …`).

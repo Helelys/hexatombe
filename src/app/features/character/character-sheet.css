@@ -70,7 +70,7 @@
 
 .identity__portrait {
   flex: 0 0 auto;
-  width: clamp(4rem, 8.5vw, 5.4rem);
+  width: clamp(4.4rem, 9vw, 5.8rem);
 }
 
 .identity__name {
