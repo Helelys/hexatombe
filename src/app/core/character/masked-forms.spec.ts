@@ -86,9 +86,7 @@ describe('MASKED_FORMS', () => {
 
   it('registra ataques, habilidades e o poder de intenção', () => {
     for (const form of FORMS) {
-      const attack = form.sheet.actions.find(
-        (action) => action.test && action.damage && action.critical,
-      );
+      const attack = form.sheet.actions.find((action) => action.test && action.damage);
 
       expect(attack).toBeDefined();
       expect(attack?.damageType).toBeDefined();
@@ -98,6 +96,17 @@ describe('MASKED_FORMS', () => {
       expect(form.intention.action).toBeDefined();
       expect(form.intention.description.length).toBeGreaterThan(20);
     }
+  });
+
+  it('identifica o arquétipo de cada máscara', () => {
+    expect(FORMS.map((form) => form.sheet.archetype)).toEqual([
+      'Berserker',
+      'Combatente',
+      'Assassino',
+      'Atirador',
+      'Ocultista',
+      'Sacrifício',
+    ]);
   });
 
   it('traz os dados do documento para cada máscara', () => {
@@ -119,7 +128,7 @@ describe('MASKED_FORMS', () => {
     expect(MASKED_FORMS['lia-kwon'].name).toBe('Risco');
     expect(MASKED_FORMS['lia-kwon'].sheet.hitPoints).toBe('166');
     expect(MASKED_FORMS['lia-kwon'].sheet.speed).toBe('12m');
-    expect(MASKED_FORMS['lia-kwon'].intention.name).toBe('Marca na Garganta');
+    expect(MASKED_FORMS['lia-kwon'].intention.name).toBe('Abate Perfeito');
 
     expect(MASKED_FORMS['cecilia-nunes'].name).toBe('Vigília');
     expect(MASKED_FORMS['cecilia-nunes'].sheet.hitPoints).toBe('180');
@@ -133,27 +142,34 @@ describe('MASKED_FORMS', () => {
     expect(MASKED_FORMS.neofito.name).toBe('Cartógrafo');
     expect(MASKED_FORMS.neofito.sheet.hitPoints).toBe('196');
     expect(MASKED_FORMS.neofito.sheet.effortPoints).toBe('18');
-    expect(MASKED_FORMS.neofito.intention.name).toBe('Geometria do Pavor');
+    expect(MASKED_FORMS.neofito.intention.name).toBe('Abismo Mental');
 
     expect(MASKED_FORMS['artur-pires'].name).toBe('Espólio');
     expect(MASKED_FORMS['artur-pires'].sheet.hitPoints).toBe('200');
     expect(MASKED_FORMS['artur-pires'].sheet.actions).toHaveLength(3);
-    expect(MASKED_FORMS['artur-pires'].intention.name).toBe('Herança Final');
+    expect(MASKED_FORMS['artur-pires'].intention.name).toBe('Ponto de Fixação');
   });
 
   it('descreve os rituais do Cartógrafo com o círculo e a resistência', () => {
     const abilities: readonly CharacterAbility[] = MASKED_FORMS.neofito.abilities;
     const rituals = abilities.filter((ability) => ability.category);
 
-    expect(rituals).toHaveLength(2);
+    expect(rituals).toHaveLength(3);
+    expect(rituals.map((ritual) => ritual.name)).toEqual([
+      'Ferver Sangue',
+      'Poeira da Podridão',
+      'Miasma Entrópico',
+    ]);
+    expect(rituals.map((ritual) => ritual.category)).toEqual([
+      'Ritual de 3º círculo',
+      'Ritual de 3º círculo',
+      'Ritual de 2º círculo',
+    ]);
+    expect(rituals[0]?.description).toContain('4d8');
 
-    for (const ritual of rituals) {
-      expect(ritual.category).toBe('Ritual de 2º círculo');
-      expect(ritual.cost).toBe('3 PE');
-    }
-
-    expect(rituals[1]?.description).toContain('4d8 Sangue');
-    expect(rituals[0]?.name).toBe('Nó de Pensamento');
-    expect(rituals[1]?.name).toBe('Poeira Hemática');
+    expect(MASKED_FORMS.neofito.sheet.actions.map((action) => action.name)).toEqual([
+      'Descarnar',
+      'Invadir Mente',
+    ]);
   });
 });

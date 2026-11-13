@@ -60,7 +60,7 @@ export function resolveSheetTone(action?: string): SheetTone {
   return 'neutral';
 }
 
-/** Natureza do card na área de itens e ações. */
+/** Natureza do card nas seções de ataques e habilidades. */
 export type SheetCardKind = 'attack' | 'ritual' | 'combat' | 'condition';
 
 const KIND_LABELS: Readonly<Record<SheetCardKind, string>> = {
@@ -167,8 +167,9 @@ function toEntry(action: CharacterSheetAction, kind: SheetCardKind): SheetEntry 
 
 /**
  * Ficha completa em três áreas: identificação e informações gerais à esquerda,
- * atributos ao centro e itens e ações à direita, com a intenção ao pé.
- * Os atributos vêm da ficha pública, preservando os valores já publicados.
+ * atributos ao centro e, à direita, ataques, habilidades e intenção e itens —
+ * nesta ordem —, com a intenção ao pé. Os atributos vêm da ficha pública,
+ * preservando os valores já publicados.
  */
 @Component({
   selector: 'app-character-sheet',
@@ -204,13 +205,14 @@ export class CharacterSheetView {
   /** VD da forma em exibição: 80 na ficha comum, 140 na forma mascarada. */
   protected readonly grade = computed(() => this.masked()?.grade ?? SHEET_IDENTITY.grade);
 
-  /** Tipo, categoria, VD, idade e máscara exibidos logo abaixo do nome. */
+  /** Tipo, categoria, arquétipo, VD, idade e máscara exibidos sob o nome. */
   protected readonly identityMeta = computed(() => {
     const sheet = this.data();
     const mask = this.masked();
     const meta = [
       { key: 'type', label: 'Tipo', value: SHEET_IDENTITY.type },
       { key: 'category', label: 'Categoria', value: SHEET_IDENTITY.category },
+      { key: 'archetype', label: 'Arquétipo', value: sheet?.archetype ?? '' },
       { key: 'grade', label: 'VD', value: this.grade() },
       { key: 'age', label: 'Idade', value: sheet?.age ?? '' },
     ];
@@ -306,13 +308,29 @@ export class CharacterSheetView {
   /** O pé da ficha nomeia a intenção, ou as regras da transformação. */
   protected readonly intentLabel = computed(() => (this.masked() ? 'Transformação' : 'Intenção'));
 
-  /** Armas, rituais e condições da ficha, seguidos das habilidades de combate. */
-  protected readonly entries = computed(() => [
+  /**
+   * Seção Ataques: golpes, rituais usados como ação ofensiva e condições de uso
+   * registradas na ficha. Rituais vindos das habilidades entram aqui, pois são
+   * ações de ataque; passivas e reações ficam na seção seguinte.
+   */
+  protected readonly attacks = computed<readonly SheetEntry[]>(() => [
     ...(this.data()?.actions ?? [])
       .filter((action) => action.name !== MASK_AWAKENING)
       .map((action) => toEntry(action, resolveSheetCardKind(action))),
-    ...this.abilities().map((ability) => toEntry(ability, resolveAbilityKind(ability))),
+    ...this.abilities()
+      .filter((ability) => resolveAbilityKind(ability) === 'ritual')
+      .map((ability) => toEntry(ability, 'ritual')),
   ]);
+
+  /** Seção Habilidades e intenção: passivas, reações e efeitos especiais. */
+  protected readonly abilityEntries = computed<readonly SheetEntry[]>(() =>
+    this.abilities()
+      .filter((ability) => resolveAbilityKind(ability) !== 'ritual')
+      .map((ability) => toEntry(ability, 'combat')),
+  );
+
+  /** Seção Itens: equipamento carregado, sem repetir os ataques. */
+  protected readonly items = computed(() => this.data()?.items ?? []);
 
   /** Identificadores únicos por personagem, para os títulos de cada bloco. */
   protected sectionId(section: string): string {

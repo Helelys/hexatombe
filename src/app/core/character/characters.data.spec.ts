@@ -46,25 +46,22 @@ describe('CHARACTERS', () => {
   it('mantém as três habilidades de Anne Kent', () => {
     expect(anne?.dossier?.abilities).toEqual([
       {
-        name: 'Base Plantada',
+        name: 'Casca Bruta',
+        action: 'Passiva',
+        description: 'Anne recebe RD 5 contra dano físico.',
+      },
+      {
+        name: 'Retaliação Furiosa',
         action: 'Reação',
         limit: '1/rodada',
         description:
-          'Ao sofrer dano de um ataque corpo a corpo, reduz o dano em 1d10+4. Se não se deslocou no turno anterior, reduz mais 3.',
+          'Ao sofrer dano corpo a corpo, reduz o dano em 1d10+4. O agressor faz Fortitude DT 20 ou é empurrado 1,5 m.',
       },
       {
-        name: 'Arranco',
-        action: 'Padrão',
-        cost: '2 PE',
+        name: 'Fúria Crescente',
+        action: 'Passiva',
         description:
-          'Após acertar Pancada, empurra o alvo 3 m. Se ele colidir com uma superfície, sofre +1d8 impacto. Fortitude DT 20 evita o deslocamento.',
-      },
-      {
-        name: 'Ombro de Guarda',
-        action: 'Livre',
-        cost: '1 PE',
-        description:
-          'Escolhe um aliado adjacente; ele recebe +2 Defesa até o início do próximo turno de Anne. Uma vez por rodada.',
+          'Ao perder PV, seu próximo ataque de punhos até o fim do próximo turno causa +1d8. Uma vez por rodada.',
       },
     ]);
   });
@@ -121,9 +118,9 @@ const DAVID_E_LIA = [
       {
         name: 'Fôlego de Aço',
         action: 'Livre',
-        cost: '2 PE',
+        limit: '1/cena',
         description:
-          'Remove a condição fatigado ou encerra uma penalidade de -2 em testes físicos sofrida até o fim da cena. Uma vez por cena.',
+          'Remove a condição fatigado ou encerra uma penalidade de -2 em testes físicos sofrida até o fim da cena.',
       },
     ],
   },
@@ -143,18 +140,15 @@ const DAVID_E_LIA = [
     ],
     abilities: [
       {
-        name: 'Troca de Sombra',
-        action: 'Reação',
-        limit: '1/rodada',
-        description:
-          'Quando é alvo de um ataque, pode mover-se 3 m para cobertura; recebe +5 Defesa contra o ataque que disparou a reação.',
+        name: 'Manto de Sombra',
+        action: 'Passiva',
+        description: 'Recebe +2 Defesa enquanto estiver em cobertura ou na penumbra.',
       },
       {
-        name: 'Ferida Silenciosa',
-        action: 'Padrão',
-        cost: '2 PE',
+        name: 'Corte Preciso',
+        action: 'Passiva',
         description:
-          'Após acertar Lâmina Oculta, o alvo não pode realizar reações até o início do próximo turno de Lia.',
+          'Contra alvo desprevenido ou flanqueado, seus ataques com katana causam +2d6 de precisão.',
       },
       {
         name: 'Passo Leve',
@@ -189,16 +183,16 @@ const CECILIA_NEOFITO_E_ARTUR = [
           'Se não se deslocar no turno, o próximo disparo de fuzil até o fim do turno seguinte causa +2d10.',
       },
       {
-        name: 'Disparo de Contenção',
+        name: 'Tiro Perfurante',
         action: 'Padrão',
-        cost: '2 PE',
-        description:
-          'Após acertar, o alvo faz Fortitude DT 20. Se falhar, seu deslocamento é reduzido à metade até o fim do próximo turno.',
+        limit: '1/rodada',
+        description: 'O disparo ignora 5 pontos de resistência a dano do alvo.',
       },
       {
-        name: 'Distância de Segurança',
+        name: 'Mira Calibrada',
         action: 'Passiva',
-        description: 'Recebe +3 Defesa enquanto não houver inimigo adjacente.',
+        description:
+          'Se mirar por uma ação de movimento, recebe +5 no próximo disparo até o fim do próximo turno.',
       },
     ],
   },
@@ -218,18 +212,18 @@ const CECILIA_NEOFITO_E_ARTUR = [
     ],
     abilities: [
       {
-        name: 'Nó de Pensamento',
+        name: 'Invadir Mente',
+        category: 'Ritual de 2º círculo',
         action: 'Ritual 2º',
-        cost: '3 PE',
         description:
-          'Padrão, médio, 1 alvo: Vontade DT 20 evita. Se falhar, sofre -5 em ataques e não pode usar reações até o início do próximo turno.',
+          'Padrão, médio, 1 alvo: causa 6d6 de dano mental. Vontade DT 20 reduz à metade.',
       },
       {
-        name: 'Poeira Hemática',
+        name: 'Miasma Entrópico',
+        category: 'Ritual de 2º círculo',
         action: 'Ritual 2º',
-        cost: '3 PE',
         description:
-          'Padrão, curto, 1 alvo: 2d8 Sangue. Fortitude DT 20 reduz à metade; se falhar, também sofre -2 Defesa por 1 rodada.',
+          'Padrão, médio, nuvem de 6 m: causa 4d8 de dano químico. Fortitude DT 20 reduz à metade e evita a condição enojado por 1 rodada.',
       },
       {
         name: 'Foco Ritual',

@@ -268,7 +268,7 @@
   overflow-wrap: anywhere;
 }
 
-/* Habilidade especial e itens */
+/* Habilidade especial, ataques e habilidades */
 .special__card,
 .move {
   --card: var(--character-accent);
@@ -407,7 +407,7 @@
   overflow-wrap: anywhere;
 }
 
-/* Itens e ações */
+/* Ataques e habilidades */
 .moves {
   display: flex;
   flex-direction: column;

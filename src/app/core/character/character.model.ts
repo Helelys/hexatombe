@@ -72,6 +72,13 @@ export interface CharacterSkill {
   readonly modifier: string;
 }
 
+/** Item carregado pelo personagem, exibido na seção Itens da ficha. */
+export interface CharacterItem {
+  readonly name: string;
+  /** Categoria curta do item, como "Arma corpo a corpo". */
+  readonly type: string;
+}
+
 /** Ataque, ação ou restrição descrita na ficha completa. */
 export interface CharacterSheetAction {
   readonly name: string;
@@ -97,6 +104,8 @@ export interface CharacterSheetAction {
 export interface CharacterSheet {
   /** A idade permanece desconhecida em todas as fichas. */
   readonly age: string;
+  /** Arquétipo do personagem, exibido na identificação. */
+  readonly archetype: string;
   readonly defense: string;
   readonly fortitude: string;
   readonly reflexes: string;
@@ -109,6 +118,8 @@ export interface CharacterSheet {
   readonly initiative: string;
   readonly skills: readonly CharacterSkill[];
   readonly actions: readonly CharacterSheetAction[];
+  /** Equipamento carregado, separado dos ataques na seção Itens. */
+  readonly items: readonly CharacterItem[];
   readonly intention: string;
 }
 

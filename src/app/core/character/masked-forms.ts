@@ -32,6 +32,7 @@ export const MASKED_FORMS = {
     ],
     sheet: {
       age: 'X',
+      archetype: 'Berserker',
       defense: '31',
       fortitude: '5d20+15',
       reflexes: '1d20+10',
@@ -52,7 +53,7 @@ export const MASKED_FORMS = {
       ],
       actions: [
         {
-          name: 'Punhos de Lastro',
+          name: 'Punhos de Fúria',
           range: 'Corpo a corpo',
           test: 'Luta 5d20+15',
           damage: '4d6+18',
@@ -60,47 +61,45 @@ export const MASKED_FORMS = {
           critical: '20/x2',
         },
         {
-          name: 'Queda de Muralha',
+          name: 'Sequência Demolidora',
           action: 'Padrão',
-          cost: '3 PE',
-          range: 'Alvo adjacente',
-          test: 'Reflexos DT 23',
-          damage: '3d8+16',
+          range: 'Corpo a corpo',
+          damage: '1d8+8 (por ataque)',
           damageType: 'Impacto',
-          description: 'Reflexos DT 23 reduz o dano à metade. Se falhar, o alvo também fica caído.',
+          description:
+            'Faça três ataques de punho. Cada ataque causa 1d8+8 impacto. Resolva cada ataque separadamente.',
         },
       ],
+      items: [],
       intention: MASKED_FORM_NOTE,
     },
     abilities: [
       {
-        name: 'Pilar de Aço',
+        name: 'RD de Monstro',
         action: 'Passiva',
-        description:
-          'Enquanto estiver adjacente a um aliado, recebe +2 Defesa e +5 em testes para resistir a manobras.',
+        description: 'Anne recebe RD 10 contra dano físico.',
       },
       {
-        name: 'Parede Viva',
+        name: 'Fúria Retaliatória',
         action: 'Reação',
         limit: '1/rodada',
         description:
-          'Quando um aliado a até 6m sofre dano, reduz esse dano em 2d10+8. Anne precisa estar consciente.',
+          'Ao sofrer dano corpo a corpo, reduz o dano em 2d10+8. O agressor faz Fortitude DT 23 ou é empurrado 3 m e fica caído.',
       },
       {
-        name: 'Pressão de Cerco',
+        name: 'Carga Imparável',
         action: 'Padrão',
-        cost: '2 PE',
+        limit: '1/rodada',
         description:
-          'Um alvo adjacente faz Fortitude DT 23. Se falhar, sofre -5 em ataques e não pode se afastar voluntariamente de Anne até o fim do próximo turno.',
+          'Avança até 6 m em linha reta e faz um ataque de punho contra cada inimigo no caminho. Cada ataque causa 1d8+8 impacto. Fortitude DT 23 evita ser derrubado.',
       },
     ],
     intention: {
       name: 'Fúria Inabalável',
-      action: 'Padrão',
-      cost: '3 PE',
+      action: 'Livre',
       limit: '1/cena',
       description:
-        'Por 3 rodadas, a primeira vez em cada rodada que um aliado a até 6m sofrer dano, reduza-o em 1d10+5. Se o aliado estiver adjacente, a redução é 1d10+8.',
+        'Por 2 rodadas, Anne recebe RD 15, substituindo sua RD 10. Uma vez por turno, ao acertar com os punhos, faz um ataque adicional de 1d8+8 impacto.',
     },
   },
   'david-moura': {
@@ -115,6 +114,7 @@ export const MASKED_FORMS = {
     ],
     sheet: {
       age: 'X',
+      archetype: 'Combatente',
       defense: '29',
       fortitude: '4d20+15',
       reflexes: '2d20+10',
@@ -145,12 +145,12 @@ export const MASKED_FORMS = {
         {
           name: 'Golpe de Quebra',
           action: 'Padrão',
-          cost: '3 PE',
           range: 'Corpo a corpo',
           damage: '+2d8',
           description: 'Ataque corpo a corpo. Ignora 5 pontos de resistência a dano do alvo.',
         },
       ],
+      items: [{ name: 'Facão Gume', type: 'Arma corpo a corpo' }],
       intention: MASKED_FORM_NOTE,
     },
     abilities: [
@@ -165,24 +165,22 @@ export const MASKED_FORMS = {
         action: 'Livre',
         limit: '1/rodada',
         description:
-          'Quando reduz um alvo a 0 PV, pode se deslocar 3m e recebe +2 no próximo teste de ataque até o fim do próximo turno.',
+          'Quando reduz um alvo a 0 PV, pode se deslocar 3 m e recebe +2 no próximo teste de ataque até o fim do próximo turno.',
       },
       {
         name: 'Fôlego de Guerra',
         action: 'Reação',
-        cost: '2 PE',
         limit: '1/rodada',
         description:
-          'Ao sofrer dano, recebe +5 em Fortitude até o início do próximo turno. Uma vez por rodada.',
+          'Ao sofrer dano, recebe +5 em Fortitude até o início do próximo turno.',
       },
     ],
     intention: {
       name: 'Corte de Sentença',
       action: 'Padrão',
-      cost: '3 PE',
       limit: '1/cena',
       description:
-        'Marca um alvo visível. O próximo ataque corpo a corpo que acertá-lo em até 2 rodadas causa +5d8. Se o alvo já estiver abaixo da metade dos PV, causa +2d8 adicionais.',
+        'Marca um alvo visível. O próximo ataque corpo a corpo que acertar o alvo em até 2 rodadas causa +5d8. Se o alvo estiver abaixo da metade dos PV, causa +2d8 adicionais.',
     },
   },
   'lia-kwon': {
@@ -197,6 +195,7 @@ export const MASKED_FORMS = {
     ],
     sheet: {
       age: 'X',
+      archetype: 'Assassino',
       defense: '31',
       fortitude: '2d20+10',
       reflexes: '5d20+15',
@@ -211,44 +210,49 @@ export const MASKED_FORMS = {
         { name: 'Acrobacia', dice: '5d20', modifier: '+15' },
         { name: 'Crime', dice: '5d20', modifier: '+15' },
         { name: 'Furtividade', dice: '5d20', modifier: '+15' },
-        { name: 'Luta', dice: '3d20', modifier: '+15' },
+        { name: 'Luta', dice: '5d20', modifier: '+15' },
         { name: 'Percepção', dice: '2d20', modifier: '+10' },
         { name: 'Reflexos', dice: '5d20', modifier: '+15' },
       ],
       actions: [
         {
-          name: 'Lâmina do Risco',
+          name: 'Katana do Risco',
           range: 'Corpo a corpo',
-          test: 'Luta 3d20+15',
-          damage: '3d4+12',
-          damageType: 'Perfuração',
+          test: 'Luta 5d20+15',
+          damage: '3d6+12',
+          damageType: 'Corte',
           critical: '17/x3',
         },
         {
-          name: 'Ataque de Abertura',
-          action: 'Livre',
-          limit: '1/rodada',
-          damage: '+5d6',
-          damageType: 'Precisão',
-          description: 'Contra alvo desprevenido ou flanqueado, causa +5d6 de dano de precisão.',
+          name: 'Shuriken de Tendão',
+          range: 'Médio',
+          test: 'Luta 5d20+15',
+          damage: '1d6+8',
+          damageType: 'Perfuração',
+          critical: '19/x2',
+          description:
+            'Ao atingir a perna, Fortitude DT 23 evita a redução de 6 m no deslocamento até o fim do próximo turno.',
         },
+      ],
+      items: [
+        { name: 'Katana do Risco', type: 'Arma corpo a corpo' },
+        { name: 'Shuriken de Tendão', type: 'Arma de arremesso' },
       ],
       intention: MASKED_FORM_NOTE,
     },
     abilities: [
       {
-        name: 'Desaparecer',
+        name: 'Passo Fantasma',
         action: 'Reação',
         limit: '2/cena',
         description:
-          'Quando é atacada, recebe +10 Defesa contra esse ataque e pode mover-se 3m após sua resolução.',
+          'Quando é atacada, recebe +10 Defesa contra esse ataque e pode mover-se 3 m após sua resolução.',
       },
       {
-        name: 'Ponto Cego',
-        action: 'Livre',
-        cost: '2 PE',
+        name: 'Corte Cirúrgico',
+        action: 'Passiva',
         description:
-          'Após acertar um alvo, ele perde a capacidade de realizar reações até o início do próximo turno. Cada alvo só pode sofrer isso uma vez por cena.',
+          'Seu primeiro ataque contra um alvo desprevenido ou flanqueado na cena causa +3d6 de dano de precisão.',
       },
       {
         name: 'Passo Impossível',
@@ -258,11 +262,11 @@ export const MASKED_FORMS = {
       },
     ],
     intention: {
-      name: 'Marca na Garganta',
+      name: 'Abate Perfeito',
       action: 'Padrão',
-      cost: '3 PE',
+      limit: '1/cena',
       description:
-        'Escolhe um alvo em alcance médio por 3 rodadas. Recebe +2 em ataques e +1 na margem de ameaça contra ele. Uma vez por rodada, ao acertá-lo, causa +2d6 de precisão.',
+        'Faça um ataque com a Katana do Risco. Se acertar, causa +5d8 de dano de precisão adicional.',
     },
   },
   'cecilia-nunes': {
@@ -277,6 +281,7 @@ export const MASKED_FORMS = {
     ],
     sheet: {
       age: 'X',
+      archetype: 'Atirador',
       defense: '29',
       fortitude: '3d20+10',
       reflexes: '4d20+15',
@@ -308,9 +313,10 @@ export const MASKED_FORMS = {
         {
           name: 'Restrição de Alcance',
           description:
-            'O fuzil exige um alvo a pelo menos 9m. Não dispara contra alvos adjacentes ou em alcance curto. Sem ataque corpo a corpo relevante; precisa recuar ou usar cobertura.',
+            'O fuzil exige um alvo a pelo menos 9 m. Não dispara contra alvos adjacentes ou em alcance curto. Sem ataque corpo a corpo relevante; precisa recuar ou usar cobertura.',
         },
       ],
+      items: [{ name: 'Fuzil Vigília', type: 'Arma de fogo' }],
       intention: MASKED_FORM_NOTE,
     },
     abilities: [
@@ -321,16 +327,14 @@ export const MASKED_FORMS = {
           'Se não se deslocar no turno, o próximo disparo até o fim do turno seguinte causa +3d10.',
       },
       {
-        name: 'Disparo de Contenção',
+        name: 'Tiro Perfurante',
         action: 'Padrão',
-        cost: '3 PE',
-        description:
-          'Após acertar, o alvo faz Fortitude DT 23. Se falhar, não pode realizar ação de movimento no próximo turno.',
+        limit: '1/rodada',
+        description: 'O disparo ignora 10 pontos de resistência a dano do alvo.',
       },
       {
         name: 'Linha de Execução',
         action: 'Padrão',
-        cost: '2 PE',
         description:
           'Se tiver mirado no turno anterior, o disparo causa +2d10. Contra alvo abaixo da metade dos PV, causa +2d10 adicionais.',
       },
@@ -338,7 +342,7 @@ export const MASKED_FORMS = {
     intention: {
       name: 'Ângulo Impossível',
       action: 'Padrão',
-      cost: '3 PE',
+      limit: '1/cena',
       description:
         'Escolhe um alvo visível. O próximo disparo mirado contra ele em até 2 rodadas causa +4d10 e recebe +2 na margem de ameaça. Cobertura total ainda bloqueia o tiro.',
     },
@@ -355,6 +359,7 @@ export const MASKED_FORMS = {
     ],
     sheet: {
       age: 'X',
+      archetype: 'Ocultista',
       defense: '28',
       fortitude: '2d20+10',
       reflexes: '1d20+10',
@@ -375,58 +380,59 @@ export const MASKED_FORMS = {
       ],
       actions: [
         {
-          name: 'Bastão Cartográfico',
-          range: 'Corpo a corpo',
-          test: 'Luta 1d20+10',
-          damage: '1d8+8',
-          damageType: 'Impacto',
-          critical: '20/x2',
-        },
-        {
-          name: 'Estilhaço de Eco',
+          name: 'Descarnar',
           category: 'Ritual de 2º círculo',
           action: 'Padrão',
-          cost: '3 PE',
-          range: 'Médio',
-          test: 'Reflexos DT 23',
+          range: 'Toque (1 alvo)',
+          test: 'Fortitude DT 23',
           damage: '6d8',
-          damageType: 'Energia',
-          description: 'Um alvo. Reflexos DT 23 reduz o dano à metade.',
+          damageType: 'Corte e Sangue',
+          description:
+            'Causa 6d8 de dano, metade corte e metade Sangue. Fortitude DT 23: sucesso reduz o dano à metade e evita hemorragia. Falha causa hemorragia severa (2d8 Sangue por turno) até 2 sucessos seguidos.',
+        },
+        {
+          name: 'Invadir Mente',
+          category: 'Ritual de 2º círculo — versão discente (3º círculo)',
+          action: 'Padrão',
+          range: 'Médio (1 alvo)',
+          test: 'Vontade DT 23',
+          damage: '10d6',
+          damageType: 'Mental',
+          description: 'Causa 10d6 de dano mental. Vontade DT 23 reduz à metade.',
         },
       ],
+      items: [{ name: 'Bastão', type: 'Arma corpo a corpo' }],
       intention: MASKED_FORM_NOTE,
     },
     abilities: [
       {
-        name: 'Nó de Pensamento',
-        category: 'Ritual de 2º círculo',
+        name: 'Ferver Sangue',
+        category: 'Ritual de 3º círculo',
         action: 'Padrão',
-        cost: '3 PE',
         description:
-          'Alcance médio, um alvo. Vontade DT 23 evita. Na falha, sofre -5 em ataques e fica sem reações por 2 rodadas. O alvo repete Vontade no fim de cada turno.',
+          'Alcance curto, 1 alvo. No início dos turnos do alvo, Fortitude DT 23. Falha causa 4d8 de dano de Sangue e deixa o alvo fraco. Sucesso causa metade do dano e evita a condição fraco. Termina após 2 sucessos seguidos.',
       },
       {
-        name: 'Poeira Hemática',
-        category: 'Ritual de 2º círculo',
+        name: 'Poeira da Podridão',
+        category: 'Ritual de 3º círculo',
         action: 'Padrão',
-        cost: '3 PE',
         description:
-          'Alcance curto, um alvo. Causa 4d8 Sangue. Fortitude DT 23 reduz à metade. Na falha, sofre -5 Defesa por 1 rodada.',
+          'Alcance médio, nuvem de 6 m. Causa 4d8 de dano de Morte. Fortitude DT 23 reduz à metade. Quem falhar não recupera PV por 1 rodada.',
       },
       {
-        name: 'Foco Ritual',
-        action: 'Passiva',
+        name: 'Miasma Entrópico',
+        category: 'Ritual de 2º círculo',
+        action: 'Padrão',
         description:
-          'Se não se deslocar no turno, recebe +3 na DT do próximo ritual que lançar antes do fim do turno.',
+          'Alcance médio, nuvem de 6 m. Causa 4d8 de dano químico. Fortitude DT 23 reduz à metade e evita a condição enjoado por 1 rodada.',
       },
     ],
     intention: {
-      name: 'Geometria do Pavor',
+      name: 'Abismo Mental',
       action: 'Padrão',
-      cost: '4 PE',
       limit: '1/cena',
       description:
-        'Até 3 inimigos em alcance médio fazem Vontade DT 23. Na falha, sofrem -5 Defesa e -5 nos testes de resistência contra o próximo ritual de Neófito até o fim do próximo turno.',
+        'Até 3 inimigos em alcance médio fazem Vontade DT 23. Na falha, sofrem 5d8 de dano mental e ficam abalados por 1 rodada. No sucesso, sofrem metade do dano e evitam a condição.',
     },
   },
   'artur-pires': {
@@ -441,6 +447,7 @@ export const MASKED_FORMS = {
     ],
     sheet: {
       age: 'X',
+      archetype: 'Sacrifício',
       defense: '28',
       fortitude: '3d20+10',
       reflexes: '2d20+10',
@@ -461,29 +468,34 @@ export const MASKED_FORMS = {
       ],
       actions: [
         {
-          name: 'Escopeta Remendada',
-          range: 'Curto/Médio',
+          name: 'Disparador de Pregos Modificado',
+          range: 'Médio',
           test: 'Pontaria 3d20+15',
           damage: '3d8+12',
-          damageType: 'Balístico',
-          critical: '20/x3',
+          damageType: 'Perfuração',
+          critical: '19/x2',
         },
         {
-          name: 'Facão de Oficina',
+          name: 'Faca de Cozinha',
           range: 'Corpo a corpo',
           test: 'Luta 3d20+15',
-          damage: '2d8+10',
+          damage: '2d6+10',
           damageType: 'Corte',
           critical: '19/x2',
         },
         {
-          name: 'Revólver',
+          name: 'Salva de Pregos',
+          action: 'Padrão',
           range: 'Médio',
-          test: 'Pontaria 3d20+15',
-          damage: '3d6+10',
-          damageType: 'Balístico',
-          critical: '19/x3',
+          damage: '2d6+8 (por ataque)',
+          damageType: 'Perfuração',
+          description:
+            'Faça dois ataques com o disparador. Cada ataque causa 2d6+8 perfuração. Podem atingir o mesmo alvo ou alvos diferentes.',
         },
+      ],
+      items: [
+        { name: 'Disparador de Pregos Modificado', type: 'Arma de fogo' },
+        { name: 'Faca de Cozinha', type: 'Arma corpo a corpo' },
       ],
       intention: MASKED_FORM_NOTE,
     },
@@ -506,16 +518,15 @@ export const MASKED_FORMS = {
         name: 'Arsenal no Ombro',
         action: 'Passiva',
         description:
-          'Pode trocar entre revólver e facão como ação livre. A escopeta exige munição; após cada disparo, recarregar custa ação de movimento.',
+          'Pode trocar entre o disparador de pregos e a faca de cozinha como ação livre.',
       },
     ],
     intention: {
-      name: 'Herança Final',
-      action: 'Reação',
-      cost: '3 PE',
+      name: 'Ponto de Fixação',
+      action: 'Padrão',
       limit: '1/cena',
       description:
-        'Ao chegar a 0 PV, aliados em alcance médio recuperam 3d8+8 PV e recebem +5 no próximo ataque. O último agressor em alcance curto sofre 3d10 impacto; Reflexos DT 22 reduz o dano à metade. Artur permanece morrendo.',
+        'Faça um ataque com o disparador de pregos. Se acertar, causa +4d8 perfuração. Fortitude DT 22 evita que o deslocamento do alvo seja reduzido para 3 m até o fim do próximo turno.',
     },
   },
 } as const satisfies Record<string, MaskedForm>;

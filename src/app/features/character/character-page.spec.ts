@@ -75,13 +75,12 @@ describe('CharacterPage', () => {
       ability.querySelector('.ability__meta')?.textContent?.replace(/\s+/g, ' ').trim(),
     );
 
-    expect(names).toEqual(['Base Plantada', 'Arranco', 'Ombro de Guarda']);
-    expect(metas[0]).toContain('Reação');
-    expect(metas[0]).toContain('Limite: 1/rodada');
-    expect(metas[1]).toContain('Padrão');
-    expect(metas[1]).toContain('Custo: 2 PE');
-    expect(metas[2]).toContain('Livre');
-    expect(metas[2]).toContain('Custo: 1 PE');
+    expect(names).toEqual(['Casca Bruta', 'Retaliação Furiosa', 'Fúria Crescente']);
+    expect(metas[0]).toContain('Passiva');
+    expect(metas[0]).not.toContain('Custo');
+    expect(metas[1]).toContain('Reação');
+    expect(metas[1]).toContain('Limite: 1/rodada');
+    expect(metas[2]).toContain('Passiva');
   });
 
   it('mantém as descrições originais das habilidades', () => {
@@ -92,9 +91,9 @@ describe('CharacterPage', () => {
     );
 
     expect(descriptions).toEqual([
-      'Ao sofrer dano de um ataque corpo a corpo, reduz o dano em 1d10+4. Se não se deslocou no turno anterior, reduz mais 3.',
-      'Após acertar Pancada, empurra o alvo 3 m. Se ele colidir com uma superfície, sofre +1d8 impacto. Fortitude DT 20 evita o deslocamento.',
-      'Escolhe um aliado adjacente; ele recebe +2 Defesa até o início do próximo turno de Anne. Uma vez por rodada.',
+      'Anne recebe RD 5 contra dano físico.',
+      'Ao sofrer dano corpo a corpo, reduz o dano em 1d10+4. O agressor faz Fortitude DT 20 ou é empurrado 1,5 m.',
+      'Ao perder PV, seu próximo ataque de punhos até o fim do próximo turno causa +1d8. Uma vez por rodada.',
     ]);
   });
 

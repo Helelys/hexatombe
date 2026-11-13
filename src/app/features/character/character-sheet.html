@@ -112,38 +112,6 @@
           }
         </ul>
       </section>
-
-      <section class="block special" [attr.aria-labelledby]="sectionId('special')">
-        <header class="block__head">
-          <h4 class="block__title" [attr.id]="sectionId('special')">{{ specialTitle() }}</h4>
-          <span class="block__rule" aria-hidden="true"></span>
-        </header>
-
-        @if (specialAbility(); as special) {
-          <div class="special__card">
-            <div class="special__head">
-              <h5 class="special__name">{{ special.name }}</h5>
-              @if (special.action) {
-                <span class="special__tone">
-                  <span class="special__glyph" aria-hidden="true">{{ special.glyph }}</span>
-                  {{ special.action }}
-                </span>
-              }
-            </div>
-
-            <dl class="facts">
-              @for (fact of special.facts; track fact.label) {
-                <div class="fact" [class.fact--cost]="fact.cost">
-                  <dt>{{ fact.label }}</dt>
-                  <dd>{{ fact.value }}</dd>
-                </div>
-              }
-            </dl>
-
-            <p class="special__description">{{ special.description }}</p>
-          </div>
-        }
-      </section>
     </section>
     <!-- Área 2: exclusivamente os cinco atributos. -->
     <section class="area area--attributes" [attr.aria-labelledby]="sectionId('attributes')">
@@ -162,44 +130,145 @@
       </ul>
     </section>
 
-    <!-- Área 3: itens, ataques e habilidades de combate. -->
-    <section class="area area--actions" [attr.aria-labelledby]="sectionId('actions')">
-      <h3 class="area__title" [attr.id]="sectionId('actions')">Itens e ações</h3>
+    <!--
+      Área 3: três seções independentes, sempre nesta ordem —
+      ataques, habilidades e intenção, itens.
+    -->
+    <section class="area area--actions" aria-label="Ataques, habilidades e itens">
+      <section class="section section--attacks" [attr.aria-labelledby]="sectionId('attacks')">
+        <header class="section__head">
+          <h3 class="section__title" [attr.id]="sectionId('attacks')">Ataques</h3>
+        </header>
 
-      <ol class="moves">
-        @for (entry of entries(); track entry.name) {
-          <li class="move" [attr.data-kind]="entry.kind">
-            <div class="move__top">
-              <p class="move__kind">{{ entry.kindLabel }}</p>
-              @if (entry.action) {
-                <span class="move__tone">
-                  <span class="move__glyph" aria-hidden="true">{{ entry.glyph }}</span>
-                  {{ entry.action }}
-                </span>
+        <ol class="moves">
+          @for (entry of attacks(); track entry.name) {
+            <li class="move" [attr.data-kind]="entry.kind">
+              <div class="move__top">
+                <p class="move__kind">{{ entry.kindLabel }}</p>
+                @if (entry.action) {
+                  <span class="move__tone">
+                    <span class="move__glyph" aria-hidden="true">{{ entry.glyph }}</span>
+                    {{ entry.action }}
+                  </span>
+                }
+              </div>
+
+              <h4 class="move__name">{{ entry.name }}</h4>
+
+              @if (entry.facts.length) {
+                <dl class="facts">
+                  @for (fact of entry.facts; track fact.label) {
+                    <div
+                      class="fact"
+                      [class.fact--cost]="fact.cost"
+                      [class.fact--damage]="fact.damage"
+                    >
+                      <dt>{{ fact.label }}</dt>
+                      <dd>{{ fact.value }}</dd>
+                    </div>
+                  }
+                </dl>
               }
-            </div>
 
-            <h4 class="move__name">{{ entry.name }}</h4>
+              <p class="move__description">{{ entry.description }}</p>
+            </li>
+          }
+        </ol>
+      </section>
 
-            @if (entry.facts.length) {
+      <section class="section section--abilities" [attr.aria-labelledby]="sectionId('abilities')">
+        <header class="section__head">
+          <h3 class="section__title" [attr.id]="sectionId('abilities')">Habilidades e intenção</h3>
+        </header>
+
+        <section class="block special" [attr.aria-labelledby]="sectionId('special')">
+          <header class="block__head">
+            <h4 class="block__title" [attr.id]="sectionId('special')">{{ specialTitle() }}</h4>
+            <span class="block__rule" aria-hidden="true"></span>
+          </header>
+
+          @if (specialAbility(); as special) {
+            <div class="special__card">
+              <div class="special__head">
+                <h5 class="special__name">{{ special.name }}</h5>
+                @if (special.action) {
+                  <span class="special__tone">
+                    <span class="special__glyph" aria-hidden="true">{{ special.glyph }}</span>
+                    {{ special.action }}
+                  </span>
+                }
+              </div>
+
               <dl class="facts">
-                @for (fact of entry.facts; track fact.label) {
-                  <div
-                    class="fact"
-                    [class.fact--cost]="fact.cost"
-                    [class.fact--damage]="fact.damage"
-                  >
+                @for (fact of special.facts; track fact.label) {
+                  <div class="fact" [class.fact--cost]="fact.cost">
                     <dt>{{ fact.label }}</dt>
                     <dd>{{ fact.value }}</dd>
                   </div>
                 }
               </dl>
-            }
 
-            <p class="move__description">{{ entry.description }}</p>
-          </li>
+              <p class="special__description">{{ special.description }}</p>
+            </div>
+          }
+        </section>
+
+        @if (abilityEntries().length) {
+          <ol class="moves">
+            @for (entry of abilityEntries(); track entry.name) {
+              <li class="move" [attr.data-kind]="entry.kind">
+                <div class="move__top">
+                  <p class="move__kind">{{ entry.kindLabel }}</p>
+                  @if (entry.action) {
+                    <span class="move__tone">
+                      <span class="move__glyph" aria-hidden="true">{{ entry.glyph }}</span>
+                      {{ entry.action }}
+                    </span>
+                  }
+                </div>
+
+                <h4 class="move__name">{{ entry.name }}</h4>
+
+                @if (entry.facts.length) {
+                  <dl class="facts">
+                    @for (fact of entry.facts; track fact.label) {
+                      <div
+                        class="fact"
+                        [class.fact--cost]="fact.cost"
+                        [class.fact--damage]="fact.damage"
+                      >
+                        <dt>{{ fact.label }}</dt>
+                        <dd>{{ fact.value }}</dd>
+                      </div>
+                    }
+                  </dl>
+                }
+
+                <p class="move__description">{{ entry.description }}</p>
+              </li>
+            }
+          </ol>
         }
-      </ol>
+      </section>
+
+      <section class="section section--items" [attr.aria-labelledby]="sectionId('items')">
+        <header class="section__head">
+          <h3 class="section__title" [attr.id]="sectionId('items')">Itens</h3>
+        </header>
+
+        @if (items().length) {
+          <ul class="items">
+            @for (item of items(); track item.name) {
+              <li class="item">
+                <span class="item__name">{{ item.name }}</span>
+                <span class="item__type">{{ item.type }}</span>
+              </li>
+            }
+          </ul>
+        } @else {
+          <p class="items__empty">Sem itens registrados.</p>
+        }
+      </section>
     </section>
 
     <section class="intent" [attr.aria-labelledby]="sectionId('intent')">

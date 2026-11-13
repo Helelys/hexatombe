@@ -11,6 +11,7 @@ import {
 } from './character-sheet';
 
 const ANNE = CHARACTERS[0];
+const DAVID = CHARACTERS.find((character) => character.slug === 'david-moura') as Character;
 const CECILIA = CHARACTERS.find((character) => character.slug === 'cecilia-nunes') as Character;
 const NEOFITO = CHARACTERS.find((character) => character.slug === 'neofito') as Character;
 
@@ -53,10 +54,27 @@ describe('CharacterSheetView', () => {
     const areas = Array.from(element.querySelectorAll<HTMLElement>('.area'));
 
     expect(areas).toHaveLength(3);
-    expect(areas.map((area) => area.querySelector('.area__title')?.textContent?.trim())).toEqual([
-      'Identificação e informações gerais',
-      'Atributos',
-      'Itens e ações',
+    expect(
+      areas.map(
+        (area) =>
+          area.querySelector('.area__title')?.textContent?.trim() ?? area.getAttribute('aria-label'),
+      ),
+    ).toEqual(['Identificação e informações gerais', 'Atributos', 'Ataques, habilidades e itens']);
+  });
+
+  it('separa ataques, habilidades e intenção e itens nesta ordem', () => {
+    const sections = Array.from(
+      element.querySelectorAll<HTMLElement>('.area--actions > .section'),
+    );
+
+    expect(sections).toHaveLength(3);
+    expect(
+      sections.map((section) => section.querySelector('.section__title')?.textContent?.trim()),
+    ).toEqual(['Ataques', 'Habilidades e intenção', 'Itens']);
+    expect(sections.map((section) => section.className)).toEqual([
+      'section section--attacks',
+      'section section--abilities',
+      'section section--items',
     ]);
   });
 
@@ -71,6 +89,7 @@ describe('CharacterSheetView', () => {
     expect(meta).toEqual([
       ['Tipo', 'Pessoa'],
       ['Categoria', 'Médio'],
+      ['Arquétipo', 'Berserker'],
       ['VD', '80'],
       ['Idade', 'X'],
     ]);
@@ -121,10 +140,10 @@ describe('CharacterSheetView', () => {
     expect(element.querySelectorAll('.special .skill')).toHaveLength(0);
   });
 
-  it('destaca a habilidade especial com custo e condições', () => {
+  it('destaca a habilidade especial com limite e condições', () => {
     expect(text('.special__name')).toBe('Despertar a Máscara');
     expect(text('.special__tone')).toBe('◆ Padrão');
-    expect(text('.special__description')).toBe('Não recupera PV ou PE.');
+    expect(text('.special__description')).toBe('Não recupera PV ou PE. Não exige custo de recurso.');
 
     const facts = Array.from(element.querySelectorAll<HTMLElement>('.special .fact')).map(
       (fact) => [
@@ -133,10 +152,7 @@ describe('CharacterSheetView', () => {
       ],
     );
 
-    expect(facts).toEqual([
-      ['Custo', '2 PE'],
-      ['Limite', 'Uma vez por cena'],
-    ]);
+    expect(facts).toEqual([['Limite', 'Uma vez por cena']]);
   });
 
   it('mantém exclusivamente os cinco atributos na área central', () => {
@@ -206,10 +222,10 @@ describe('CharacterSheetView', () => {
     ]);
 
     expect(entries).toEqual([
-      ['attack', 'Ataque', 'Bastão Rúnico'],
-      ['ritual', 'Ritual de 2º círculo', 'Estilhaço de Eco'],
-      ['combat', 'Habilidade de combate', 'Nó de Pensamento'],
-      ['combat', 'Habilidade de combate', 'Poeira Hemática'],
+      ['ritual', 'Ritual de 2º círculo', 'Descarnar'],
+      ['attack', 'Ataque', 'Golpe de Bastão'],
+      ['ritual', 'Ritual de 2º círculo', 'Invadir Mente'],
+      ['ritual', 'Ritual de 2º círculo', 'Miasma Entrópico'],
       ['combat', 'Habilidade de combate', 'Foco Ritual'],
     ]);
   });
@@ -234,10 +250,10 @@ describe('CharacterSheetView', () => {
     expect(names).not.toContain('Despertar a Máscara');
     expect(names).toEqual([
       'Pancada',
-      'Arremesso de Peso',
-      'Base Plantada',
-      'Arranco',
-      'Ombro de Guarda',
+      'Combo de Punhos',
+      'Casca Bruta',
+      'Retaliação Furiosa',
+      'Fúria Crescente',
     ]);
     expect(text('.special__name')).toBe('Despertar a Máscara');
   });
@@ -254,6 +270,49 @@ describe('CharacterSheetView', () => {
     expect(portrait?.tagName.toLowerCase()).toBe('app-character-portrait');
     expect(image?.getAttribute('src')).toBe(CHARACTER_PORTRAITS['anne-kent'].src);
     expect(image?.getAttribute('alt')).toBe('Retrato de Anne Kent');
+  });
+
+  it('mantém a seção Itens independente dos ataques', async () => {
+    await render(DAVID);
+
+    expect(
+      Array.from(element.querySelectorAll<HTMLElement>('.section--items .item')).map((item) => [
+        item.querySelector('.item__name')?.textContent?.trim(),
+        item.querySelector('.item__type')?.textContent?.trim(),
+      ]),
+    ).toEqual([['Facão de Corte', 'Arma corpo a corpo']]);
+    expect(element.querySelector('.section--items .move')).toBeNull();
+    expect(element.querySelector('.section--attacks .item')).toBeNull();
+    expect(
+      Array.from(element.querySelectorAll<HTMLElement>('.section--attacks .move__name')).map(
+        (node) => node.textContent?.trim(),
+      ),
+    ).toEqual(['Facão de Corte', 'Abre-Guarda']);
+  });
+
+  it('mantém a seção Itens visível quando não há equipamento', () => {
+    expect(text('.section--items .items__empty')).toBe('Sem itens registrados.');
+    expect(element.querySelector('.section--items .item')).toBeNull();
+  });
+
+  it('coloca os rituais ofensivos em Ataques e as passivas em Habilidades', async () => {
+    await render(NEOFITO);
+
+    const names = (selector: string) =>
+      Array.from(element.querySelectorAll<HTMLElement>(selector)).map((node) =>
+        node.querySelector('.move__name')?.textContent?.trim(),
+      );
+
+    expect(names('.section--attacks .move')).toEqual([
+      'Descarnar',
+      'Golpe de Bastão',
+      'Invadir Mente',
+      'Miasma Entrópico',
+    ]);
+    expect(names('.section--abilities .move')).toEqual(['Foco Ritual']);
+    expect(text('.section--attacks .move[data-kind="ritual"] .move__kind')).toBe(
+      'Ritual de 2º círculo',
+    );
   });
 
   it('não renderiza conteúdo sem ficha cadastrada', async () => {
@@ -346,6 +405,7 @@ describe('CharacterSheetView — forma mascarada', () => {
     expect(meta).toEqual([
       ['Tipo', 'Pessoa'],
       ['Categoria', 'Médio'],
+      ['Arquétipo', 'Berserker'],
       ['VD', '140'],
       ['Idade', 'X'],
       ['Máscara', 'O Lastro'],
@@ -402,7 +462,7 @@ describe('CharacterSheetView — forma mascarada', () => {
 
     expect(text('.block.special .block__title')).toBe('Poder de intenção');
     expect(text('.special__name')).toBe('Fúria Inabalável');
-    expect(text('.special__description')).toContain('1d10+5');
+    expect(text('.special__description')).toContain('RD 15');
   });
 
   it('lista ataques e habilidades da máscara, sem repetir a ficha comum', async () => {
@@ -414,11 +474,11 @@ describe('CharacterSheetView — forma mascarada', () => {
     ]);
 
     expect(entries).toEqual([
-      ['attack', 'Punhos de Lastro'],
-      ['attack', 'Queda de Muralha'],
-      ['combat', 'Pilar de Aço'],
-      ['combat', 'Parede Viva'],
-      ['combat', 'Pressão de Cerco'],
+      ['attack', 'Punhos de Fúria'],
+      ['combat', 'Sequência Demolidora'],
+      ['combat', 'RD de Monstro'],
+      ['combat', 'Fúria Retaliatória'],
+      ['combat', 'Carga Imparável'],
     ]);
     expect(text('.move__kind')).toBe('Ataque');
   });
@@ -426,12 +486,16 @@ describe('CharacterSheetView — forma mascarada', () => {
   it('classifica os rituais da máscara pelo círculo', async () => {
     await render(NEOFITO);
 
-    expect(element.querySelectorAll('.move[data-kind="ritual"]')).toHaveLength(3);
-    expect(
-      Array.from(element.querySelectorAll<HTMLElement>('.move[data-kind="ritual"]')).map((move) =>
-        move.querySelector('.move__kind')?.textContent?.trim(),
-      ),
-    ).toEqual(['Ritual de 2º círculo', 'Ritual de 2º círculo', 'Ritual de 2º círculo']);
+    const rituals = Array.from(element.querySelectorAll<HTMLElement>('.move[data-kind="ritual"]'));
+
+    expect(rituals).toHaveLength(5);
+    expect(rituals.map((move) => move.querySelector('.move__kind')?.textContent?.trim())).toEqual([
+      'Ritual de 2º círculo',
+      'Ritual de 2º círculo — versão discente (3º círculo)',
+      'Ritual de 3º círculo',
+      'Ritual de 3º círculo',
+      'Ritual de 2º círculo',
+    ]);
   });
 
   it('traz a nota da transformação ao pé da ficha', async () => {
@@ -439,6 +503,25 @@ describe('CharacterSheetView — forma mascarada', () => {
 
     expect(text('.intent__label')).toBe('Transformação');
     expect(text('.intent__text')).toBe(MASKED_FORM_NOTE);
+  });
+
+  it('mostra o equipamento da máscara na seção Itens', async () => {
+    await render(DAVID);
+
+    expect(
+      Array.from(element.querySelectorAll<HTMLElement>('.section--items .item')).map((item) => [
+        item.querySelector('.item__name')?.textContent?.trim(),
+        item.querySelector('.item__type')?.textContent?.trim(),
+      ]),
+    ).toEqual([['Facão Gume', 'Arma corpo a corpo']]);
+    expect(text('.section--items .section__title')).toBe('Itens');
+  });
+
+  it('mantém o poder de intenção dentro da seção de habilidades', async () => {
+    await render(ANNE);
+
+    expect(text('.section--abilities .special__name')).toBe('Fúria Inabalável');
+    expect(element.querySelector('.section--attacks .special__name')).toBeNull();
   });
 
   it('marca a ficha como mascarada para o tema visual', async () => {

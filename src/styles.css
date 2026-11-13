@@ -3,6 +3,9 @@
 /* Tema da forma mascarada: completa as folhas de estilo dos componentes. */
 @import './app/features/character/mask-theme.css';
 
+/* Seções de ataques, habilidades/intenção e itens da ficha. */
+@import './app/features/character/character-sheet-sections.css';
+
 :root {
   color-scheme: dark;
 
