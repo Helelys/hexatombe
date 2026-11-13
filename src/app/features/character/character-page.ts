@@ -20,4 +20,8 @@ export class CharacterPage {
 
   protected readonly initial = computed(() => this.character().name.charAt(0));
   protected readonly dossier = computed(() => this.character().dossier ?? null);
+  protected readonly sheet = computed(() => this.character().sheet ?? null);
+
+  /** Rota própria da ficha completa deste personagem. */
+  protected readonly sheetLink = computed(() => ['/destino', this.character().slug, 'ficha']);
 }

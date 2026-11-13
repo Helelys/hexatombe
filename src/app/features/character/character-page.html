@@ -5,7 +5,7 @@
 >
   <app-atmosphere variant="character" [tone]="character().theme.accent" />
 
-  <a class="return" routerLink="/" aria-label="Retornar ao portal">
+  <a class="return" routerLink="/galeria" aria-label="Retornar à galeria">
     <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
       <path d="M15 4 7 12l8 8" />
     </svg>
@@ -17,6 +17,19 @@
       [mood]="character().theme.mood"
       [dossier]="dossier"
     />
+
+    @if (sheet()) {
+      <section class="sheet-call" aria-labelledby="sheet-call-label">
+        <p id="sheet-call-label" class="sheet-call__note">Documento selado</p>
+
+        <a class="sheet-call__button" [routerLink]="sheetLink()">
+          <span class="sheet-call__seal" aria-hidden="true"></span>
+          Ver ficha completa
+        </a>
+
+        <p class="sheet-call__hint">Requer a senha deste destino.</p>
+      </section>
+    }
   } @else {
     <section class="identity" aria-labelledby="character-name">
       <span class="identity__thread" aria-hidden="true"></span>

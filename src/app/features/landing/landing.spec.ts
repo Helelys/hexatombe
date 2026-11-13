@@ -1,9 +1,12 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { provideRouter } from '@angular/router';
+import { Router, provideRouter } from '@angular/router';
+import { RouterTestingHarness } from '@angular/router/testing';
 import { Landing } from './landing';
 
 describe('Landing', () => {
   let fixture: ComponentFixture<Landing>;
+  let element: HTMLElement;
+  let navigate: ReturnType<typeof vi.spyOn>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
@@ -11,8 +14,11 @@ describe('Landing', () => {
       providers: [provideRouter([])],
     }).compileComponents();
 
+    navigate = vi.spyOn(TestBed.inject(Router), 'navigate').mockResolvedValue(true);
+
     fixture = TestBed.createComponent(Landing);
     fixture.detectChanges();
+    element = fixture.nativeElement as HTMLElement;
   });
 
   afterEach(() => {
@@ -20,7 +26,6 @@ describe('Landing', () => {
   });
 
   it('mostra apenas o convite para escolher o destino', () => {
-    const element = fixture.nativeElement as HTMLElement;
     const buttons = element.querySelectorAll('button');
 
     expect(buttons).toHaveLength(1);
@@ -29,10 +34,43 @@ describe('Landing', () => {
     expect(element.querySelector('app-auth-modal')).toBeNull();
   });
 
-  it('abre o modal de autenticação ao escolher o destino', () => {
-    (fixture.nativeElement.querySelector('button') as HTMLButtonElement).click();
+  it('leva à galeria de personagens ao escolher o destino', () => {
+    (element.querySelector('button') as HTMLButtonElement).click();
     fixture.detectChanges();
 
-    expect(fixture.nativeElement.querySelector('app-auth-modal')).toBeTruthy();
+    expect(navigate).toHaveBeenCalledWith(['/galeria']);
+    expect(element.querySelector('app-auth-modal')).toBeNull();
+  });
+});
+
+describe('Landing com o modal de autenticação preservado', () => {
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
+      providers: [provideRouter([{ path: '', component: Landing }])],
+    }).compileComponents();
+  });
+
+  it('abre o modal pelo parâmetro de acesso', async () => {
+    const harness = await RouterTestingHarness.create('/?acesso=senha');
+
+    expect(harness.routeNativeElement?.querySelector('app-auth-modal')).toBeTruthy();
+  });
+
+  it('mantém a navegação para a ficha após validar a senha', async () => {
+    const navigate = vi
+      .spyOn(TestBed.inject(Router), 'navigate')
+      .mockResolvedValue(true);
+    const harness = await RouterTestingHarness.create('/?acesso=senha');
+    const input = harness.routeNativeElement?.querySelector(
+      '#auth-password',
+    ) as HTMLInputElement;
+    const form = harness.routeNativeElement?.querySelector('form') as HTMLFormElement;
+
+    input.value = 'descontrole';
+    input.dispatchEvent(new Event('input'));
+    form.dispatchEvent(new Event('submit'));
+    await harness.fixture.whenStable();
+
+    expect(navigate).toHaveBeenCalledWith(['/destino', 'anne-kent']);
   });
 });

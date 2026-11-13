@@ -26,11 +26,9 @@
 
   <div class="dossier__side">
     @if (portrait(); as portrait) {
-      <figure class="dossier__portrait">
-        <img [src]="portrait.src" [alt]="portrait.alt" />
-      </figure>
+      <app-character-portrait class="dossier__portrait" [portrait]="portrait" />
     }
 
-    <app-character-abilities [abilities]="dossier().abilities" />
+    <app-character-abilities class="dossier__abilities" [abilities]="dossier().abilities" />
   </div>
 </article>

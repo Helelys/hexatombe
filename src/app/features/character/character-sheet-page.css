@@ -1,0 +1,371 @@
+:host {
+  display: block;
+  min-height: 100dvh;
+  --character-accent: var(--blood);
+  --character-glow: rgba(139, 0, 0, 0.35);
+  /* Espaço fora da ficha: a barra em cima e o mesmo respiro embaixo, para que
+     o centro da ficha coincida com o centro vertical da tela. A faixa da
+     máscara entra nos dois lados, então não desloca esse centro. */
+  --sheet-bar: clamp(3.1rem, 6.5vh, 3.9rem);
+  /* Vermelho da transformação, derivado da cor do destino. */
+  --mask-tone: color-mix(in srgb, var(--character-accent) 58%, #d81722);
+}
+
+/* Página inteira da ficha, sem modal nem sobreposição. -------------------- */
+
+.sheet-page {
+  --mask-banner: 0rem;
+  --sheet-top: calc(var(--sheet-bar) + var(--mask-banner));
+  --sheet-chrome: calc(var(--sheet-top) * 2);
+
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  min-height: 100dvh;
+  isolation: isolate;
+  background:
+    radial-gradient(
+      ellipse 55% 45% at 50% 54%,
+      color-mix(in srgb, var(--character-accent) 10%, transparent),
+      transparent 72%
+    ),
+    var(--ink);
+  animation: page-enter 900ms var(--ease-veil) both;
+}
+
+.sheet-page__bar {
+  position: relative;
+  z-index: 2;
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  min-height: var(--sheet-bar);
+  padding: 0.5rem clamp(0.9rem, 3vw, 2rem);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.055);
+  background: linear-gradient(180deg, rgba(9, 7, 7, 0.96), rgba(9, 7, 7, 0.6));
+}
+
+.sheet-page__back {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.42rem 0.85rem 0.42rem 0.62rem;
+  border: 1px solid color-mix(in srgb, var(--character-accent) 30%, transparent);
+  background: rgba(8, 6, 6, 0.72);
+  color: var(--ash-dim);
+  font-family: var(--font-ui);
+  font-size: 0.56rem;
+  font-weight: 500;
+  letter-spacing: 0.26em;
+  text-transform: uppercase;
+  transition:
+    color 450ms var(--ease-veil),
+    border-color 450ms var(--ease-veil),
+    box-shadow 500ms var(--ease-veil);
+}
+
+.sheet-page__back svg {
+  width: 13px;
+  height: 13px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.4;
+  stroke-linecap: round;
+  transition: translate 450ms var(--ease-veil);
+}
+
+.sheet-page__back:hover,
+.sheet-page__back:focus-visible {
+  border-color: color-mix(in srgb, var(--character-accent) 75%, transparent);
+  color: #e8dcda;
+  box-shadow: 0 0 22px color-mix(in srgb, var(--character-accent) 18%, transparent);
+}
+
+.sheet-page__back:hover svg,
+.sheet-page__back:focus-visible svg {
+  translate: -2px 0;
+}
+
+.sheet-page__eyebrow {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.4rem 0.9rem;
+  margin: 0;
+  font-family: var(--font-ui);
+  font-size: 0.56rem;
+  font-weight: 500;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--ash-dim);
+}
+
+.sheet-page__eyebrow > span:first-child {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.sheet-page__eyebrow > span:first-child::before {
+  content: '';
+  width: 1.6rem;
+  height: 1px;
+  background: color-mix(in srgb, var(--character-accent) 65%, transparent);
+}
+
+.sheet-page__grade {
+  padding: 0.15rem 0.45rem;
+  border: 1px solid color-mix(in srgb, var(--character-accent) 32%, transparent);
+  color: color-mix(in srgb, var(--character-accent) 52%, var(--ash-dim));
+  letter-spacing: 0.22em;
+}
+
+.sheet-page__body {
+  position: relative;
+  z-index: 2;
+  padding-bottom: var(--sheet-top);
+}
+
+.sheet-page__body:focus {
+  outline: none;
+}
+
+.sheet-page__body:focus-visible {
+  outline: 1px solid color-mix(in srgb, var(--character-accent) 55%, transparent);
+  outline-offset: -3px;
+}
+
+app-character-sheet {
+  display: block;
+}
+
+/* Senha ------------------------------------------------------------------ */
+
+.lock {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: min(100%, 30rem);
+  min-height: calc(100dvh - var(--sheet-chrome));
+  margin: 0 auto;
+  padding: clamp(1.8rem, 5vw, 3.2rem) clamp(1.2rem, 4vw, 2.2rem) clamp(1.4rem, 4vw, 2.2rem);
+  text-align: center;
+}
+
+.lock__seal {
+  position: relative;
+  display: block;
+  width: 1px;
+  height: 46px;
+  margin-bottom: 1.4rem;
+  background: linear-gradient(
+    180deg,
+    transparent,
+    color-mix(in srgb, var(--character-accent) 80%, transparent),
+    transparent
+  );
+}
+
+.lock__seal::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  bottom: 6px;
+  width: 5px;
+  height: 5px;
+  background: var(--character-accent);
+  box-shadow: 0 0 12px color-mix(in srgb, var(--character-accent) 80%, transparent);
+  translate: -50% 0;
+  rotate: 45deg;
+}
+
+.lock__title {
+  margin: 0 0 0.75rem;
+  font-family: var(--font-display);
+  font-size: clamp(1.35rem, 4vw, 1.7rem);
+  font-weight: 400;
+  letter-spacing: 0.05em;
+  color: #e7dcda;
+}
+
+.lock__description {
+  max-width: 32ch;
+  margin: 0 auto;
+  font-family: var(--font-ui);
+  font-size: 0.82rem;
+  line-height: 1.75;
+  color: #8b8181;
+}
+
+.lock__field {
+  width: 100%;
+  margin-top: 1.6rem;
+}
+
+.lock__input {
+  width: 100%;
+  padding: 0.78rem 0.95rem;
+  border: 1px solid rgba(139, 0, 0, 0.35);
+  border-radius: 0;
+  background: rgba(8, 5, 5, 0.85);
+  color: #e2d6d4;
+  font-family: var(--font-ui);
+  font-size: 0.88rem;
+  letter-spacing: 0.08em;
+  transition:
+    border-color 450ms var(--ease-veil),
+    box-shadow 450ms var(--ease-veil);
+}
+
+.lock__input::placeholder {
+  color: #5c5353;
+  letter-spacing: 0.08em;
+}
+
+.lock__input:hover {
+  border-color: color-mix(in srgb, var(--character-accent) 45%, transparent);
+}
+
+.lock__input:focus {
+  border-color: color-mix(in srgb, var(--character-accent) 70%, transparent);
+  background: rgba(10, 2, 2, 0.7);
+  outline: none;
+  box-shadow:
+    0 0 0 1px color-mix(in srgb, var(--character-accent) 18%, transparent),
+    0 0 26px color-mix(in srgb, var(--character-accent) 16%, transparent);
+}
+
+.lock__field--error .lock__input {
+  border-color: color-mix(in srgb, var(--character-accent) 85%, transparent);
+  box-shadow:
+    0 0 0 1px color-mix(in srgb, var(--character-accent) 20%, transparent),
+    0 0 26px color-mix(in srgb, var(--character-accent) 18%, transparent);
+}
+
+.lock__field--shaking {
+  animation: lock-shudder 480ms cubic-bezier(0.36, 0.07, 0.19, 0.97) both;
+}
+
+.lock__submit {
+  width: 100%;
+  margin-top: 0.85rem;
+  padding: 0.8rem 1rem;
+  border: 1px solid color-mix(in srgb, var(--character-accent) 45%, transparent);
+  background: linear-gradient(180deg, rgba(30, 6, 6, 0.9), rgba(12, 3, 3, 0.9));
+  color: #cdbfbd;
+  font-family: var(--font-display);
+  font-size: 0.78rem;
+  text-transform: uppercase;
+  letter-spacing: 0.28em;
+  text-indent: 0.28em;
+  transition:
+    color 500ms var(--ease-veil),
+    border-color 500ms var(--ease-veil),
+    background 500ms var(--ease-veil),
+    box-shadow 600ms var(--ease-veil);
+}
+
+.lock__submit:hover,
+.lock__submit:focus-visible {
+  border-color: color-mix(in srgb, var(--character-accent) 85%, transparent);
+  background: linear-gradient(180deg, #7d0909, #3b0000);
+  color: #fff2ef;
+  box-shadow:
+    0 0 26px color-mix(in srgb, var(--character-accent) 30%, transparent),
+    inset 0 0 18px rgba(0, 0, 0, 0.5);
+}
+
+.lock__submit:active {
+  transform: translateY(1px);
+}
+
+.lock__feedback {
+  min-height: 1.3rem;
+  margin: 0.85rem 0 0;
+  font-family: var(--font-ui);
+  font-size: 0.78rem;
+  letter-spacing: 0.04em;
+  color: #b56a6a;
+}
+
+.lock__feedback-text {
+  display: inline-block;
+  animation: lock-feedback-in 460ms ease both;
+}
+
+/* Movimento -------------------------------------------------------------- */
+
+@keyframes page-enter {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes lock-shudder {
+  10%,
+  90% {
+    transform: translateX(-1px);
+  }
+
+  20%,
+  80% {
+    transform: translateX(2px);
+  }
+
+  30%,
+  50%,
+  70% {
+    transform: translateX(-2px);
+  }
+
+  40%,
+  60% {
+    transform: translateX(2px);
+  }
+}
+
+@keyframes lock-feedback-in {
+  from {
+    opacity: 0;
+    translate: 0 -3px;
+  }
+
+  to {
+    opacity: 1;
+    translate: 0 0;
+  }
+}
+
+@media (max-width: 640px) {
+  :host {
+    --sheet-bar: 3rem;
+  }
+
+  .sheet-page__body {
+    padding-bottom: 1.1rem;
+  }
+
+  /* Empilhada, a ficha precisa de espaço próprio para o selo flutuante. */
+  .sheet-page--cta .sheet-page__body {
+    padding-bottom: 3.5rem;
+  }
+
+  .sheet-page__eyebrow > span:first-child::before {
+    width: 1rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sheet-page,
+  .lock__field--shaking,
+  .lock__feedback-text {
+    animation: none !important;
+  }
+}

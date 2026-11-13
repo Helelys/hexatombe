@@ -97,11 +97,13 @@ describe('CharacterPage', () => {
     ]);
   });
 
-  it('não exibe ilustração enquanto a personagem não possui arte', () => {
+  it('apresenta o retrato provisório do personagem', () => {
     render(CHARACTERS[0]);
 
-    expect(element.querySelector('.dossier__portrait')).toBeNull();
-    expect(element.querySelector('.dossier img')).toBeNull();
+    const image = element.querySelector<HTMLImageElement>('.dossier__portrait img');
+
+    expect(image?.getAttribute('src')).toBe('/portraits/placeholder.jpg');
+    expect(image?.getAttribute('alt')).toBe('Retrato de Anne Kent');
   });
 
   it('mantém a página essencial para personagens sem ficha', () => {
@@ -119,6 +121,11 @@ describe('CharacterPage', () => {
       expect(element.querySelector('.oath__text')?.textContent).toContain(character.dossier?.quote);
       expect(element.querySelectorAll('.attribute')).toHaveLength(5);
       expect(element.querySelectorAll('.ability')).toHaveLength(3);
+
+      const portrait = element.querySelector<HTMLImageElement>('.dossier__portrait img');
+
+      expect(portrait?.getAttribute('src')).toBe(character.dossier?.portrait?.src);
+      expect(portrait?.getAttribute('alt')).toBe(character.dossier?.portrait?.alt);
 
       const emblem = element.querySelector('app-character-emblem');
 
@@ -138,12 +145,42 @@ describe('CharacterPage', () => {
     expect(page.classList).toContain('destiny-page--dossier');
   });
 
-  it('permite retornar ao portal', () => {
+  it('permite retornar à galeria de personagens', () => {
     render(CHARACTERS[0]);
 
     const link = element.querySelector('a.return') as HTMLAnchorElement;
 
-    expect(link.getAttribute('href')).toBe('/');
-    expect(link.getAttribute('aria-label')).toBe('Retornar ao portal');
+    expect(link.getAttribute('href')).toBe('/galeria');
+    expect(link.getAttribute('aria-label')).toBe('Retornar à galeria');
+  });
+
+  it('oferece a ficha completa em todos os destinos', () => {
+    for (const character of CHARACTERS) {
+      render(character);
+
+      const link = element.querySelector('.sheet-call__button') as HTMLAnchorElement;
+
+      expect(link.textContent?.trim()).toBe('Ver ficha completa');
+      expect(link.getAttribute('href')).toBe(`/destino/${character.slug}/ficha`);
+      expect(element.querySelector('.sheet-call__hint')?.textContent?.trim()).toBe(
+        'Requer a senha deste destino.',
+      );
+    }
+  });
+
+  it('não anuncia ficha completa para personagens sem ficha', () => {
+    render({ ...CHARACTERS[0], sheet: undefined });
+
+    expect(element.querySelector('.sheet-call')).toBeNull();
+  });
+
+  it('leva a ficha completa para uma página própria, sem diálogo', () => {
+    render(CHARACTERS[0]);
+
+    const link = element.querySelector('.sheet-call__button') as HTMLAnchorElement;
+
+    expect(link.getAttribute('href')).toBe('/destino/anne-kent/ficha');
+    expect(element.querySelector('[role="dialog"]')).toBeNull();
+    expect(element.querySelector('app-character-sheet')).toBeNull();
   });
 });

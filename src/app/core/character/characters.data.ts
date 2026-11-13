@@ -1,4 +1,7 @@
 import { Character } from './character.model';
+import { CHARACTER_PORTRAITS } from './character-portraits';
+import { CHARACTER_SHEETS } from './character-sheets';
+import { MASKED_FORMS } from './masked-forms';
 
 /**
  * Registro central dos destinos do portal.
@@ -14,9 +17,12 @@ export const CHARACTERS: readonly Character[] = [
       glow: 'rgba(179, 18, 27, 0.4)',
       mood: 'tremor',
     },
+    sheet: CHARACTER_SHEETS['anne-kent'],
+    maskedForm: MASKED_FORMS['anne-kent'],
     dossier: {
       quote: 'Se alguém precisa ficar de pé, serei eu.',
       emblem: 'bulwark',
+      portrait: CHARACTER_PORTRAITS['anne-kent'],
       attributes: [
         { key: 'AGI', value: 1 },
         { key: 'FOR', value: 4 },
@@ -58,9 +64,12 @@ export const CHARACTERS: readonly Character[] = [
       glow: 'rgba(168, 16, 26, 0.4)',
       mood: 'frenzy',
     },
+    sheet: CHARACTER_SHEETS['david-moura'],
+    maskedForm: MASKED_FORMS['david-moura'],
     dossier: {
       quote: 'Correr só decide onde o impacto acontece.',
       emblem: 'ram',
+      portrait: CHARACTER_PORTRAITS['david-moura'],
       attributes: [
         { key: 'AGI', value: 2 },
         { key: 'FOR', value: 4 },
@@ -101,9 +110,12 @@ export const CHARACTERS: readonly Character[] = [
       glow: 'rgba(143, 21, 34, 0.34)',
       mood: 'edge',
     },
+    sheet: CHARACTER_SHEETS['lia-kwon'],
+    maskedForm: MASKED_FORMS['lia-kwon'],
     dossier: {
       quote: 'O silêncio corta mais fundo.',
       emblem: 'edge',
+      portrait: CHARACTER_PORTRAITS['lia-kwon'],
       attributes: [
         { key: 'AGI', value: 4 },
         { key: 'FOR', value: 3 },
@@ -144,9 +156,12 @@ export const CHARACTERS: readonly Character[] = [
       glow: 'rgba(178, 53, 64, 0.3)',
       mood: 'void',
     },
+    sheet: CHARACTER_SHEETS['cecilia-nunes'],
+    maskedForm: MASKED_FORMS['cecilia-nunes'],
     dossier: {
       quote: 'A distância é minha. O erro é seu.',
       emblem: 'sight',
+      portrait: CHARACTER_PORTRAITS['cecilia-nunes'],
       attributes: [
         { key: 'AGI', value: 3 },
         { key: 'FOR', value: 1 },
@@ -185,9 +200,12 @@ export const CHARACTERS: readonly Character[] = [
       glow: 'rgba(127, 43, 33, 0.34)',
       mood: 'relic',
     },
+    sheet: CHARACTER_SHEETS['neofito'],
+    maskedForm: MASKED_FORMS.neofito,
     dossier: {
       quote: 'O sangue lembra o que os livros esquecem.',
       emblem: 'ritual',
+      portrait: CHARACTER_PORTRAITS['neofito'],
       attributes: [
         { key: 'AGI', value: 1 },
         { key: 'FOR', value: 1 },
@@ -228,9 +246,12 @@ export const CHARACTERS: readonly Character[] = [
       glow: 'rgba(151, 57, 44, 0.32)',
       mood: 'cold',
     },
+    sheet: CHARACTER_SHEETS['artur-pires'],
+    maskedForm: MASKED_FORMS['artur-pires'],
     dossier: {
       quote: 'O que sobra ainda pode salvar alguém.',
       emblem: 'scrap',
+      portrait: CHARACTER_PORTRAITS['artur-pires'],
       attributes: [
         { key: 'AGI', value: 2 },
         { key: 'FOR', value: 2 },

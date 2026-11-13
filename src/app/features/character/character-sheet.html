@@ -1,0 +1,210 @@
+@if (data(); as data) {
+  <article class="sheet" [attr.aria-labelledby]="sectionId('name')">
+    <!-- Área 1: identificação e informações gerais. -->
+    <section class="area area--identity" [attr.aria-labelledby]="sectionId('identity')">
+      <h3 class="area__title" [attr.id]="sectionId('identity')">
+        Identificação e informações gerais
+      </h3>
+
+      <header class="identity">
+        @if (portrait(); as portrait) {
+          <app-character-portrait class="identity__portrait" [portrait]="portrait" />
+        }
+
+        <p class="identity__name" [attr.id]="sectionId('name')">{{ character().name }}</p>
+      </header>
+
+      <dl class="meta">
+        @for (meta of identityMeta(); track meta.key) {
+          <div class="meta__item" [attr.data-key]="meta.key">
+            <dt class="meta__label">{{ meta.label }}</dt>
+            <dd class="meta__value">{{ meta.value }}</dd>
+          </div>
+        }
+      </dl>
+
+      <section class="block senses" [attr.aria-labelledby]="sectionId('senses')">
+        <header class="block__head">
+          <h4 class="block__title" [attr.id]="sectionId('senses')">Sentidos</h4>
+          <span class="block__rule" aria-hidden="true"></span>
+        </header>
+
+        <dl class="cells cells--two">
+          @for (sense of senses(); track sense.key) {
+            <div class="cell" [attr.data-key]="sense.key">
+              <dt class="cell__label">{{ sense.label }}</dt>
+              <dd class="cell__value">{{ sense.value }}</dd>
+            </div>
+          }
+        </dl>
+      </section>
+
+      <section class="block defense" [attr.aria-labelledby]="sectionId('defense')">
+        <header class="block__head">
+          <h4 class="block__title" [attr.id]="sectionId('defense')">Defesa</h4>
+          <span class="block__rule" aria-hidden="true"></span>
+        </header>
+
+        <p class="defense__value">{{ defense() }}</p>
+      </section>
+
+      <section class="block resistances" [attr.aria-labelledby]="sectionId('resistances')">
+        <header class="block__head">
+          <h4 class="block__title" [attr.id]="sectionId('resistances')">Resistências</h4>
+          <span class="block__rule" aria-hidden="true"></span>
+        </header>
+
+        <dl class="cells cells--three">
+          @for (resistance of resistances(); track resistance.key) {
+            <div class="cell" [attr.data-key]="resistance.key">
+              <dt class="cell__label">{{ resistance.label }}</dt>
+              <dd class="cell__value">{{ resistance.value }}</dd>
+            </div>
+          }
+        </dl>
+      </section>
+
+      <section class="block vitality" [attr.aria-labelledby]="sectionId('vitality')">
+        <header class="block__head">
+          <h4 class="block__title" [attr.id]="sectionId('vitality')">Vitalidade</h4>
+          <span class="block__rule" aria-hidden="true"></span>
+        </header>
+
+        <dl class="cells cells--two cells--vital">
+          @for (vital of vitality(); track vital.key) {
+            <div class="cell" [attr.data-key]="vital.key">
+              <dt class="cell__label">{{ vital.label }}</dt>
+              <dd class="cell__value">{{ vital.value }}</dd>
+            </div>
+          }
+        </dl>
+
+        <p class="vitality__effort">
+          <span class="vitality__effort-label">PE máximo</span>
+          <span class="vitality__effort-value">{{ effortPoints() }}</span>
+        </p>
+      </section>
+
+      <section class="block speed" [attr.aria-labelledby]="sectionId('speed')">
+        <header class="block__head">
+          <h4 class="block__title" [attr.id]="sectionId('speed')">Deslocamento</h4>
+          <span class="block__rule" aria-hidden="true"></span>
+        </header>
+
+        <p class="speed__value">{{ speed() }}</p>
+      </section>
+
+      <section class="block skills" [attr.aria-labelledby]="sectionId('skills')">
+        <header class="block__head">
+          <h4 class="block__title" [attr.id]="sectionId('skills')">Perícias</h4>
+          <span class="block__rule" aria-hidden="true"></span>
+        </header>
+
+        <ul class="skills__list">
+          @for (skill of skills(); track skill.name) {
+            <li class="skill">
+              <span class="skill__name">{{ skill.name }}</span>
+              <span class="skill__roll">
+                <span class="skill__dice">{{ skill.dice }}</span>
+                <span class="skill__modifier">{{ skill.modifier }}</span>
+              </span>
+            </li>
+          }
+        </ul>
+      </section>
+
+      <section class="block special" [attr.aria-labelledby]="sectionId('special')">
+        <header class="block__head">
+          <h4 class="block__title" [attr.id]="sectionId('special')">{{ specialTitle() }}</h4>
+          <span class="block__rule" aria-hidden="true"></span>
+        </header>
+
+        @if (specialAbility(); as special) {
+          <div class="special__card">
+            <div class="special__head">
+              <h5 class="special__name">{{ special.name }}</h5>
+              @if (special.action) {
+                <span class="special__tone">
+                  <span class="special__glyph" aria-hidden="true">{{ special.glyph }}</span>
+                  {{ special.action }}
+                </span>
+              }
+            </div>
+
+            <dl class="facts">
+              @for (fact of special.facts; track fact.label) {
+                <div class="fact" [class.fact--cost]="fact.cost">
+                  <dt>{{ fact.label }}</dt>
+                  <dd>{{ fact.value }}</dd>
+                </div>
+              }
+            </dl>
+
+            <p class="special__description">{{ special.description }}</p>
+          </div>
+        }
+      </section>
+    </section>
+    <!-- Área 2: exclusivamente os cinco atributos. -->
+    <section class="area area--attributes" [attr.aria-labelledby]="sectionId('attributes')">
+      <h3 class="area__title" [attr.id]="sectionId('attributes')">Atributos</h3>
+
+      <ul class="attributes">
+        @for (attribute of attributes(); track attribute.key) {
+          <li class="attribute" [attr.data-key]="attribute.key">
+            <span class="attribute__value">{{ attribute.value }}</span>
+            <span class="attribute__body">
+              <span class="attribute__key">{{ attribute.key }}</span>
+              <span class="attribute__label">{{ attribute.label }}</span>
+            </span>
+          </li>
+        }
+      </ul>
+    </section>
+
+    <!-- Área 3: itens, ataques e habilidades de combate. -->
+    <section class="area area--actions" [attr.aria-labelledby]="sectionId('actions')">
+      <h3 class="area__title" [attr.id]="sectionId('actions')">Itens e ações</h3>
+
+      <ol class="moves">
+        @for (entry of entries(); track entry.name) {
+          <li class="move" [attr.data-kind]="entry.kind">
+            <div class="move__top">
+              <p class="move__kind">{{ entry.kindLabel }}</p>
+              @if (entry.action) {
+                <span class="move__tone">
+                  <span class="move__glyph" aria-hidden="true">{{ entry.glyph }}</span>
+                  {{ entry.action }}
+                </span>
+              }
+            </div>
+
+            <h4 class="move__name">{{ entry.name }}</h4>
+
+            @if (entry.facts.length) {
+              <dl class="facts">
+                @for (fact of entry.facts; track fact.label) {
+                  <div
+                    class="fact"
+                    [class.fact--cost]="fact.cost"
+                    [class.fact--damage]="fact.damage"
+                  >
+                    <dt>{{ fact.label }}</dt>
+                    <dd>{{ fact.value }}</dd>
+                  </div>
+                }
+              </dl>
+            }
+
+            <p class="move__description">{{ entry.description }}</p>
+          </li>
+        }
+      </ol>
+    </section>
+
+    <section class="intent" [attr.aria-labelledby]="sectionId('intent')">
+      <h3 class="intent__label" [attr.id]="sectionId('intent')">{{ intentLabel() }}</h3>
+      <p class="intent__text">{{ data.intention }}</p>
+    </section>
+  </article>
+}

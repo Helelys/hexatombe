@@ -1,3 +1,4 @@
+import { CHARACTER_PORTRAITS, PORTRAIT_PLACEHOLDER_SRC } from './character-portraits';
 import { CHARACTERS } from './characters.data';
 
 describe('CHARACTERS', () => {
@@ -62,9 +63,11 @@ describe('CHARACTERS', () => {
     expect(anne?.dossier?.emblem).toBe('bulwark');
   });
 
-  it('ainda não possui ilustração', () => {
+  it('usa o retrato provisório centralizado', () => {
     expect(anne?.dossier).toBeDefined();
-    expect(anne?.dossier?.portrait).toBeUndefined();
+    expect(anne?.dossier?.portrait).toEqual(CHARACTER_PORTRAITS['anne-kent']);
+    expect(anne?.dossier?.portrait?.src).toBe(PORTRAIT_PLACEHOLDER_SRC);
+    expect(anne?.dossier?.portrait?.alt).toBe('Retrato de Anne Kent');
   });
 });
 
@@ -192,7 +195,7 @@ const CECILIA_NEOFITO_E_ARTUR = [
       { key: 'AGI', value: 1 },
       { key: 'FOR', value: 1 },
       { key: 'INT', value: 4 },
-      { key: 'PRE', value: 3 },
+      { key: 'PRE', value: 4 },
       { key: 'VIG', value: 2 },
     ],
     abilities: [
@@ -269,14 +272,17 @@ describe('fichas dos personagens restantes', () => {
         expect(character?.dossier).toEqual({
           quote: expected.quote,
           emblem: expected.emblem,
+          portrait: CHARACTER_PORTRAITS[expected.slug],
           attributes: expected.attributes,
           abilities: expected.abilities,
         });
       });
 
-      it('ainda não possui ilustração', () => {
-        expect(character?.dossier).toBeDefined();
-        expect(character?.dossier?.portrait).toBeUndefined();
+      it('possui retrato independente com placeholder de segurança', () => {
+        expect(character?.dossier?.portrait).toEqual(CHARACTER_PORTRAITS[expected.slug]);
+        expect(character?.dossier?.portrait?.src).toBe(PORTRAIT_PLACEHOLDER_SRC);
+        expect(character?.dossier?.portrait?.alt).toBe(`Retrato de ${expected.name}`);
+        expect(character?.dossier?.portrait?.fallbackSrc).toBe(PORTRAIT_PLACEHOLDER_SRC);
       });
     });
   }

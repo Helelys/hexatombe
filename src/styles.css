@@ -1,5 +1,8 @@
 /* Hexatombe — fundações visuais do portal. */
 
+/* Tema da forma mascarada: completa as folhas de estilo dos componentes. */
+@import './app/features/character/mask-theme.css';
+
 :root {
   color-scheme: dark;
 

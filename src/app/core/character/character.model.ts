@@ -28,6 +28,8 @@ export interface CharacterAttribute {
 
 export interface CharacterAbility {
   readonly name: string;
+  /** Classificação extra, como "Ritual de 2º círculo". */
+  readonly category?: string;
   /** Tipo de ação: Reação, Padrão, Livre... */
   readonly action: string;
   /** Custo em pontos de esforço, quando houver. */
@@ -47,6 +49,8 @@ export type CharacterEmblemVariant = 'bulwark' | 'ram' | 'edge' | 'sight' | 'rit
 export interface CharacterPortrait {
   readonly src: string;
   readonly alt: string;
+  /** Imagem exibida quando `src` não carrega; usa o avatar provisório por padrão. */
+  readonly fallbackSrc?: string;
 }
 
 /** Ficha individual. Opcional: personagens sem ficha mantêm a página essencial. */
@@ -59,10 +63,86 @@ export interface CharacterDossier {
   readonly portrait?: CharacterPortrait;
 }
 
+/** Perícia da ficha completa: dados rolados e modificador fixo do teste. */
+export interface CharacterSkill {
+  readonly name: string;
+  /** Dados rolados no teste, por exemplo `4d20`. */
+  readonly dice: string;
+  /** Modificador fixo do teste, por exemplo `+10`. */
+  readonly modifier: string;
+}
+
+/** Ataque, ação ou restrição descrita na ficha completa. */
+export interface CharacterSheetAction {
+  readonly name: string;
+  /** Classificação extra, como "Ritual de 2º círculo". */
+  readonly category?: string;
+  /** Tipo de ação: Padrão, Livre, Reação... */
+  readonly action?: string;
+  /** Alcance do efeito. */
+  readonly range?: string;
+  /** Teste utilizado no ataque ou na resistência do alvo. */
+  readonly test?: string;
+  readonly damage?: string;
+  readonly damageType?: string;
+  /** Margem de crítico e multiplicador, por exemplo `19/x3`. */
+  readonly critical?: string;
+  readonly cost?: string;
+  readonly limit?: string;
+  /** Condições e efeitos especiais. */
+  readonly description?: string;
+}
+
+/** Ficha completa, revelada somente com a senha do personagem. */
+export interface CharacterSheet {
+  /** A idade permanece desconhecida em todas as fichas. */
+  readonly age: string;
+  readonly defense: string;
+  readonly fortitude: string;
+  readonly reflexes: string;
+  readonly will: string;
+  readonly hitPoints: string;
+  readonly wounded: string;
+  readonly effortPoints: string;
+  readonly speed: string;
+  readonly perception: string;
+  readonly initiative: string;
+  readonly skills: readonly CharacterSkill[];
+  readonly actions: readonly CharacterSheetAction[];
+  readonly intention: string;
+}
+
+/**
+ * Forma mascarada de um destino (VD 140).
+ *
+ * Os números são os máximos da transformação: a máscara não devolve PV nem PE,
+ * o esforço é compartilhado entre as duas formas e os PV atuais continuam os
+ * mesmos. Por isso a ficha mascarada é apenas uma leitura nova dos mesmos
+ * recursos, nunca uma segunda barra de vida.
+ */
+export interface MaskedForm {
+  /** Nome que a máscara assume, como "O Lastro". */
+  readonly name: string;
+  /** VD desta forma, exibido na identificação. */
+  readonly grade: string;
+  /** Os cinco atributos da forma mascarada. */
+  readonly attributes: readonly CharacterAttribute[];
+  /** Ficha completa com os valores máximos da transformação. */
+  readonly sheet: CharacterSheet;
+  /** Habilidades liberadas apenas nesta forma. */
+  readonly abilities: readonly CharacterAbility[];
+  /** Poder de intenção, exclusivo desta forma. */
+  readonly intention: CharacterAbility;
+}
+
 export interface Character {
   readonly slug: string;
   readonly name: string;
   readonly password: string;
   readonly theme: CharacterTheme;
   readonly dossier?: CharacterDossier;
+  /** Ficha completa selada; ausente enquanto o personagem não possui ficha. */
+  readonly sheet?: CharacterSheet;
+  /** Forma mascarada VD 140, selada pela senha única da transformação. */
+  readonly maskedForm?: MaskedForm;
 }

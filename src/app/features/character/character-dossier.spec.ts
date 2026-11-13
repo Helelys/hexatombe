@@ -36,21 +36,41 @@ describe('CharacterDossierView', () => {
     expect(element.getAttribute('data-emblem')).toBe('bulwark');
   });
 
-  it('não reserva espaço para arte enquanto ela não existe', () => {
-    expect(DOSSIER.portrait).toBeUndefined();
+  it('mostra o retrato definido na ficha', () => {
+    const image = element.querySelector<HTMLImageElement>('.dossier__portrait img');
+
+    expect(DOSSIER.portrait).toBeDefined();
+    expect(image?.getAttribute('src')).toBe(DOSSIER.portrait?.src);
+    expect(image?.getAttribute('alt')).toBe(DOSSIER.portrait?.alt);
+  });
+
+  it('não reserva espaço quando a ficha não possui retrato', () => {
+    fixture.componentRef.setInput('dossier', { ...DOSSIER, portrait: undefined });
+    fixture.detectChanges();
+
     expect(element.querySelector('.dossier__portrait')).toBeNull();
   });
 
-  it('mostra a ilustração quando a ficha passa a ter arte', () => {
+  it('volta ao placeholder quando a imagem do retrato falha', () => {
     fixture.componentRef.setInput('dossier', {
       ...DOSSIER,
-      portrait: { src: '/assets/anne-kent.webp', alt: 'Retrato de Anne Kent' },
+      portrait: {
+        src: '/portraits/anne-kent.webp',
+        alt: 'Retrato de Anne Kent',
+        fallbackSrc: '/portraits/placeholder.jpg',
+      },
     });
     fixture.detectChanges();
 
     const image = element.querySelector<HTMLImageElement>('.dossier__portrait img');
 
-    expect(image?.getAttribute('src')).toBe('/assets/anne-kent.webp');
-    expect(image?.getAttribute('alt')).toBe('Retrato de Anne Kent');
+    expect(image?.getAttribute('src')).toBe('/portraits/anne-kent.webp');
+
+    image?.dispatchEvent(new Event('error'));
+    fixture.detectChanges();
+
+    expect(
+      element.querySelector<HTMLImageElement>('.dossier__portrait img')?.getAttribute('src'),
+    ).toBe('/portraits/placeholder.jpg');
   });
 });

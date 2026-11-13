@@ -1,0 +1,13 @@
+<figure class="portrait">
+  @if (visible()) {
+    <img
+      class="portrait__image"
+      [src]="src()"
+      [alt]="portrait().alt"
+      decoding="async"
+      (error)="handleError()"
+    />
+  }
+
+  <span class="portrait__wash" aria-hidden="true"></span>
+</figure>

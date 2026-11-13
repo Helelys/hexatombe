@@ -1,0 +1,54 @@
+<main class="gallery">
+  <app-atmosphere />
+
+  <a class="gallery__return" routerLink="/" aria-label="Retornar ao portal">
+    <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+      <path d="M15 4 7 12l8 8" />
+    </svg>
+  </a>
+
+  <header class="gallery__head">
+    <p class="gallery__eyebrow">
+      <span class="gallery__rule" aria-hidden="true"></span>
+      <span>Registro de destinos</span>
+      <span class="gallery__rule" aria-hidden="true"></span>
+    </p>
+
+    <h1 class="gallery__title">ESCOLHA SEU PERSONAGEM</h1>
+
+    <p class="gallery__intro">Seis destinos. Seis caminhos. Uma única escolha.</p>
+  </header>
+
+  <ul class="gallery__grid">
+    @for (card of cards; track card.character.slug; let order = $index) {
+      <li class="gallery__item" [style.--order]="order">
+        <a
+          class="card"
+          [routerLink]="['/destino', card.character.slug]"
+          [attr.data-emblem]="card.emblem"
+          [style.--character-accent]="card.character.theme.accent"
+          [style.--character-glow]="card.character.theme.glow"
+        >
+          <span class="card__veil" aria-hidden="true"></span>
+          <span class="card__mark" aria-hidden="true">{{ card.initial }}</span>
+
+          <span class="card__symbol">
+            <app-character-motif class="card__motif" [variant]="card.emblem" />
+            <app-character-emblem class="card__emblem" [variant]="card.emblem" />
+          </span>
+
+          <span class="card__body">
+            <span class="card__index" aria-hidden="true">{{ card.index }}</span>
+            <span class="card__name">{{ card.character.name }}</span>
+            <span class="card__cta">
+              Abrir ficha
+              <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                <path d="M5 12h13M13 6l6 6-6 6" />
+              </svg>
+            </span>
+          </span>
+        </a>
+      </li>
+    }
+  </ul>
+</main>

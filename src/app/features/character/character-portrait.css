@@ -1,0 +1,103 @@
+:host {
+  display: block;
+  position: relative;
+  width: 100%;
+  aspect-ratio: 4 / 5;
+  overflow: hidden;
+  isolation: isolate;
+  border: 1px solid color-mix(in srgb, var(--character-accent) 34%, transparent);
+  background:
+    radial-gradient(
+      90% 70% at 50% 12%,
+      color-mix(in srgb, var(--character-accent) 14%, transparent),
+      transparent 68%
+    ),
+    #080606;
+  box-shadow:
+    0 22px 48px rgba(0, 0, 0, 0.5),
+    0 0 30px color-mix(in srgb, var(--character-accent) 12%, transparent);
+}
+
+/*
+ * O avatar provisório é cinza sobre branco. Multiplicado por um fundo vermelho
+ * escuro, o branco desaparece e sobra apenas a silhueta, já integrada à ficha.
+ */
+:host(.portrait--placeholder) {
+  background: radial-gradient(58% 48% at 50% 32%, #651717, #260b0b 64%, #0a0707 100%);
+}
+
+:host(.portrait--placeholder) .portrait__image {
+  mix-blend-mode: multiply;
+  opacity: 0.94;
+  filter: grayscale(1) contrast(1.12) brightness(1.04);
+}
+
+.portrait {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+}
+
+.portrait__image {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center top;
+  scale: 1.01;
+  filter: grayscale(0.18) contrast(1.06) brightness(0.84) sepia(0.1);
+  animation: portrait-in 1.2s var(--ease-veil) both;
+}
+
+.portrait__wash {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    linear-gradient(180deg, transparent 48%, rgba(9, 7, 7, 0.6) 78%, #090707 100%),
+    linear-gradient(
+      90deg,
+      rgba(9, 7, 7, 0.55),
+      transparent 24%,
+      transparent 76%,
+      rgba(9, 7, 7, 0.55)
+    ),
+    radial-gradient(
+      85% 55% at 50% 0%,
+      color-mix(in srgb, var(--character-accent) 16%, transparent),
+      transparent 66%
+    );
+  box-shadow:
+    inset 0 0 0 1px rgba(255, 255, 255, 0.04),
+    inset 0 0 42px 10px rgba(0, 0, 0, 0.62);
+}
+
+:host::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 14%;
+  width: 34%;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    color-mix(in srgb, var(--character-accent) 70%, transparent),
+    transparent
+  );
+  opacity: 0.7;
+  pointer-events: none;
+}
+
+@keyframes portrait-in {
+  from {
+    opacity: 0;
+    scale: 1.04;
+  }
+
+  to {
+    opacity: 1;
+    scale: 1.01;
+  }
+}

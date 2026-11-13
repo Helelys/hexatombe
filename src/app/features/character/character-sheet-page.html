@@ -1,0 +1,92 @@
+<main class="sheet-page" [class.sheet-page--masked]="masked()" [class.sheet-page--cta]="unlocked()">
+  <app-atmosphere variant="character" [tone]="character().theme.accent" />
+
+  <header class="sheet-page__bar">
+    <a class="sheet-page__back" [routerLink]="backLink()" [attr.aria-label]="backAria()">
+      <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+        <path d="M15 4 7 12l8 8" />
+      </svg>
+      <span>{{ backLabel() }}</span>
+    </a>
+
+    <p class="sheet-page__eyebrow">
+      <span>{{ eyebrow() }}</span>
+      <span class="sheet-page__grade">VD {{ grade() }}</span>
+    </p>
+  </header>
+
+  <h1 class="sr-only">{{ heading() }}</h1>
+
+  @if (masked(); as mask) {
+    <p class="mask-banner">
+      <span class="mask-banner__glyph" aria-hidden="true">◆</span>
+      <span class="mask-banner__text">FORMA MASCARADA</span>
+      <span class="mask-banner__dot" aria-hidden="true">•</span>
+      <span class="mask-banner__grade">VD {{ mask.grade }}</span>
+    </p>
+  }
+
+  <div
+    #sheetRegion
+    class="sheet-page__body"
+    tabindex="-1"
+    [attr.aria-label]="unlocked() ? heading() : null"
+  >
+    @if (unlocked()) {
+      <app-character-sheet [character]="character()" [form]="form()" />
+    } @else {
+      <form class="lock" (submit)="submit($event)" novalidate>
+        <span class="lock__seal" aria-hidden="true"></span>
+
+        <h2 class="lock__title">{{ lockTitle() }}</h2>
+        <p id="sheet-lock-description" class="lock__description">{{ lockDescription() }}</p>
+
+        <label class="sr-only" for="sheet-password">{{ lockLabel() }}</label>
+
+        <div
+          class="lock__field"
+          [class.lock__field--error]="hasError()"
+          [class.lock__field--shaking]="isShaking()"
+          (animationend)="isShaking.set(false)"
+        >
+          <input
+            #passwordInput
+            id="sheet-password"
+            class="lock__input"
+            type="password"
+            placeholder="Digite a senha..."
+            autocomplete="off"
+            autocapitalize="none"
+            spellcheck="false"
+            aria-describedby="sheet-lock-description sheet-feedback"
+            [formControl]="password"
+            [attr.aria-invalid]="hasError()"
+            (input)="clearError()"
+          />
+        </div>
+
+        <button type="submit" class="lock__submit">{{ lockAction() }}</button>
+
+        <p id="sheet-feedback" class="lock__feedback" role="status" aria-live="polite">
+          @if (hasError()) {
+            <span class="lock__feedback-text">{{ errorMessage() }}</span>
+          }
+        </p>
+      </form>
+    }
+  </div>
+
+  @if (unlocked()) {
+    @if (masked()) {
+      <a class="mask-call mask-call--retire" [routerLink]="backLink()">
+        <span class="mask-call__seal" aria-hidden="true"></span>
+        Retirar a máscara
+      </a>
+    } @else if (hasMask()) {
+      <a class="mask-call" [routerLink]="maskLink()">
+        <span class="mask-call__seal" aria-hidden="true"></span>
+        Colocar a máscara
+      </a>
+    }
+  }
+</main>

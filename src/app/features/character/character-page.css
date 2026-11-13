@@ -50,6 +50,95 @@ app-character-dossier {
   width: min(100%, 78rem);
 }
 
+/* Convite para a ficha completa, selada pela senha do destino. */
+.sheet-call {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.55rem;
+  width: min(100%, 78rem);
+  margin-top: clamp(1.4rem, 4vw, 2.4rem);
+  text-align: center;
+  animation: identity-enter 1.6s 700ms var(--ease-veil) both;
+}
+
+.sheet-call__note {
+  margin: 0;
+  font-family: var(--font-ui);
+  font-size: 0.56rem;
+  font-weight: 500;
+  letter-spacing: 0.32em;
+  text-transform: uppercase;
+  color: var(--ash-dim);
+}
+
+.sheet-call__button {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.8rem 1.6rem 0.8rem 1.35rem;
+  border: 1px solid color-mix(in srgb, var(--character-accent) 38%, transparent);
+  background: linear-gradient(
+    180deg,
+    color-mix(in srgb, var(--character-accent) 10%, rgba(10, 8, 8, 0.92)),
+    rgba(8, 6, 6, 0.94)
+  );
+  color: #d3c6c4;
+  font-family: var(--font-display);
+  font-size: 0.78rem;
+  letter-spacing: 0.26em;
+  text-transform: uppercase;
+  text-indent: 0.26em;
+  transition:
+    color 500ms var(--ease-veil),
+    border-color 500ms var(--ease-veil),
+    box-shadow 600ms var(--ease-veil),
+    background 500ms var(--ease-veil);
+}
+
+.sheet-call__seal {
+  width: 6px;
+  height: 6px;
+  background: color-mix(in srgb, var(--character-accent) 75%, transparent);
+  box-shadow: 0 0 12px color-mix(in srgb, var(--character-accent) 70%, transparent);
+  rotate: 45deg;
+  transition: box-shadow 600ms var(--ease-veil);
+}
+
+.sheet-call__button:hover,
+.sheet-call__button:focus-visible {
+  border-color: color-mix(in srgb, var(--character-accent) 85%, transparent);
+  background: linear-gradient(
+    180deg,
+    color-mix(in srgb, var(--character-accent) 32%, rgba(30, 6, 6, 0.92)),
+    rgba(20, 4, 4, 0.94)
+  );
+  color: #fdf3f1;
+  box-shadow:
+    0 0 30px color-mix(in srgb, var(--character-accent) 26%, transparent),
+    inset 0 0 18px rgba(0, 0, 0, 0.45);
+}
+
+.sheet-call__button:hover .sheet-call__seal,
+.sheet-call__button:focus-visible .sheet-call__seal {
+  box-shadow: 0 0 20px color-mix(in srgb, var(--character-accent) 90%, transparent);
+}
+
+.sheet-call__button:active {
+  transform: translateY(1px);
+}
+
+.sheet-call__hint {
+  margin: 0;
+  font-family: var(--font-ui);
+  font-size: 0.7rem;
+  letter-spacing: 0.05em;
+  color: var(--ash-faint);
+}
+
 .return {
   position: fixed;
   top: clamp(1rem, 3vw, 1.75rem);

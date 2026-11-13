@@ -2,14 +2,15 @@ import { ChangeDetectionStrategy, Component, computed, input } from '@angular/co
 import { CharacterDossier, CharacterMood } from '../../core/character/character.model';
 import { CharacterAbilities } from './character-abilities';
 import { CharacterAttributes } from './character-attributes';
+import { CharacterPortraitView } from './character-portrait';
 
 /**
  * A ficha em si: nome, frase, atributos e habilidades.
- * A ilustração é opcional e ocupa o topo da coluna direita quando existir.
+ * O retrato ocupa a região direita quando a ficha possui arte.
  */
 @Component({
   selector: 'app-character-dossier',
-  imports: [CharacterAbilities, CharacterAttributes],
+  imports: [CharacterAbilities, CharacterAttributes, CharacterPortraitView],
   templateUrl: './character-dossier.html',
   styleUrl: './character-dossier.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
