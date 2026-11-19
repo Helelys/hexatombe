@@ -26,6 +26,43 @@ export interface CharacterAttribute {
   readonly value: number;
 }
 
+/**
+ * Natureza de uma entrada aos olhos do painel de combate automatizado.
+ * `support` cobre as habilidades que apenas potencializam um ritual.
+ */
+export type ActionMechanicKind =
+  | 'weapon'
+  | 'barrage'
+  | 'execution'
+  | 'ritual'
+  | 'hemofagia'
+  | 'cartography'
+  | 'support'
+  | 'mask';
+
+/** Classificação do efeito de um ritual de sangue. */
+export type RitualMechanicKind = 'damage' | 'heal' | 'control' | 'hybrid';
+
+/**
+ * Metadados opcionais que permitem à mesa de combate ler a ficha sem repetir
+ * os mesmos números em dois lugares. A apresentação continua sendo a dos
+ * campos visíveis (`test`, `damage`, `critical` e `description`).
+ */
+export interface ActionMechanics {
+  readonly kind: ActionMechanicKind;
+  readonly ritualKind?: RitualMechanicKind;
+  /** Arremessos de uma rajada; cada um tem rolagem de ataque própria. */
+  readonly throws?: number;
+  /** Ataques consecutivos de um poder de execução. */
+  readonly attacks?: number;
+  /** Níveis de Hemorragia aplicáveis por acerto. */
+  readonly hemorrhageLevels?: number;
+  /** Dano adicional por nível de Hemorragia consumido, como `3d8`. */
+  readonly hemorrhageDamagePerLevel?: string;
+  /** Identificador de uma habilidade de suporte do Neófito. */
+  readonly support?: 'offering' | 'rite';
+}
+
 export interface CharacterAbility {
   readonly name: string;
   /** Classificação extra, como "Ritual de 2º círculo". */
@@ -37,6 +74,7 @@ export interface CharacterAbility {
   /** Limite de uso, quando houver. */
   readonly limit?: string;
   readonly description: string;
+  readonly mechanics?: ActionMechanics;
 }
 
 /**
@@ -98,6 +136,7 @@ export interface CharacterSheetAction {
   readonly limit?: string;
   /** Condições e efeitos especiais. */
   readonly description?: string;
+  readonly mechanics?: ActionMechanics;
 }
 
 /** Ficha completa, revelada somente com a senha do personagem. */

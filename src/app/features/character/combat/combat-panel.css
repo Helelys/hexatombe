@@ -1,0 +1,217 @@
+/*
+ * Painel compartilhado das mesas de combate (Lia e Neófito).
+ * Usa o acento do personagem herdado de `--character-accent` pela página.
+ */
+:host {
+  --combat-accent: var(--character-accent, #a01414);
+  --combat-line: color-mix(in srgb, var(--combat-accent) 38%, transparent);
+  --combat-wash: color-mix(in srgb, var(--combat-accent) 12%, transparent);
+
+  display: block;
+  width: 100%;
+}
+
+.combat {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(0.6rem, 1.4vw, 0.9rem);
+  padding: clamp(0.85rem, 1.9vw, 1.35rem);
+  border: 1px solid var(--combat-line);
+  background:
+    radial-gradient(120% 80% at 50% 0%, var(--combat-wash), transparent 65%),
+    linear-gradient(180deg, #0f0b0bee, #080606cc);
+  color: #cfc4c2;
+}
+
+.combat__head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 0.5rem;
+  padding-bottom: 0.45rem;
+  border-bottom: 1px solid var(--combat-line);
+}
+
+.combat__eyebrow {
+  margin: 0;
+  font-size: 0.62rem;
+  letter-spacing: 0.32em;
+  text-transform: uppercase;
+  color: var(--combat-accent);
+}
+
+.combat__title {
+  margin: 0.2rem 0 0;
+  font-size: clamp(1rem, 2vw, 1.25rem);
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: #efe2df;
+}
+
+.combat__round {
+  margin: 0;
+  font-size: 0.68rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: #9a8b88;
+}
+
+.combat__hint {
+  margin: 0;
+  max-width: 78ch;
+  font-size: 0.74rem;
+  line-height: 1.5;
+  color: #9c8f8c;
+}
+
+.combat__tools,
+.strikes {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+}
+
+.combat__empty {
+  margin: 0;
+  padding: 0.7rem 0.75rem;
+  border: 1px dashed var(--combat-line);
+  font-size: 0.74rem;
+  color: #9c8f8c;
+}
+
+.button {
+  cursor: pointer;
+  padding: 0.42rem 0.7rem;
+  border: 1px solid var(--combat-line);
+  background: linear-gradient(180deg, var(--combat-wash), transparent);
+  color: #e7dbd8;
+  font: inherit;
+  font-size: 0.7rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  transition:
+    border-color 160ms ease,
+    background 160ms ease,
+    color 160ms ease;
+}
+
+.button:hover:not(:disabled),
+.button:focus-visible:not(:disabled) {
+  border-color: color-mix(in srgb, var(--combat-accent) 70%, transparent);
+  background: color-mix(in srgb, var(--combat-accent) 20%, transparent);
+  color: #fff4f2;
+}
+
+.button:disabled {
+  cursor: not-allowed;
+  opacity: 0.42;
+}
+
+.button--ghost {
+  background: transparent;
+  color: #a99b98;
+}
+
+.button--blood {
+  border-color: color-mix(in srgb, var(--combat-accent) 60%, transparent);
+  background: color-mix(in srgb, var(--combat-accent) 22%, transparent);
+}
+
+.deploy {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.deploy__label {
+  font-size: 0.62rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: #9a8b88;
+}
+
+.deploy__input {
+  flex: 1 1 10rem;
+  min-width: 0;
+  padding: 0.42rem 0.6rem;
+  border: 1px solid var(--combat-line);
+  background: #0a070799;
+  color: #e7dbd8;
+  font: inherit;
+  font-size: 0.78rem;
+}
+
+.deploy__input:focus-visible {
+  outline: 1px solid var(--combat-accent);
+  outline-offset: 1px;
+}
+
+.log {
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  max-height: 22rem;
+  overflow-y: auto;
+}
+
+.log__entry {
+  padding: 0.5rem 0.6rem;
+  border-left: 2px solid var(--combat-line);
+  background: #0a070766;
+}
+
+.log__entry[data-tone='blood'],
+.log__entry[data-tone='damage'] {
+  border-left-color: color-mix(in srgb, var(--combat-accent) 80%, transparent);
+}
+
+.log__entry[data-tone='heal'] {
+  border-left-color: #4f8a5a;
+}
+
+.log__entry[data-tone='system'] {
+  border-left-color: #5f5a58;
+  background: transparent;
+}
+
+.log__title {
+  margin: 0;
+  font-size: 0.7rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #e7dbd8;
+}
+
+.log__round {
+  margin-right: 0.35rem;
+  color: var(--combat-accent);
+}
+
+.log__lines {
+  margin: 0.25rem 0 0;
+  padding-left: 0.9rem;
+  font-size: 0.72rem;
+  line-height: 1.45;
+  color: #a2958f;
+}
+
+.log__empty {
+  font-size: 0.72rem;
+  color: #7d716e;
+}
+
+@media (max-width: 640px) {
+  .combat__head {
+    align-items: flex-start;
+  }
+
+  .log {
+    max-height: 16rem;
+  }
+}

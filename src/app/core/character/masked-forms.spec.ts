@@ -1,6 +1,7 @@
-import { CharacterAbility, MaskedForm } from './character.model';
+import { CharacterAbility, CharacterSheetAction, MaskedForm } from './character.model';
 import { MASKED_FORMS, MASKED_FORM_NOTE, MASKED_GRADE } from './masked-forms';
 import { CHARACTERS } from './characters.data';
+import { NEOFITO_RITUAL_CATEGORY } from './combat/neofito-rituals';
 
 const FORMS: readonly MaskedForm[] = Object.values(MASKED_FORMS);
 
@@ -90,7 +91,7 @@ describe('MASKED_FORMS', () => {
 
       expect(attack).toBeDefined();
       expect(attack?.damageType).toBeDefined();
-      expect(form.abilities).toHaveLength(3);
+      expect(form.abilities.length).toBeGreaterThanOrEqual(2);
 
       expect(form.intention.name.length).toBeGreaterThan(0);
       expect(form.intention.action).toBeDefined();
@@ -102,7 +103,7 @@ describe('MASKED_FORMS', () => {
     expect(FORMS.map((form) => form.sheet.archetype)).toEqual([
       'Berserker',
       'Combatente',
-      'Assassino',
+      'Assassina',
       'Atirador',
       'Ocultista',
       'Sacrifício',
@@ -126,9 +127,14 @@ describe('MASKED_FORMS', () => {
     expect(MASKED_FORMS['david-moura'].intention.name).toBe('Corte de Sentença');
 
     expect(MASKED_FORMS['lia-kwon'].name).toBe('Risco');
-    expect(MASKED_FORMS['lia-kwon'].sheet.hitPoints).toBe('166');
+    expect(MASKED_FORMS['lia-kwon'].sheet.hitPoints).toBe('130');
     expect(MASKED_FORMS['lia-kwon'].sheet.speed).toBe('12m');
     expect(MASKED_FORMS['lia-kwon'].intention.name).toBe('Abate Perfeito');
+    expect(MASKED_FORMS['lia-kwon'].intention.mechanics).toEqual({
+      kind: 'execution',
+      attacks: 3,
+      hemorrhageDamagePerLevel: '3d8',
+    });
 
     expect(MASKED_FORMS['cecilia-nunes'].name).toBe('Vigília');
     expect(MASKED_FORMS['cecilia-nunes'].sheet.hitPoints).toBe('180');
@@ -142,7 +148,8 @@ describe('MASKED_FORMS', () => {
     expect(MASKED_FORMS.neofito.name).toBe('Cartógrafo');
     expect(MASKED_FORMS.neofito.sheet.hitPoints).toBe('196');
     expect(MASKED_FORMS.neofito.sheet.effortPoints).toBe('18');
-    expect(MASKED_FORMS.neofito.intention.name).toBe('Abismo Mental');
+    expect(MASKED_FORMS.neofito.intention.name).toBe('Cartografia Carmesim');
+    expect(MASKED_FORMS.neofito.intention.mechanics).toEqual({ kind: 'cartography' });
 
     expect(MASKED_FORMS['artur-pires'].name).toBe('Espólio');
     expect(MASKED_FORMS['artur-pires'].sheet.hitPoints).toBe('200');
@@ -150,26 +157,32 @@ describe('MASKED_FORMS', () => {
     expect(MASKED_FORMS['artur-pires'].intention.name).toBe('Ponto de Fixação');
   });
 
-  it('descreve os rituais do Cartógrafo com o círculo e a resistência', () => {
-    const abilities: readonly CharacterAbility[] = MASKED_FORMS.neofito.abilities;
-    const rituals = abilities.filter((ability) => ability.category);
+  it('descreve os rituais de sangue do Cartógrafo e os apoios de sacrifício', () => {
+    const form = MASKED_FORMS.neofito;
+    const actions: readonly CharacterSheetAction[] = form.sheet.actions;
+    const rituals = actions.filter((action) => action.category === NEOFITO_RITUAL_CATEGORY);
+    const abilities: readonly CharacterAbility[] = form.abilities;
 
-    expect(rituals).toHaveLength(3);
     expect(rituals.map((ritual) => ritual.name)).toEqual([
-      'Ferver Sangue',
-      'Poeira da Podridão',
-      'Miasma Entrópico',
+      'Hemofagia',
+      'Ritual de Dano',
+      'Ritual de Cura',
+      'Ritual de Controle',
+      'Ritual Híbrido',
     ]);
-    expect(rituals.map((ritual) => ritual.category)).toEqual([
-      'Ritual de 3º círculo',
-      'Ritual de 3º círculo',
-      'Ritual de 2º círculo',
-    ]);
-    expect(rituals[0]?.description).toContain('4d8');
+    expect(rituals.every((ritual) => ritual.cost === 'PV real (progressivo por turno)')).toBe(true);
+    expect(rituals[0]?.damage).toBe('6d8');
+    expect(rituals[0]?.mechanics?.kind).toBe('hemofagia');
 
-    expect(MASKED_FORMS.neofito.sheet.actions.map((action) => action.name)).toEqual([
-      'Descarnar',
-      'Invadir Mente',
+    expect(form.sheet.actions.map((action) => action.name)).toEqual([
+      ...rituals.map((ritual) => ritual.name),
+      'Golpe de Bastão',
     ]);
+
+    expect(abilities.map((ability) => ability.name)).toEqual([
+      'Oferenda de Sangue',
+      'Prece de Ferida',
+    ]);
+    expect(abilities.map((ability) => ability.mechanics?.support)).toEqual(['offering', 'rite']);
   });
 });

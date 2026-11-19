@@ -13,6 +13,7 @@ import {
 const ANNE = CHARACTERS[0];
 const DAVID = CHARACTERS.find((character) => character.slug === 'david-moura') as Character;
 const CECILIA = CHARACTERS.find((character) => character.slug === 'cecilia-nunes') as Character;
+const LIA = CHARACTERS.find((character) => character.slug === 'lia-kwon') as Character;
 const NEOFITO = CHARACTERS.find((character) => character.slug === 'neofito') as Character;
 
 describe('CharacterSheetView', () => {
@@ -222,10 +223,14 @@ describe('CharacterSheetView', () => {
     ]);
 
     expect(entries).toEqual([
-      ['ritual', 'Ritual de 2º círculo', 'Descarnar'],
+      ['ritual', 'Ritual de Sangue', 'Hemofagia'],
+      ['ritual', 'Ritual de Sangue', 'Ritual de Dano'],
+      ['ritual', 'Ritual de Sangue', 'Ritual de Cura'],
+      ['ritual', 'Ritual de Sangue', 'Ritual de Controle'],
+      ['ritual', 'Ritual de Sangue', 'Ritual Híbrido'],
       ['attack', 'Ataque', 'Golpe de Bastão'],
-      ['ritual', 'Ritual de 2º círculo', 'Invadir Mente'],
-      ['ritual', 'Ritual de 2º círculo', 'Miasma Entrópico'],
+      ['combat', 'Habilidade de combate', 'Oferenda de Sangue'],
+      ['combat', 'Habilidade de combate', 'Prece de Ferida'],
       ['combat', 'Habilidade de combate', 'Foco Ritual'],
     ]);
   });
@@ -304,14 +309,20 @@ describe('CharacterSheetView', () => {
       );
 
     expect(names('.section--attacks .move')).toEqual([
-      'Descarnar',
+      'Hemofagia',
+      'Ritual de Dano',
+      'Ritual de Cura',
+      'Ritual de Controle',
+      'Ritual Híbrido',
       'Golpe de Bastão',
-      'Invadir Mente',
-      'Miasma Entrópico',
     ]);
-    expect(names('.section--abilities .move')).toEqual(['Foco Ritual']);
+    expect(names('.section--abilities .move')).toEqual([
+      'Oferenda de Sangue',
+      'Prece de Ferida',
+      'Foco Ritual',
+    ]);
     expect(text('.section--attacks .move[data-kind="ritual"] .move__kind')).toBe(
-      'Ritual de 2º círculo',
+      'Ritual de Sangue',
     );
   });
 
@@ -483,19 +494,22 @@ describe('CharacterSheetView — forma mascarada', () => {
     expect(text('.move__kind')).toBe('Ataque');
   });
 
-  it('classifica os rituais da máscara pelo círculo', async () => {
+  it('classifica os rituais da máscara pela categoria de sangue', async () => {
     await render(NEOFITO);
 
     const rituals = Array.from(element.querySelectorAll<HTMLElement>('.move[data-kind="ritual"]'));
 
     expect(rituals).toHaveLength(5);
-    expect(rituals.map((move) => move.querySelector('.move__kind')?.textContent?.trim())).toEqual([
-      'Ritual de 2º círculo',
-      'Ritual de 2º círculo — versão discente (3º círculo)',
-      'Ritual de 3º círculo',
-      'Ritual de 3º círculo',
-      'Ritual de 2º círculo',
+    expect(rituals.map((move) => move.querySelector('.move__name')?.textContent?.trim())).toEqual([
+      'Hemofagia',
+      'Ritual de Dano',
+      'Ritual de Cura',
+      'Ritual de Controle',
+      'Ritual Híbrido',
     ]);
+    expect(rituals.map((move) => move.querySelector('.move__kind')?.textContent?.trim())).toEqual(
+      Array.from({ length: 5 }, () => 'Ritual de Sangue'),
+    );
   });
 
   it('traz a nota da transformação ao pé da ficha', async () => {
@@ -540,4 +554,21 @@ describe('CharacterSheetView — forma mascarada', () => {
     expect(text('.special__name')).toBe('Despertar a Máscara');
     expect(text('.intent__label')).toBe('Intenção');
   });
+
+  it('monta a mesa de combate apenas para Lia e Neófito', async () => {
+    await render(LIA);
+
+    expect(element.querySelector('app-lia-combat-console.combat')).not.toBeNull();
+    expect(element.querySelector('app-neofito-combat-console')).toBeNull();
+
+    await render(NEOFITO);
+
+    expect(element.querySelector('app-neofito-combat-console.combat')).not.toBeNull();
+    expect(element.querySelector('app-lia-combat-console')).toBeNull();
+
+    await render(ANNE);
+
+    expect(element.querySelector('.combat')).toBeNull();
+  });
+
 });

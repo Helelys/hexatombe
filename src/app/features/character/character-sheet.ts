@@ -11,6 +11,8 @@ import {
   SHEET_IDENTITY,
 } from '../../core/character/character-sheets';
 import { CharacterPortraitView } from './character-portrait';
+import { LiaCombatConsole } from './combat/lia-combat-console';
+import { NeofitoCombatConsole } from './combat/neofito-combat-console';
 
 /** Tom visual de um movimento, derivado do tipo de ação. */
 export type SheetTone = 'standard' | 'free' | 'reaction' | 'passive' | 'ritual' | 'neutral';
@@ -173,7 +175,7 @@ function toEntry(action: CharacterSheetAction, kind: SheetCardKind): SheetEntry 
  */
 @Component({
   selector: 'app-character-sheet',
-  imports: [CharacterPortraitView],
+  imports: [CharacterPortraitView, LiaCombatConsole, NeofitoCombatConsole],
   templateUrl: './character-sheet.html',
   styleUrl: './character-sheet.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -201,6 +203,21 @@ export class CharacterSheetView {
 
   protected readonly dossier = computed(() => this.character().dossier ?? null);
   protected readonly portrait = computed(() => this.dossier()?.portrait ?? null);
+
+  /**
+   * Mesa de combate automatizada: só a Lia (Hemorragia) e o Neófito (sacrifício
+   * de sangue) têm regras implementadas. Os demais personagens não exibem painel.
+   */
+  protected readonly combatMode = computed<'lia' | 'neofito' | null>(() => {
+    switch (this.character().slug) {
+      case 'lia-kwon':
+        return 'lia';
+      case 'neofito':
+        return 'neofito';
+      default:
+        return null;
+    }
+  });
 
   /** VD da forma em exibição: 80 na ficha comum, 140 na forma mascarada. */
   protected readonly grade = computed(() => this.masked()?.grade ?? SHEET_IDENTITY.grade);

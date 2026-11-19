@@ -1,0 +1,144 @@
+<section class="combat" [attr.aria-label]="'Mesa de combate de ' + character().name">
+  <header class="combat__head">
+    <div>
+      <p class="combat__eyebrow">Mesa de combate</p>
+      <h3 class="combat__title">Lâminas e Hemorragia</h3>
+    </div>
+    <p class="combat__round">Rodada {{ engine().round() }}</p>
+  </header>
+
+  <p class="combat__hint">
+    Cada acerto de katana aplica 1 nível de Hemorragia (máximo 3). A Hemorragia causa
+    1d4 por nível no início dos turnos inimigos; Feridas Abertas e Instinto Assassino
+    somam dano conforme os níveis ativos no alvo.
+  </p>
+
+  <div class="combat__tools">
+    <button type="button" class="button" (click)="engine().rollContinuousAll()">
+      Sangramento de todos
+    </button>
+    <button type="button" class="button button--ghost" (click)="engine().endTurn()">
+      Encerrar turno
+    </button>
+    <button type="button" class="button button--ghost" (click)="engine().newScene()">
+      Nova cena
+    </button>
+    <button type="button" class="button button--ghost" (click)="engine().endCombat()">
+      Encerrar combate
+    </button>
+  </div>
+
+  <form class="deploy" (submit)="addEnemy($event)">
+    <label class="deploy__label" [attr.for]="'lia-target-' + form()">Novo alvo</label>
+    <input
+      class="deploy__input"
+      type="text"
+      autocomplete="off"
+      placeholder="Nome do inimigo"
+      [id]="'lia-target-' + form()"
+      [value]="draftName()"
+      (input)="onNameInput($event)"
+    />
+    <button type="submit" class="button">Registrar</button>
+  </form>
+
+  @if (engine().enemies().length > 0) {
+    <ul class="enemies">
+      @for (enemy of engine().enemies(); track enemy.id) {
+        <li class="enemy">
+          <header class="enemy__head">
+            <h4 class="enemy__name">{{ enemy.name }}</h4>
+            <button
+              type="button"
+              class="enemy__remove"
+              (click)="engine().removeEnemy(enemy.id)"
+              [attr.aria-label]="'Remover ' + enemy.name"
+            >
+              Remover
+            </button>
+          </header>
+
+          <div class="bleed">
+            <span class="bleed__label">Hemorragia</span>
+            <div class="bleed__pips">
+              @for (level of levels; track level) {
+                <button
+                  type="button"
+                  class="pip"
+                  [class.pip--on]="enemy.hemorrhage >= level"
+                  [attr.aria-pressed]="enemy.hemorrhage >= level"
+                  [attr.aria-label]="'Definir ' + level + ' nível(is) de Hemorragia em ' + enemy.name"
+                  (click)="setBleed(enemy.id, level)"
+                >
+                  {{ level }}
+                </button>
+              }
+            </div>
+            <span class="bleed__dice">{{ engine().hemorrhageDice(enemy) }}</span>
+          </div>
+
+          <dl class="bonuses">
+            <div class="bonuses__item">
+              <dt>Feridas Abertas</dt>
+              <dd>{{ engine().hemorrhageBonus(enemy) }}</dd>
+            </div>
+            <div class="bonuses__item">
+              <dt>Instinto Assassino</dt>
+              <dd>{{ engine().instinctBonus(enemy) }}</dd>
+            </div>
+          </dl>
+
+          <div class="strikes">
+            <button type="button" class="button" (click)="engine().attack('katana', enemy.id)">
+              Katana
+            </button>
+            <button type="button" class="button" (click)="engine().attack('shuriken', enemy.id)">
+              Shuriken
+            </button>
+            <button
+              type="button"
+              class="button"
+              (click)="engine().shurikenBarrage([enemy.id])"
+            >
+              Rajada ×{{ engine().barrageThrows }}
+            </button>
+            <button
+              type="button"
+              class="button button--blood"
+              [disabled]="!engine().canUseIntention"
+              (click)="engine().perfectReckoning(enemy.id)"
+            >
+              {{ engine().executionName }} ({{ engine().executionAttacks }} ataques)
+            </button>
+          </div>
+
+          <button
+            type="button"
+            class="bleed__roll"
+            [disabled]="enemy.hemorrhage <= 0"
+            (click)="engine().rollContinuous(enemy.id)"
+          >
+            Rolar sangramento de {{ enemy.name }}
+          </button>
+        </li>
+      }
+    </ul>
+  } @else {
+    <p class="combat__empty">Nenhum alvo registrado. A Hemorragia exige um inimigo em cena.</p>
+  }
+
+  <ol class="log">
+    @for (entry of engine().log(); track entry.id) {
+      <li class="log__entry" [attr.data-tone]="entry.tone">
+        <p class="log__title"><span class="log__round">R{{ entry.round }}</span> {{ entry.title }}</p>
+        <ul class="log__lines">
+          @for (line of entry.lines; track $index) {
+            <li>{{ line }}</li>
+          }
+        </ul>
+      </li>
+    } @empty {
+      <li class="log__empty">O log de combate aparece aqui.</li>
+    }
+  </ol>
+</section>

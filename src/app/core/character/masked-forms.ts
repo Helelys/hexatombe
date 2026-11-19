@@ -1,4 +1,5 @@
 import { MaskedForm } from './character.model';
+import { neofitoRituals } from './combat/neofito-rituals';
 
 /** Classificação de todas as formas mascaradas. */
 export const MASKED_GRADE = '140';
@@ -195,13 +196,13 @@ export const MASKED_FORMS = {
     ],
     sheet: {
       age: 'X',
-      archetype: 'Assassino',
-      defense: '31',
+      archetype: 'Assassina',
+      defense: '29',
       fortitude: '2d20+10',
       reflexes: '5d20+15',
       will: '2d20+10',
-      hitPoints: '166',
-      wounded: '83',
+      hitPoints: '130',
+      wounded: '65',
       effortPoints: '13',
       speed: '12m',
       perception: '2d20+10',
@@ -219,9 +220,12 @@ export const MASKED_FORMS = {
           name: 'Katana do Risco',
           range: 'Corpo a corpo',
           test: 'Luta 5d20+15',
-          damage: '3d6+12',
+          damage: '4d6+12',
           damageType: 'Corte',
           critical: '17/x3',
+          description:
+            'Cada acerto aplica 1 nível de Hemorragia (máximo 3). Hemorragia é contínua: causa 1d4 de dano por nível no início dos turnos do alvo.',
+          mechanics: { kind: 'weapon', hemorrhageLevels: 1 },
         },
         {
           name: 'Shuriken de Tendão',
@@ -231,7 +235,8 @@ export const MASKED_FORMS = {
           damageType: 'Perfuração',
           critical: '19/x2',
           description:
-            'Ao atingir a perna, Fortitude DT 23 evita a redução de 6 m no deslocamento até o fim do próximo turno.',
+            'Ao atingir a perna, Fortitude DT 23 evita a redução de 6 m no deslocamento até o fim do próximo turno. Rajada: 3 arremessos, cada um aplica 1 nível de Hemorragia (máximo 3).',
+          mechanics: { kind: 'barrage', hemorrhageLevels: 1, throws: 3 },
         },
       ],
       items: [
@@ -242,23 +247,23 @@ export const MASKED_FORMS = {
     },
     abilities: [
       {
-        name: 'Passo Fantasma',
-        action: 'Reação',
-        limit: '2/cena',
+        name: 'Dança Sangrenta',
+        action: 'Livre',
+        limit: '1/rodada',
         description:
-          'Quando é atacada, recebe +10 Defesa contra esse ataque e pode mover-se 3 m após sua resolução.',
+          'Depois do segundo acerto contra o mesmo alvo no mesmo turno, o ataque recebe +4d6 de dano de corte. Não pode ser ativada mais de uma vez por turno.',
       },
       {
-        name: 'Corte Cirúrgico',
+        name: 'Feridas Abertas',
         action: 'Passiva',
         description:
-          'Seu primeiro ataque contra um alvo desprevenido ou flanqueado na cena causa +3d6 de dano de precisão.',
+          'Cada nível de Hemorragia do alvo adiciona +1d4 ao dano dos ataques da Lia. Hemorragia continua causando 1d4 de dano por nível no início dos turnos do alvo, até o máximo de 3 níveis.',
       },
       {
-        name: 'Passo Impossível',
+        name: 'Instinto Assassino',
         action: 'Passiva',
         description:
-          'Pode atravessar o espaço de inimigos durante seu deslocamento, mas não pode terminar o movimento nele.',
+          'Contra alvos sangrando, os ataques recebem +2d6; contra alvos com 3 níveis de Hemorragia, o bônus sobe para +4d6.',
       },
     ],
     intention: {
@@ -266,7 +271,8 @@ export const MASKED_FORMS = {
       action: 'Padrão',
       limit: '1/cena',
       description:
-        'Faça um ataque com a Katana do Risco. Se acertar, causa +5d8 de dano de precisão adicional.',
+        'Realiza 3 ataques alternados entre Katana do Risco e Shuriken de Tendão. No fim, consome todos os níveis de Hemorragia do alvo e causa 3d8 de dano adicional por nível consumido.',
+      mechanics: { kind: 'execution', attacks: 3, hemorrhageDamagePerLevel: '3d8' },
     },
   },
   'cecilia-nunes': {
@@ -379,26 +385,16 @@ export const MASKED_FORMS = {
         { name: 'Vontade', dice: '4d20', modifier: '+15' },
       ],
       actions: [
+        ...neofitoRituals('masked'),
         {
-          name: 'Descarnar',
-          category: 'Ritual de 2º círculo',
-          action: 'Padrão',
-          range: 'Toque (1 alvo)',
-          test: 'Fortitude DT 23',
-          damage: '6d8',
-          damageType: 'Corte e Sangue',
+          name: 'Golpe de Bastão',
+          range: 'Corpo a corpo',
+          test: 'Luta 1d20',
+          damage: '1d8+5',
+          damageType: 'Impacto',
+          critical: '20/x2',
           description:
-            'Causa 6d8 de dano, metade corte e metade Sangue. Fortitude DT 23: sucesso reduz o dano à metade e evita hemorragia. Falha causa hemorragia severa (2d8 Sangue por turno) até 2 sucessos seguidos.',
-        },
-        {
-          name: 'Invadir Mente',
-          category: 'Ritual de 2º círculo — versão discente (3º círculo)',
-          action: 'Padrão',
-          range: 'Médio (1 alvo)',
-          test: 'Vontade DT 23',
-          damage: '10d6',
-          damageType: 'Mental',
-          description: 'Causa 10d6 de dano mental. Vontade DT 23 reduz à metade.',
+            'Arma física secundária. O bastão não extrai sangue, não aplica marcas e não substitui os rituais.',
         },
       ],
       items: [{ name: 'Bastão', type: 'Arma corpo a corpo' }],
@@ -406,33 +402,27 @@ export const MASKED_FORMS = {
     },
     abilities: [
       {
-        name: 'Ferver Sangue',
-        category: 'Ritual de 3º círculo',
-        action: 'Padrão',
+        name: 'Oferenda de Sangue',
+        action: 'Livre',
         description:
-          'Alcance curto, 1 alvo. No início dos turnos do alvo, Fortitude DT 23. Falha causa 4d8 de dano de Sangue e deixa o alvo fraco. Sucesso causa metade do dano e evita a condição fraco. Termina após 2 sucessos seguidos.',
+          'Sacrifica PV reais para potencializar o próximo ritual de dano ou cura. Custo em PV e bônus em dados dependem da ficha final aprovada e são configurados na mesa de combate. Nunca consome PV temporários.',
+        mechanics: { kind: 'support', support: 'offering' },
       },
       {
-        name: 'Poeira da Podridão',
-        category: 'Ritual de 3º círculo',
-        action: 'Padrão',
+        name: 'Prece de Ferida',
+        action: 'Livre',
         description:
-          'Alcance médio, nuvem de 6 m. Causa 4d8 de dano de Morte. Fortitude DT 23 reduz à metade. Quem falhar não recupera PV por 1 rodada.',
-      },
-      {
-        name: 'Miasma Entrópico',
-        category: 'Ritual de 2º círculo',
-        action: 'Padrão',
-        description:
-          'Alcance médio, nuvem de 6 m. Causa 4d8 de dano químico. Fortitude DT 23 reduz à metade e evita a condição enjoado por 1 rodada.',
+          'Sacrifício curto em PV reais que prepara o próximo ritual. O custo e o bônus são definidos na ficha final aprovada e configurados na mesa de combate. Se o PV real chegar a zero, o bônus fica pendente.',
+        mechanics: { kind: 'support', support: 'rite' },
       },
     ],
     intention: {
-      name: 'Abismo Mental',
+      name: 'Cartografia Carmesim',
       action: 'Padrão',
       limit: '1/cena',
       description:
-        'Até 3 inimigos em alcance médio fazem Vontade DT 23. Na falha, sofrem 5d8 de dano mental e ficam abalados por 1 rodada. No sucesso, sofrem metade do dano e evitam a condição.',
+        'Atinge todos os inimigos marcados: consome todas as marcas, causa dano de Sangue, converte a cura em PV temporários e deixa os alvos enfraquecidos por algumas rodadas. Exige sacrifício em PV reais e conclui mesmo que o sacrifício leve o PV a zero. Dano, sacrifício, cura e duração dependem da ficha final aprovada e são configurados na mesa de combate.',
+      mechanics: { kind: 'cartography' },
     },
   },
   'artur-pires': {

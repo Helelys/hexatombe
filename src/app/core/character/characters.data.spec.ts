@@ -212,18 +212,16 @@ const CECILIA_NEOFITO_E_ARTUR = [
     ],
     abilities: [
       {
-        name: 'Invadir Mente',
-        category: 'Ritual de 2º círculo',
-        action: 'Ritual 2º',
+        name: 'Oferenda de Sangue',
+        action: 'Livre',
         description:
-          'Padrão, médio, 1 alvo: causa 6d6 de dano mental. Vontade DT 20 reduz à metade.',
+          'Sacrifica PV reais para potencializar o próximo ritual de dano ou cura. Custo e bônus dependem da ficha final aprovada e são configurados na mesa de combate. Nunca consome PV temporários.',
       },
       {
-        name: 'Miasma Entrópico',
-        category: 'Ritual de 2º círculo',
-        action: 'Ritual 2º',
+        name: 'Prece de Ferida',
+        action: 'Livre',
         description:
-          'Padrão, médio, nuvem de 6 m: causa 4d8 de dano químico. Fortitude DT 20 reduz à metade e evita a condição enojado por 1 rodada.',
+          'Sacrifício curto em PV reais que prepara o próximo ritual. Se o PV real chegar a zero, o bônus fica pendente.',
       },
       {
         name: 'Foco Ritual',

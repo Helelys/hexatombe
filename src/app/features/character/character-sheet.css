@@ -8,6 +8,12 @@
   width: 100%;
 }
 
+/* Mesa de combate: ocupa a largura toda, abaixo da ficha e da intenção. */
+.combat {
+  grid-column: 1 / -1;
+  min-width: 0;
+}
+
 .sheet {
   display: grid;
   grid-template-columns: minmax(0, 1.04fr) minmax(0, 0.6fr) minmax(0, 0.96fr);
