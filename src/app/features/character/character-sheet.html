@@ -275,11 +275,5 @@
       <h3 class="intent__label" [attr.id]="sectionId('intent')">{{ intentLabel() }}</h3>
       <p class="intent__text">{{ data.intention }}</p>
     </section>
-
-    @if (combatMode() === 'lia') {
-      <app-lia-combat-console class="combat" [character]="character()" [form]="form()" />
-    } @else if (combatMode() === 'neofito') {
-      <app-neofito-combat-console class="combat" [character]="character()" [form]="form()" />
-    }
   </article>
 }

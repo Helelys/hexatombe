@@ -1,5 +1,4 @@
 import { CharacterSheet } from './character.model';
-import { neofitoRituals } from './combat/neofito-rituals';
 
 /**
  * Texto único da intenção. O funcionamento permanece oculto: nada além desta
@@ -129,13 +128,13 @@ export const CHARACTER_SHEETS = {
   },
   'lia-kwon': {
     age: 'X',
-    archetype: 'Assassina',
-    defense: '23',
+    archetype: 'Assassino',
+    defense: '24',
     fortitude: '1d20+5',
     reflexes: '4d20+10',
     will: '2d20+5',
-    hitPoints: '75',
-    wounded: '37',
+    hitPoints: '90',
+    wounded: '45',
     effortPoints: '10',
     speed: '9m',
     perception: '2d20+5',
@@ -156,9 +155,6 @@ export const CHARACTER_SHEETS = {
         damage: '1d8+8',
         damageType: 'Corte',
         critical: '18/x3',
-        description:
-          'Cada acerto aplica 1 nível de Hemorragia (máximo 3). Hemorragia é contínua: causa 1d4 de dano por nível no início dos turnos do alvo.',
-        mechanics: { kind: 'weapon', hemorrhageLevels: 1 },
       },
       {
         name: 'Shuriken de Tendão',
@@ -168,15 +164,13 @@ export const CHARACTER_SHEETS = {
         damageType: 'Perfuração',
         critical: '19/x2',
         description:
-          'Ao atingir a perna, Fortitude DT 20 evita a redução de 3 m no deslocamento até o fim do próximo turno. Rajada: 3 arremessos, cada um aplica 1 nível de Hemorragia (máximo 3).',
-        mechanics: { kind: 'barrage', hemorrhageLevels: 1, throws: 3 },
+          'Ao atingir a perna, Fortitude DT 20 evita a redução de 3 m no deslocamento até o fim do próximo turno.',
       },
       {
         name: 'Despertar a Máscara',
         action: 'Padrão',
         limit: 'Uma vez por cena',
         description: 'Não recupera PV ou PE. Não exige custo de recurso.',
-        mechanics: { kind: 'mask' },
       },
     ],
     items: [
@@ -253,7 +247,17 @@ export const CHARACTER_SHEETS = {
       { name: 'Vontade', dice: '3d20', modifier: '+10' },
     ],
     actions: [
-      ...neofitoRituals('common'),
+      {
+        name: 'Descarnar',
+        category: 'Ritual de 2º círculo',
+        action: 'Padrão',
+        range: 'Toque (1 alvo)',
+        test: 'Fortitude DT 20',
+        damage: '6d8',
+        damageType: 'Corte e Sangue',
+        description:
+          'Causa 6d8 de dano, metade corte e metade Sangue. Fortitude DT 20: sucesso reduz o dano à metade e evita hemorragia. Falha causa hemorragia severa (2d8 Sangue por turno) até 2 sucessos seguidos.',
+      },
       {
         name: 'Golpe de Bastão',
         range: 'Corpo a corpo',
@@ -261,15 +265,12 @@ export const CHARACTER_SHEETS = {
         damage: '1d8+5',
         damageType: 'Impacto',
         critical: '20/x2',
-        description:
-          'Arma física secundária. O bastão não extrai sangue, não aplica marcas e não substitui os rituais.',
       },
       {
         name: 'Despertar a Máscara',
         action: 'Padrão',
         limit: 'Uma vez por cena',
         description: 'Não recupera PV ou PE. Não exige custo de recurso.',
-        mechanics: { kind: 'mask' },
       },
     ],
     items: [{ name: 'Bastão', type: 'Arma corpo a corpo' }],

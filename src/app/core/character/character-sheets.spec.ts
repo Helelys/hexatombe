@@ -1,7 +1,6 @@
 import { CharacterSheet, CharacterSheetAction } from './character.model';
 import { CHARACTER_SHEETS, DORMANT_INTENTION } from './character-sheets';
 import { CHARACTERS } from './characters.data';
-import { NEOFITO_RITUAL_CATEGORY } from './combat/neofito-rituals';
 
 const SHEETS: readonly CharacterSheet[] = Object.values(CHARACTER_SHEETS);
 
@@ -80,7 +79,7 @@ describe('CHARACTER_SHEETS', () => {
     expect(SHEETS.map((sheet) => sheet.archetype)).toEqual([
       'Berserker',
       'Combatente',
-      'Assassina',
+      'Assassino',
       'Atirador',
       'Ocultista',
       'Sacrifício',
@@ -99,48 +98,21 @@ describe('CHARACTER_SHEETS', () => {
     }
   });
 
-  it('descreve os rituais de sangue do Neófito', () => {
+  it('descreve o ritual do Neófito com círculo e resistência', () => {
     const actions: readonly CharacterSheetAction[] = CHARACTER_SHEETS.neofito.actions;
-    const rituals = actions.filter((action) => action.category);
+    const ritual = actions.find((action) => action.category);
 
-    expect(rituals.map((ritual) => ritual.name)).toEqual([
-      'Hemofagia',
-      'Ritual de Dano',
-      'Ritual de Cura',
-      'Ritual de Controle',
-      'Ritual Híbrido',
-    ]);
-    expect(rituals.every((ritual) => ritual.category === NEOFITO_RITUAL_CATEGORY)).toBe(true);
-    expect(rituals.every((ritual) => ritual.cost === 'PV real (progressivo por turno)')).toBe(true);
-
-    const hemofagia = rituals[0];
-
-    expect(hemofagia?.damage).toBe('4d8');
-    expect(hemofagia?.damageType).toBe('Sangue');
-    expect(hemofagia?.mechanics?.kind).toBe('hemofagia');
-  });
-
-  it('deixa o custo dos rituais configuráveis na mesa de combate', () => {
-    const actions: readonly CharacterSheetAction[] = CHARACTER_SHEETS.neofito.actions;
-    const configured = actions.filter((action) => action.mechanics?.kind === 'ritual');
-
-    expect(configured).toHaveLength(4);
-    expect(configured.every((action) => action.damage === undefined)).toBe(true);
+    expect(ritual?.name).toBe('Descarnar');
+    expect(ritual?.category).toBe('Ritual de 2º círculo');
+    expect(ritual?.test).toBe('Fortitude DT 20');
+    expect(ritual?.damage).toBe('6d8');
   });
 
   it('substitui o Paradoxo pelo Golpe de Bastão na ficha comum do Neófito', () => {
     const actions: readonly CharacterSheetAction[] = CHARACTER_SHEETS.neofito.actions;
     const names = actions.map((action) => action.name);
 
-    expect(names).toEqual([
-      'Hemofagia',
-      'Ritual de Dano',
-      'Ritual de Cura',
-      'Ritual de Controle',
-      'Ritual Híbrido',
-      'Golpe de Bastão',
-      'Despertar a Máscara',
-    ]);
+    expect(names).toEqual(['Descarnar', 'Golpe de Bastão', 'Despertar a Máscara']);
     expect(names).not.toContain('Paradoxo');
 
     const strike = actions.find((action) => action.name === 'Golpe de Bastão');
@@ -151,19 +123,6 @@ describe('CHARACTER_SHEETS', () => {
     expect(strike?.damage).toBe('1d8+5');
     expect(strike?.damageType).toBe('Impacto');
     expect(strike?.critical).toBe('20/x2');
-  });
-
-  it('usa os valores aprovados da Lia na ficha comum', () => {
-    const sheet = CHARACTER_SHEETS['lia-kwon'];
-    const katana = sheet.actions.find((action) => action.name === 'Katana');
-    const shuriken = sheet.actions.find((action) => action.name === 'Shuriken de Tendão');
-
-    expect(sheet.archetype).toBe('Assassina');
-    expect(sheet.defense).toBe('23');
-    expect(sheet.hitPoints).toBe('75');
-    expect(sheet.wounded).toBe('37');
-    expect(katana?.mechanics).toEqual({ kind: 'weapon', hemorrhageLevels: 1 });
-    expect(shuriken?.mechanics).toEqual({ kind: 'barrage', hemorrhageLevels: 1, throws: 3 });
   });
 
   it('registra a restrição de alcance de Cecília sem atributos de ataque', () => {
